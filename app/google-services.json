@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "810358702942",
+    "firebase_url": "https://karma-c8901.firebaseio.com",
+    "project_id": "karma-c8901",
+    "storage_bucket": "karma-c8901.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:810358702942:android:2b4d661fdcfb9d56f785cf",
+        "android_client_info": {
+          "package_name": "com.example.karma"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "810358702942-fm36c89fipc8kblaj57cgr9rkq0cusu1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.karma",
+            "certificate_hash": "07ff6b0c280683dc60467aaa025c33ca2f514d1d"
+          }
+        },
+        {
+          "client_id": "810358702942-eb237gm83rbi8oaimd3n014ipuebnfoe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgZHEebVpGCVGPEg5W562weBth17z8W3Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "810358702942-eb237gm83rbi8oaimd3n014ipuebnfoe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
