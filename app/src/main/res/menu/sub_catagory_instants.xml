@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/sub_cat_instant_tennis_ball"
+        android:title="Tennis Ball"/>
+    <item
+        android:id="@+id/sub_cat_instant_book"
+        android:title="Books"/>
+    <item
+        android:id="@+id/sub_cat_instant_stationaries"
+        android:title="Stationaries"/>
+
+    <item
+        android:id="@+id/sub_cat_instant_footwear"
+        android:title="Footwear"/>
+</menu>

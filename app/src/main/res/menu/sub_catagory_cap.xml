@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/sub_cat_cap_three_wheeler"
+        android:title="Three Wheeler"/>
+
+    <item
+        android:id="@+id/sub_cat_cap_bike"
+        android:title="Bike Drop"/>
+
+    <item
+        android:id="@+id/sub_cat_cap_van"
+        android:title="Van"/>
+</menu>

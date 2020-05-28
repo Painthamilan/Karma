@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/sub_cat_elect_mobile_phones"
+        android:title="Mobile Phones"/>
+
+    <item
+        android:id="@+id/sub_cat_elect_tv"
+        android:title="TV"/>
+
+    <item
+        android:id="@+id/sub_cat_elect_laptop"
+        android:title="Laptop"/>
+    <item
+        android:id="@+id/sub_cat_elect_mobile_accs"
+        android:title="Mobile Accessories"/>
+
+</menu>
