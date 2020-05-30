@@ -10,5 +10,5 @@
 
     <item
         android:id="@+id/sub_cat_cap_van"
-        android:title="Van"/>
+        android:title="Van" />
 </menu>

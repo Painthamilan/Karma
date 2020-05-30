@@ -15,6 +15,6 @@
         android:id="@+id/sub_cat_sports_carrom"
         android:title="Carrom Board"/>
     <item
-        android:id="@+id/sub_cat_cards"
+        android:id="@+id/sub_cat_sports_cards"
         android:title="Card Pack"/>
 </menu>

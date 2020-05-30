@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -39,12 +40,11 @@ import static android.app.Activity.RESULT_OK;
 public class AddItemFragment extends Fragment {
     private EditText etProductName,etPrice;
     private ImageView ivProductImage;
-    private TextView tvSelectcatagory,tvUpload,tvSelectImage;
-    private String seletedCatagory,curDate,curTime,randomid,downloadUrl;
+    private TextView tvSelectcatagory,tvUpload,tvSelectImage,tvSelectSubCatagory;
+    private String seletedCatagory="",curDate,curTime,randomid,downloadUrl,selectedSubCatagory;
     private StorageReference itemStorageRef;
-    private DatabaseReference itemsRef;
+    private DatabaseReference itemsRef,catRef;
     private long countPosts;
-
     private static final int GalleryPick = 1;
     Uri imageUri;
 
@@ -58,10 +58,13 @@ public class AddItemFragment extends Fragment {
          tvSelectcatagory=root.findViewById(R.id.tv_select_catogary);
          tvSelectImage=root.findViewById(R.id.tv_select_image);
          tvUpload=root.findViewById(R.id.tv_upload);
+         tvSelectSubCatagory=root.findViewById(R.id.tv_select_sub_catogary);
 
          itemStorageRef= FirebaseStorage.getInstance().getReference().child("ProductImages");
          itemsRef= FirebaseDatabase.getInstance().getReference().child("Products");
+         catRef=FirebaseDatabase.getInstance().getReference().child("Catagories");
         PopupMenu popup = new PopupMenu(AddItemFragment.this.getContext(),tvSelectcatagory);
+
         popup.getMenuInflater().inflate(R.menu.main_catagory, popup.getMenu());
         tvSelectcatagory.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,25 +72,55 @@ public class AddItemFragment extends Fragment {
 
                 popup.setOnMenuItemClickListener(item->{
                     switch (item.getItemId()) {
-                        case R.id.cat_electronics:
+                        case R.id.main_cat_clothing:
+                            seletedCatagory="Clothing";
+                            break;
+
+                        case R.id.main_cat_electronics:
                             seletedCatagory="Electronics";
-                            tvSelectcatagory.setText(seletedCatagory);
+
                             break;
-                        case R.id.cat_books:
-                            seletedCatagory="Books";
-                            tvSelectcatagory.setText(seletedCatagory);
+
+                        case R.id.main_cat_sports:
+                          seletedCatagory="Sports";
+
                             break;
-                        case R.id.cat_foods:
-                          seletedCatagory="Foods";
-                            tvSelectcatagory.setText(seletedCatagory);
+
+                        case R.id.main_cat_education:
+                            seletedCatagory="Education";
+                            break;
+
+                        case R.id.main_cat_instant:
+                            seletedCatagory="Instant";
+                            break;
+
+                        case R.id.main_cat_cab:
+                            seletedCatagory="Cab";
+                            break;
+
+                        case R.id.main_cat_food_delivery:
+                            seletedCatagory="Food";
+                            tvSelectSubCatagory.setVisibility(View.INVISIBLE);
+                            selectedSubCatagory="Food";
+                            break;
+                        case R.id.main_cat_essential_goods:
+                            seletedCatagory="Essential Goods";
                             break;
                     }
+                    tvSelectcatagory.setText(seletedCatagory);
                     return true;
                 });
                 popup.show();
+
             }
         });
 
+        tvSelectSubCatagory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                validateSubmenus();
+            }
+        });
         tvSelectImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,6 +136,200 @@ public class AddItemFragment extends Fragment {
         });
 
         return root;
+    }
+
+    private void validateSubmenus() {
+      switch (seletedCatagory){
+          case "Clothing":
+              PopupMenu subMenuClothing=new PopupMenu(AddItemFragment.this.getContext(),tvSelectcatagory);
+              subMenuClothing.getMenuInflater().inflate(R.menu.sub_catagory_clothing, subMenuClothing.getMenu());
+              subMenuClothing.getMenu().findItem(R.id.sub_cat_clothin_woman).setVisible(true);
+              subMenuClothing.getMenu().findItem(R.id.sub_cat_clothing_men).setVisible(true);
+
+              subMenuClothing.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                  @Override
+                  public boolean onMenuItemClick(MenuItem item) {
+                      switch (item.getItemId()) {
+                          case R.id.sub_cat_clothing_men:
+                              selectedSubCatagory="Men";
+                              break;
+                          case R.id.sub_cat_clothin_woman:
+                              selectedSubCatagory="Female";
+                              break;
+                      }
+                      tvSelectSubCatagory.setText(selectedSubCatagory);
+                      return true;
+                  }
+              });
+              subMenuClothing.show();
+              break;
+
+          case "Electronics":
+              PopupMenu subMenuElectronics=new PopupMenu(AddItemFragment.this.getContext(),tvSelectcatagory);
+              subMenuElectronics.getMenuInflater().inflate(R.menu.sub_catagory_electronics, subMenuElectronics.getMenu());
+
+              subMenuElectronics.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                  @Override
+                  public boolean onMenuItemClick(MenuItem item) {
+                      switch (item.getItemId()) {
+                          case R.id.sub_cat_elect_mobile_phones:
+                              selectedSubCatagory="Mobile Phones";
+                              break;
+                          case R.id.sub_cat_elect_tv:
+                              selectedSubCatagory="TV";
+                              break;
+                          case R.id.sub_cat_elect_mobile_accs:
+                              selectedSubCatagory="Mobile Accessories";
+                              break;
+                          case R.id.sub_cat_elect_laptop:
+                              selectedSubCatagory="Laptop";
+                              break;
+                      }
+                      tvSelectSubCatagory.setText(selectedSubCatagory);
+                      return true;
+                  }
+              });
+              subMenuElectronics.show();
+              break;
+          case "Sports":
+              PopupMenu subMenuSports=new PopupMenu(AddItemFragment.this.getContext(),tvSelectcatagory);
+              subMenuSports.getMenuInflater().inflate(R.menu.sub_catagory_sports, subMenuSports.getMenu());
+              subMenuSports.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                  @Override
+                  public boolean onMenuItemClick(MenuItem item) {
+                      switch (item.getItemId()) {
+                          case R.id.sub_cat_sports_cards:
+                              selectedSubCatagory="Cards";
+                              break;
+                          case R.id.sub_cat_sports_carrom:
+                              selectedSubCatagory="Carrom";
+                              break;
+                          case R.id.sub_cat_sports_stumps:
+                              selectedSubCatagory="Stumps";
+                              break;
+                          case R.id.sub_cat_sports_tennis_ball:
+                              selectedSubCatagory="Tennis Ball";
+                              break;
+                          case R.id.sub_cat_sports_volly_ball:
+                              selectedSubCatagory="Volly Ball";
+                              break;
+                      }
+                      tvSelectSubCatagory.setText(selectedSubCatagory);
+                      return true;
+                  }
+              });
+              subMenuSports.show();
+              break;
+
+          case "Education":
+              PopupMenu subMenuEducation=new PopupMenu(AddItemFragment.this.getContext(),tvSelectcatagory);
+              subMenuEducation.getMenuInflater().inflate(R.menu.sub_catagory_education, subMenuEducation.getMenu());
+
+
+              subMenuEducation.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+              @Override
+              public boolean onMenuItemClick(MenuItem item) {
+                  switch (item.getItemId()) {
+                      case R.id.sub_cat_education_al:
+                          selectedSubCatagory="O/L";
+                          break;
+                      case R.id.sub_cat_education_ol:
+                          selectedSubCatagory="A/L";
+                          break;
+                      case R.id.sub_cat_education_other_stationary:
+                          selectedSubCatagory="Other Stationary";
+                          break;
+                      case R.id.sub_cat_education_syllabus:
+                          selectedSubCatagory="Syllabus";
+                          break;
+                  }
+                  tvSelectSubCatagory.setText(selectedSubCatagory);
+                  return true;
+              }
+          });
+              subMenuEducation.show();
+              break;
+
+          case "Instant":
+              PopupMenu subMenuInstant=new PopupMenu(AddItemFragment.this.getContext(),tvSelectcatagory);
+              subMenuInstant.getMenuInflater().inflate(R.menu.sub_catagory_instants, subMenuInstant.getMenu());
+
+              subMenuInstant.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                  @Override
+                  public boolean onMenuItemClick(MenuItem item) {
+                      switch (item.getItemId()) {
+                          case R.id.sub_cat_instant_book:
+                              selectedSubCatagory="Books";
+                              break;
+                          case R.id.sub_cat_instant_footwear:
+                              selectedSubCatagory="Foodwear";
+                              break;
+                          case R.id.sub_cat_instant_stationaries:
+                              selectedSubCatagory="Stationaries";
+                              break;
+                          case R.id.sub_cat_instant_tennis_ball:
+                              selectedSubCatagory="Tennis Ball";
+                              break;
+                      }
+                      tvSelectSubCatagory.setText(selectedSubCatagory);
+                      return true;
+                  }
+              });
+              subMenuInstant.show();
+              break;
+
+          case"Cab":
+              PopupMenu subMenuCab=new PopupMenu(AddItemFragment.this.getContext(),tvSelectcatagory);
+              subMenuCab.getMenuInflater().inflate(R.menu.sub_catagory_cab, subMenuCab.getMenu());
+
+
+              subMenuCab.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                  @Override
+                  public boolean onMenuItemClick(MenuItem item) {
+                      switch (item.getItemId()) {
+                          case R.id.sub_cat_cap_bike:
+                              selectedSubCatagory="Bike";
+                              break;
+                          case R.id.sub_cat_cap_three_wheeler:
+                              selectedSubCatagory="Three Wheeler";
+                              break;
+                          case R.id.sub_cat_cap_van:
+                              selectedSubCatagory="Van";
+                              break;
+                      }
+                      tvSelectSubCatagory.setText(selectedSubCatagory);
+                      return true;
+                  }
+              });
+              subMenuCab.show();
+              break;
+
+          case  "Essential Goods":
+              PopupMenu subMenuEssential=new PopupMenu(AddItemFragment.this.getContext(),tvSelectcatagory);
+              subMenuEssential.getMenuInflater().inflate(R.menu.sub_catagory_essential_goods, subMenuEssential.getMenu());
+
+              subMenuEssential.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                  @Override
+                  public boolean onMenuItemClick(MenuItem item) {
+                      switch (item.getItemId()) {
+                          case R.id.sub_cat_cap_bike:
+                              selectedSubCatagory="Bike";
+                              break;
+                          case R.id.sub_cat_cap_three_wheeler:
+                              selectedSubCatagory="Three Wheeler";
+                              break;
+
+                      }
+                      tvSelectSubCatagory.setText(selectedSubCatagory);
+                      return true;
+                  }
+              });
+              subMenuEssential.show();
+              break;
+              default:
+                  Toast.makeText(AddItemFragment.this.getContext(), "Please select Main catagory..", Toast.LENGTH_SHORT).show();
+      }
+
     }
 
     private void storeImage() {
@@ -170,6 +397,7 @@ public class AddItemFragment extends Fragment {
         postMap.put("ProductId",randomid);
         postMap.put("ProductName", etProductName.getText().toString());
         postMap.put("ProductCatagory", seletedCatagory);
+        postMap.put("ProductSubCatagory", selectedSubCatagory);
         postMap.put("Price",etPrice.getText().toString());
         postMap.put("ProductImage",downloadUrl);
 
@@ -182,6 +410,7 @@ public class AddItemFragment extends Fragment {
                 }
             }
         });
+        catRef.child(seletedCatagory).child(selectedSubCatagory).child("ProductId").setValue(randomid);
 
     }
 

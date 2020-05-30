@@ -51,6 +51,16 @@
         app:layout_constraintEnd_toEndOf="@+id/et_product_name"
         app:layout_constraintStart_toStartOf="@+id/et_product_name"
         app:layout_constraintTop_toBottomOf="@+id/et_product_name" />
+    <TextView
+        android:id="@+id/tv_select_sub_catogary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Select Sub Catagory"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/et_product_name"
+        app:layout_constraintStart_toStartOf="@+id/et_product_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_select_catogary" />
 
     <EditText
         android:id="@+id/et_price"
@@ -64,7 +74,7 @@
         android:hint="Enter price :"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_select_catogary" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_select_sub_catogary" />
 
     <TextView
         android:id="@+id/tv_upload"
