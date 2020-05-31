@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.karma.Constants;
 import com.example.karma.Products;
 import com.example.karma.R;
+import com.example.karma.Top;
 import com.example.karma.ViewProductActivity;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,14 +34,15 @@ import com.squareup.picasso.Picasso;
 public class TopFragment extends Fragment {
     private FirebaseAuth cfAuth;
     private String curUserId;
-    private RecyclerView rvProducts;
-    private DatabaseReference cfPostRef;
+    private RecyclerView rvProducts,rvTopFragments;
+    private DatabaseReference cfPostRef,topRef;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_top_items, container, false);
         final TextView textView = root.findViewById(R.id.text_home);
         rvProducts=root.findViewById(R.id.rv_top);
+        rvTopFragments=root.findViewById(R.id.rv_topItems);
         rvProducts.setHasFixedSize(true);
         // rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -47,8 +50,48 @@ public class TopFragment extends Fragment {
         mLayoutManager.setStackFromEnd(true);
         // Set the layout manager to your recyclerview
         rvProducts.setLayoutManager(mLayoutManager);
+
+        rvTopFragments.setHasFixedSize(true);
+        // rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager horizontalYalayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
+        horizontalYalayoutManager.setReverseLayout(true);
+        horizontalYalayoutManager.setStackFromEnd(true);
+
+        // Set the layout manager to your recyclerview
+        rvTopFragments.setLayoutManager(horizontalYalayoutManager);
+        showTop(horizontalYalayoutManager);
         showAllProducts();
         return root;
+    }
+
+    private void showTop(LinearLayoutManager horizontalYalayoutManager) {
+        topRef = FirebaseDatabase.getInstance().getReference().child("TopItems");
+        //Query searchPeopleAndFriendsQuery = cfPostRef.orderByChild("Counter");
+        FirebaseRecyclerAdapter<Top, TopViewHolder> firebaseRecyclerAdapter =
+                new FirebaseRecyclerAdapter<Top, TopViewHolder>(
+                        Top.class,
+                        R.layout.top_layout,
+                        TopViewHolder.class,
+                        topRef
+
+                ) {
+                    @Override
+                    protected void populateViewHolder(TopViewHolder postViewHolder, Top model, int position) {
+                        String postKey = getRef(position).getKey();
+                        postViewHolder.setPrice(model.getItemPrice());
+                        postViewHolder.setProductImage(model.getItemImage());
+                        postViewHolder.setProductName(model.getItemName());
+                        postViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent=new Intent(getActivity(), ViewProductActivity.class);
+                                intent.putExtra("REF_KEY",model.getItemId());
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                };
+        rvTopFragments.setAdapter(firebaseRecyclerAdapter);
     }
 
     private void showAllProducts() {
@@ -80,6 +123,40 @@ public class TopFragment extends Fragment {
                 };
 
         rvProducts.setAdapter(firebaseRecyclerAdapter);
+    }
+    public static class TopViewHolder extends RecyclerView.ViewHolder {
+        View cfView;
+        FirebaseAuth cfAuth=FirebaseAuth.getInstance();
+        String userId;
+        TextView tvProductName,tvPrice;
+        ImageView ivproductImage,ivDropArrow;
+        DatabaseReference topRef;
+        public TopViewHolder(@NonNull View itemView) {
+            super(itemView);
+            cfView = itemView;
+            tvPrice=cfView.findViewById(R.id.tv_price);
+            tvProductName=cfView.findViewById(R.id.tv_item_name);
+            ivproductImage=cfView.findViewById(R.id.iv_item_image);
+
+            userId=cfAuth.getCurrentUser().getUid();
+
+            topRef=FirebaseDatabase.getInstance().getReference().child("TopItems");
+
+        }
+
+        public void setPrice(String price) {
+            tvPrice.setText(price+".00 ₹");
+
+        }
+
+        public void setProductName(String productName) {
+            tvProductName.setText(productName);
+        }
+
+        public void setProductImage(String productImage) {
+            Picasso.get().load(productImage).into(ivproductImage);
+        }
+
     }
     public static class PostViewHolder extends RecyclerView.ViewHolder {
         View cfView;
