@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ViewProductActivity">
+    tools:context=".ViewProductActivity"
+    android:background="@drawable/main_theme">
 
     <ImageView
         android:id="@+id/iv_product_image"
@@ -22,11 +23,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Name"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_product_image"
         android:textStyle="bold"
-        android:textSize="20sp"/>
+        android:textSize="16sp"/>
 
     <TextView
         android:id="@+id/tv_price"
@@ -34,10 +36,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="0.00"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_product_name"
-        android:textSize="18sp"
+        android:textSize="14sp"
         android:textStyle="bold|italic"/>
 
     <TextView
@@ -47,7 +50,8 @@
         android:layout_marginBottom="50dp"
         android:text="Order"
         android:textStyle="bold"
-        android:textSize="25sp"
+        android:textColor="@color/white"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

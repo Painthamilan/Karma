@@ -1,6 +1,7 @@
 package com.example.karma;
 
 public class Products {
+    String ProductId;
         String Price;
         String ProductName;
         String ProductImage;
@@ -8,7 +9,8 @@ public class Products {
         public Products() {
         }
 
-        public Products(String price, String productName, String productImage) {
+        public Products(String productId,String price, String productName, String productImage) {
+            ProductId=productId;
             Price = price;
             ProductName = productName;
             ProductImage = productImage;
@@ -38,4 +40,11 @@ public class Products {
             ProductImage = productImage;
         }
 
+    public String getProductId() {
+        return ProductId;
+    }
+
+    public void setProductId(String productId) {
+        ProductId = productId;
+    }
 }

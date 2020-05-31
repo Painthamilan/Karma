@@ -1,77 +1,68 @@
-package com.example.karma.fragments;
+package com.example.karma;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.karma.Cats;
-import com.example.karma.CatsDetailActivity;
-import com.example.karma.R;
-import com.example.karma.ViewSubCatsActivity;
-import com.example.karma.admin_fragments.AddCatagoriesDetails;
+import com.example.karma.fragments.ShopFragment;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-public class ShopFragment extends Fragment {
+public class ViewSubCatsActivity extends AppCompatActivity {
+String catName,catImage,mainCatName;
+DatabaseReference subCatRef;
 RecyclerView rvCats;
-DatabaseReference listCatsRef;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_view_sub_cats);
+        catName=getIntent().getStringExtra("CAT_NAME");
+        subCatRef= FirebaseDatabase.getInstance().getReference().child("Catagories").child(catName).child("SubCatagories");
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-
-        View root = inflater.inflate(R.layout.fragment_shop, container, false);
-        final TextView textView = root.findViewById(R.id.text_dashboard);
-        rvCats=root.findViewById(R.id.rv_list_cats);
-        listCatsRef= FirebaseDatabase.getInstance().getReference().child("Catagories");
+        rvCats=findViewById(R.id.rv_list_sub_cats);
         rvCats.setHasFixedSize(true);
         // rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager.setReverseLayout(true);
         mLayoutManager.setStackFromEnd(true);
         // Set the layout manager to your recyclerview
         rvCats.setLayoutManager(mLayoutManager);
 
-        shoeAllCats();
-
-        return root;
+        shoeAllSubCats();
     }
 
-    private void shoeAllCats() {
-        FirebaseRecyclerAdapter<Cats, CatsViewHolder> firebaseRecyclerAdapter =
-                new FirebaseRecyclerAdapter<Cats, CatsViewHolder>(
-                        Cats.class,
+    private void shoeAllSubCats() {
+        FirebaseRecyclerAdapter<SubCats,CatsViewHolder> firebaseRecyclerAdapter =
+                new FirebaseRecyclerAdapter<SubCats, CatsViewHolder>(
+                        SubCats.class,
                         R.layout.catagory_list_layout,
                         CatsViewHolder.class,
-                        listCatsRef
+                        subCatRef
 
                 ) {
                     @Override
-                    protected void populateViewHolder(CatsViewHolder postViewHolder, Cats model, int position) {
+                    protected void populateViewHolder(CatsViewHolder postViewHolder, SubCats model, int position) {
                         String postKey = getRef(position).getKey();
-                        postViewHolder.setCatagoryName(model.getCatagoryName());
-                        postViewHolder.setCatagoryImage(model.getCatagoryImage());
+                        postViewHolder.setCatagoryName(model.getSubCatagoryName());
+                        postViewHolder.setCatagoryImage(model.getSubCatagoryImage());
 
                         postViewHolder.cfView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent=new Intent(getActivity(), ViewSubCatsActivity.class);
+                                Intent intent=new Intent(ViewSubCatsActivity.this, ViewItemsActivity.class);
                                 intent.putExtra("REF_KEY",postKey);
-                                intent.putExtra("CAT_NAME",model.getCatagoryName());
+                                intent.putExtra("CAT_NAME",model.getSubCatagoryName());
+                                intent.putExtra("MAIN_CAT_NAME",catName);
                                 intent.putExtra("isSub",false);
                                 startActivity(intent);
                             }

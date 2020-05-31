@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,19 +73,7 @@ public class AddCatagoriesDetails extends Fragment {
                     protected void populateViewHolder(CatsViewHolder postViewHolder, Cats model, int position) {
                         String postKey = getRef(position).getKey();
                         postViewHolder.setCatagoryName(model.getCatagoryName());
-                        cfPostRef.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if(dataSnapshot.hasChild("CatagoryImage")){
-                                postViewHolder.setCatagoryImage(model.getCatagoryImage());
-                            }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                            }
-                        });
+                        postViewHolder.setCatagoryImage(model.getCatagoryImage());
 
                         postViewHolder.tvUpdateImage.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -123,7 +112,7 @@ public class AddCatagoriesDetails extends Fragment {
         }
 
         public void setCatagoryImage(String catagoryImage) {
-            if (catagoryImage!=""){
+            if (!TextUtils.isEmpty(catagoryImage)){
                 Picasso.get().load(catagoryImage).into(ivCatImage);
             }
         }
