@@ -65,6 +65,7 @@ public class AdminHomeFragment extends Fragment {
                         postViewHolder.setPrice(model.getPrice());
                         postViewHolder.setProductImage(model.getProductImage());
                         postViewHolder.setProductName(model.getProductName());
+                        postViewHolder.dropDownClicker(model.getProductName(),model.getProductImage(),model.getPrice(),postKey,AdminHomeFragment.this.getContext());
                         postViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {

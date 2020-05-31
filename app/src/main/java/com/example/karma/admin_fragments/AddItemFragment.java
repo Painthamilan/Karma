@@ -410,7 +410,10 @@ public class AddItemFragment extends Fragment {
                 }
             }
         });
+        catRef.child(seletedCatagory).child("CatagoryName").setValue(seletedCatagory);
         catRef.child(seletedCatagory).child(selectedSubCatagory).child("ProductId").setValue(randomid);
+        catRef.child(seletedCatagory).child("SubCatagories").child(selectedSubCatagory).child("SubCatagoryName").setValue(selectedSubCatagory);
+
 
     }
 

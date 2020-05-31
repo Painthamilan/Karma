@@ -10,10 +10,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.karma.Constants;
 import com.example.karma.Products;
 import com.example.karma.R;
 import com.example.karma.ViewProductActivity;
@@ -81,15 +83,24 @@ public class TopFragment extends Fragment {
     }
     public static class PostViewHolder extends RecyclerView.ViewHolder {
         View cfView;
-
+        FirebaseAuth cfAuth=FirebaseAuth.getInstance();
+        String userId;
         TextView tvProductName,tvPrice;
-        ImageView ivproductImage;
+        ImageView ivproductImage,ivDropArrow;
+        DatabaseReference topRef;
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
             cfView = itemView;
             tvPrice=cfView.findViewById(R.id.price);
             tvProductName=cfView.findViewById(R.id.tv_product_name);
             ivproductImage=cfView.findViewById(R.id.iv_product_image);
+            ivDropArrow=cfView.findViewById(R.id.iv_down_arrow);
+            userId=cfAuth.getCurrentUser().getUid();
+            if (!userId.equals(Constants.ADMIN_ID)){
+                ivDropArrow.setVisibility(View.INVISIBLE);
+            }
+            topRef=FirebaseDatabase.getInstance().getReference().child("TopItems");
+
         }
 
         public void setPrice(String price) {
@@ -104,6 +115,45 @@ public class TopFragment extends Fragment {
         public void setProductImage(String productImage) {
             Picasso.get().load(productImage).into(ivproductImage);
         }
+        public void dropDownClicker(String name,String image,String price,String postId, Context context) {
+            PopupMenu popup = new PopupMenu(context,ivDropArrow);
+            popup.getMenuInflater().inflate(R.menu.top_selector, popup.getMenu());
+            ivDropArrow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    popup.setOnMenuItemClickListener(item->{
+                        switch (item.getItemId()) {
+                            case R.id.rank_first:
+                                // Toast.makeText(context, ""+postId, Toast.LENGTH_SHORT).show();
+                                updateRank("First",postId, name, image, price);
+                                break;
+                            case R.id.rank_second:
+                                // Toast.makeText(context, "second", Toast.LENGTH_SHORT).show();
+                                updateRank("Second",postId, name, image, price);
+                                break;
+                            case R.id.rank_thirt:
+                                // Toast.makeText(context, "thirt", Toast.LENGTH_SHORT).show();
+                                updateRank("Thirt",postId, name, image, price);
+                                break;
+                            case R.id.rank_forth:
+                                // Toast.makeText(context, "thirt", Toast.LENGTH_SHORT).show();
+                                updateRank("Fourth",postId, name, image, price);
+                                break;
+                        }
+                        return true;
+                    });
+                    popup.show();
+                }
+            });
+        }
+        private void updateRank(String rank, String postId,String name,String image,String price) {
+            topRef.child(rank).child("ItemId").setValue(postId);
+            topRef.child(rank).child("ItemName").setValue(name);
+            topRef.child(rank).child("ItemImage").setValue(image);
+            topRef.child(rank).child("ItemPrice").setValue(price);
+        }
+
 
     }
 }
