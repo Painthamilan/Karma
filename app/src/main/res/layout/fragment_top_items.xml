@@ -35,7 +35,7 @@
         android:text="Recently Added"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rv_topItems" />
+        app:layout_constraintTop_toBottomOf="@id/iv_instants" />
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -55,9 +55,37 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         android:marqueeRepeatLimit="marquee_forever"
-
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_home" />
+
+    <ImageView
+        android:id="@+id/iv_instants"
+        android:layout_width="match_parent"
+        android:layout_marginTop="8dp"
+        android:layout_height="150dp"
+        android:scaleType="fitStart"
+        android:src="@drawable/instant_delivery"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rv_topItems" />
+
+    <TextView
+        android:id="@+id/tv_instant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textAlignment="textStart"
+        android:textSize="18sp"
+        android:text="Instant Delivery"
+        app:layout_constraintEnd_toEndOf="@id/iv_instants"
+        app:layout_constraintTop_toTopOf="@id/iv_instants"
+        app:layout_constraintBottom_toBottomOf="@id/iv_instants"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
