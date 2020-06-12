@@ -111,7 +111,7 @@ public class ViewProductActivity extends AppCompatActivity {
                 phoneNum=etPhoneNumber.getText().toString();
                 adress=etAdress.getText().toString();
                 if (TextUtils.isEmpty(phoneNum)||TextUtils.isEmpty(adress)){
-                    Toast.makeText(ViewProductActivity.this, "please give phone mu,ber and address!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewProductActivity.this, "please give phone number and address!", Toast.LENGTH_SHORT).show();
                 }else {
 
                     HashMap postMap = new HashMap();

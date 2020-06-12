@@ -50,6 +50,7 @@ public class ViewMyOrdersActivity extends AppCompatActivity {
 
     private void shoeAllOrders() {
 
+        curUserId=cfAuth.getCurrentUser().getUid();
         Query ordersQuery = orderRef
                 .orderByChild("UserId")
                 .equalTo(curUserId);
