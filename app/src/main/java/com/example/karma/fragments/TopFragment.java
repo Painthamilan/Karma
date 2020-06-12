@@ -55,7 +55,9 @@ public class TopFragment extends Fragment {
         });
         rvProducts.setHasFixedSize(true);
         // rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+       // LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
+
         mLayoutManager.setReverseLayout(true);
         mLayoutManager.setStackFromEnd(true);
         // Set the layout manager to your recyclerview

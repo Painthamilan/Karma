@@ -6,15 +6,17 @@ public class Orders {
     String ProductName;
     String ProductImage;
     String UserId;
+    String Status;
 
     public Orders() {
     }
 
-    public Orders(String productId, String productName, String productImage, String userId) {
+    public Orders(String productId, String productName, String productImage, String userId, String status) {
         ProductId = productId;
         ProductName = productName;
         ProductImage = productImage;
         UserId = userId;
+        Status = status;
     }
 
     public String getProductId() {
@@ -47,5 +49,13 @@ public class Orders {
 
     public void setUserId(String userId) {
         UserId = userId;
+    }
+
+    public String getStatus() {
+        return Status;
+    }
+
+    public void setStatus(String status) {
+        Status = status;
     }
 }

@@ -3,8 +3,12 @@ package com.example.karma;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,8 +37,9 @@ public class ViewProductActivity extends AppCompatActivity {
     String curUserId,key,curDate,curTime,randomid;
     String productUrl;
     String productName;
-    String price;
+    String price,phoneNum,adress;
     long countPosts;
+    EditText etPhoneNumber,etAdress;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +50,12 @@ public class ViewProductActivity extends AppCompatActivity {
         tvOrder=findViewById(R.id.tv_order);
         cfAuth=FirebaseAuth.getInstance();
         curUserId=cfAuth.getCurrentUser().getUid();
+        etAdress=findViewById(R.id.et_adress);
+        etPhoneNumber=findViewById(R.id.et_phone_number);
         key=getIntent().getStringExtra("REF_KEY");
+
+
+
 
         if (curUserId.equals(Constants.ADMIN_ID)){
             tvOrder.setVisibility(View.INVISIBLE);
@@ -97,22 +107,42 @@ public class ViewProductActivity extends AppCompatActivity {
         tvOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HashMap postMap = new HashMap();
-                postMap.put("OrderId",curUserId+randomid);
-                postMap.put("ProductId", key);
-                postMap.put("ProductName",productName );
-                postMap.put("ProductImage", productUrl);
-                postMap.put("UserId", curUserId);
-                postMap.put("Counter", countPosts);
-                ordersref.child(curUserId+randomid).updateChildren(postMap).addOnCompleteListener(new OnCompleteListener() {
-                    @Override
-                    public void onComplete(@NonNull Task task) {
-                        Toast.makeText(ViewProductActivity.this, "Ordered successfully", Toast.LENGTH_SHORT).show();
-                    }
-                });
+
+                phoneNum=etPhoneNumber.getText().toString();
+                adress=etAdress.getText().toString();
+                if (TextUtils.isEmpty(phoneNum)||TextUtils.isEmpty(adress)){
+                    Toast.makeText(ViewProductActivity.this, "please give phone mu,ber and address!", Toast.LENGTH_SHORT).show();
+                }else {
+
+                    HashMap postMap = new HashMap();
+                    postMap.put("OrderId", curUserId + randomid);
+                    postMap.put("ProductId", key);
+                    postMap.put("ProductName", productName);
+                    postMap.put("ProductImage", productUrl);
+                    postMap.put("UserId", curUserId);
+                    postMap.put("Counter", countPosts);
+                    postMap.put("PhoneNumber", phoneNum);
+                    postMap.put("Address", adress);
+                    postMap.put("Status", "Not verified");
+                    ordersref.child(curUserId + randomid).updateChildren(postMap).addOnCompleteListener(new OnCompleteListener() {
+                        @Override
+                        public void onComplete(@NonNull Task task) {
+                             Toast.makeText(ViewProductActivity.this, "Ordered successfully, We will verify soon..", Toast.LENGTH_SHORT).show();
+                            intentToUpdateDetails();
+                        }
+                    });
+                }
 
             }
         });
 
     }
+
+    private void intentToUpdateDetails() {
+        Intent intent=new Intent(ViewProductActivity.this,BottomBarActivity.class);
+
+        startActivity(intent);
+
+    }
 }
+

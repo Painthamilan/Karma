@@ -12,15 +12,25 @@ import androidx.fragment.app.Fragment;
 
 import com.example.karma.LoginActivity;
 import com.example.karma.R;
+import com.example.karma.ViewMyOrdersActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class UserProfileFragment extends Fragment {
     FirebaseAuth cfAuth;
+    TextView tvMyOrders;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_user_notifications, container, false);
         final TextView textView = root.findViewById(R.id.text_notifications);
+        tvMyOrders=root.findViewById(R.id.tv_my_orders);
+        tvMyOrders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(), ViewMyOrdersActivity.class);
+                startActivity(intent);
+            }
+        });
         cfAuth=FirebaseAuth.getInstance();
         textView.setText("Logout");
         textView.setOnClickListener(new View.OnClickListener() {

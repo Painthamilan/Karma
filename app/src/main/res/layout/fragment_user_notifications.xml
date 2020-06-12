@@ -6,14 +6,35 @@
 
     <TextView
         android:id="@+id/text_notifications"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="18dp"
+        android:background="@drawable/all_button_background"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="8dp"
+        android:text="Logout"
         android:textAlignment="center"
         android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/tv_my_orders"
+        app:layout_constraintStart_toStartOf="@+id/tv_my_orders"
+        app:layout_constraintTop_toBottomOf="@id/tv_my_orders" />
+    <TextView
+        android:id="@+id/tv_my_orders"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="8dp"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="8dp"
+        android:textAlignment="center"
+        android:text="My Orders"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:background="@drawable/all_button_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
