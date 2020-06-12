@@ -2,43 +2,46 @@ package com.example.karma;
 
 public class Products {
     String ProductId;
-        String Price;
-        String ProductName;
-        String ProductImage;
+    String Price;
+    String ProductName;
+    String ProductImage;
+    String Percentage;
 
-        public Products() {
-        }
 
-        public Products(String productId,String price, String productName, String productImage) {
-            ProductId=productId;
-            Price = price;
-            ProductName = productName;
-            ProductImage = productImage;
-        }
+    public Products() {
+    }
 
-        public String getPrice() {
-            return Price;
-        }
+    public Products(String productId, String price, String productName, String productImage, String percentage) {
+        ProductId = productId;
+        Price = price;
+        ProductName = productName;
+        ProductImage = productImage;
+        Percentage = percentage;
+    }
 
-        public void setPrice(String price) {
-            Price = price;
-        }
+    public String getPrice() {
+        return Price;
+    }
 
-        public String getProductName() {
-            return ProductName;
-        }
+    public void setPrice(String price) {
+        Price = price;
+    }
 
-        public void setProductName(String productName) {
-            ProductName = productName;
-        }
+    public String getProductName() {
+        return ProductName;
+    }
 
-        public String getProductImage() {
-            return ProductImage;
-        }
+    public void setProductName(String productName) {
+        ProductName = productName;
+    }
 
-        public void setProductImage(String productImage) {
-            ProductImage = productImage;
-        }
+    public String getProductImage() {
+        return ProductImage;
+    }
+
+    public void setProductImage(String productImage) {
+        ProductImage = productImage;
+    }
 
     public String getProductId() {
         return ProductId;
@@ -46,5 +49,13 @@ public class Products {
 
     public void setProductId(String productId) {
         ProductId = productId;
+    }
+
+    public String getPercentage() {
+        return Percentage;
+    }
+
+    public void setPercentage(String percentage) {
+        Percentage = percentage;
     }
 }

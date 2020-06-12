@@ -19,6 +19,7 @@ import com.example.karma.Constants;
 import com.example.karma.Products;
 import com.example.karma.R;
 import com.example.karma.Top;
+import com.example.karma.ViewAllOffersActivity;
 import com.example.karma.ViewProductActivity;
 import com.example.karma.ViewSubCatsActivity;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -33,7 +34,7 @@ public class TopFragment extends Fragment {
     private String curUserId;
     private RecyclerView rvProducts,rvTopFragments;
     private DatabaseReference cfPostRef,topRef;
-    private ImageView ivInstant;
+    private ImageView ivInstant,ivOffers;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -41,6 +42,14 @@ public class TopFragment extends Fragment {
         final TextView textView = root.findViewById(R.id.text_home);
         rvProducts=root.findViewById(R.id.rv_top);
         rvTopFragments=root.findViewById(R.id.rv_topItems);
+        ivOffers=root.findViewById(R.id.iv_offers);
+        ivOffers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(), ViewAllOffersActivity.class);
+                startActivity(intent);
+            }
+        });
         ivInstant=root.findViewById(R.id.iv_instants);
         ivInstant.setOnClickListener(new View.OnClickListener() {
             @Override
