@@ -388,13 +388,7 @@ public class AddItemFragment extends Fragment {
                 } else {
                     countPosts = 0;
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
         HashMap postMap = new HashMap();
         postMap.put("ProductId",randomid);
         postMap.put("ProductName", etProductName.getText().toString());
@@ -403,7 +397,6 @@ public class AddItemFragment extends Fragment {
         postMap.put("Price",etPrice.getText().toString());
         postMap.put("ProductImage",downloadUrl);
         postMap.put("Specifications",etSpecifications.getText().toString());
-
         postMap.put("Counter", countPosts);
         itemsRef.child(randomid).updateChildren(postMap).addOnCompleteListener(new OnCompleteListener() {
             @Override
@@ -418,7 +411,13 @@ public class AddItemFragment extends Fragment {
         catRef.child(seletedCatagory).child("SubCatagories").child(selectedSubCatagory).child("SubCatagoryName").setValue(selectedSubCatagory);
         catRef.child(seletedCatagory).child("SubCatagories").child(selectedSubCatagory).child("Products").child(randomid).child("ProductId").setValue(randomid);
 
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void openGallery() {

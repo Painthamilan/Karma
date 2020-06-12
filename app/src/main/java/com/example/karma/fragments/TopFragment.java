@@ -86,7 +86,7 @@ public class TopFragment extends Fragment {
                         Top.class,
                         R.layout.top_layout,
                         TopViewHolder.class,
-                        topRef
+                        searchPeopleAndFriendsQuery
 
                 ) {
                     @Override
