@@ -2,18 +2,17 @@ package com.example.karma;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.karma.admin_fragments.OrdersFragment;
-import com.example.karma.fragments.ShopFragment;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -49,11 +48,17 @@ public class ViewMyOrdersActivity extends AppCompatActivity {
     }
 
     private void shoeAllOrders() {
-
+        Query ordersQuery;
         curUserId=cfAuth.getCurrentUser().getUid();
-        Query ordersQuery = orderRef
-                .orderByChild("UserId")
-                .equalTo(curUserId);
+        if (curUserId.equals(Constants.ADMIN_ID)){
+            ordersQuery = orderRef
+                    .orderByChild("Counter");
+        }else {
+            ordersQuery = orderRef
+                    .orderByChild("UserId")
+                    .equalTo(curUserId);
+        }
+
         FirebaseRecyclerAdapter<Orders, OrderViewHolder> firebaseRecyclerAdapter =
                 new FirebaseRecyclerAdapter<Orders, OrderViewHolder>(
                         Orders.class,
@@ -68,6 +73,7 @@ public class ViewMyOrdersActivity extends AppCompatActivity {
                         postViewHolder.setProductName(model.getProductName());
                         postViewHolder.setProductImage(model.getProductImage());
                         postViewHolder.setOrderStatus(model.getStatus());
+                        postViewHolder.dropDownClicker(postKey,ViewMyOrdersActivity.this);
 
                     }
                 };
@@ -78,13 +84,24 @@ public class ViewMyOrdersActivity extends AppCompatActivity {
         View cfView;
 
         TextView tvCatName,tvUpdateImage,tvStatus;
-        ImageView ivCatImage;
+        ImageView ivCatImage,ivDownArrov;
+        FirebaseAuth cfAuth;
+        String curUserId;
+        DatabaseReference stateRef;
         public OrderViewHolder(@NonNull View itemView) {
             super(itemView);
             cfView = itemView;
             tvCatName=cfView.findViewById(R.id.tv_product_name);
             ivCatImage=cfView.findViewById(R.id.iv_product_image);
             tvStatus=cfView.findViewById(R.id.tv_status);
+            ivDownArrov=cfView.findViewById(R.id.iv_down_arrow);
+            cfAuth=FirebaseAuth.getInstance();
+
+
+            curUserId=cfAuth.getCurrentUser().getUid();
+            if (curUserId.equals(Constants.ADMIN_ID)){
+                ivDownArrov.setVisibility(View.VISIBLE);
+            }
 
         }
 
@@ -102,6 +119,45 @@ public class ViewMyOrdersActivity extends AppCompatActivity {
 
         public void setOrderStatus(String status) {
             tvStatus.setText(status);
+        }
+
+        public void dropDownClicker(String orderId, Context context) {
+
+            PopupMenu popup = new PopupMenu(context,ivDownArrov);
+            popup.getMenuInflater().inflate(R.menu.menu_order_states, popup.getMenu());
+            ivDownArrov.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    popup.setOnMenuItemClickListener(item->{
+                        switch (item.getItemId()) {
+                            case R.id.state_confirm_order:
+                                updateState("Confirmed",orderId);
+                                break;
+                            case R.id.state_pack_order:
+                                updateState("Packed", orderId);
+                                break;
+                            case R.id.state_carry_order:
+                                updateState("On the way", orderId);
+                                break;
+                            case R.id.state_deliver_order:
+                                updateState("Delivered", orderId);
+                                break;
+                            case R.id.state_return_order:
+                                updateState("Returned", orderId);
+                                break;
+                        }
+                        return true;
+                    });
+                    popup.show();
+                }
+            });
+
+        }
+
+        private void updateState(String state, String orderId) {
+            stateRef=FirebaseDatabase.getInstance().getReference().child("Orders").child(orderId);
+            stateRef.child("Status").setValue(state);
         }
     }
 }
