@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -80,13 +81,13 @@
         android:id="@+id/tv_upload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:text="Upload"
+        android:layout_marginTop="8dp"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_price" />
+        app:layout_constraintTop_toBottomOf="@+id/et_specifications" />
 
     <TextView
         android:id="@+id/tv_select_image"
@@ -99,5 +100,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/iv_product_image"
         app:layout_constraintTop_toBottomOf="@+id/text_dashboard" />
+
+    <EditText
+        android:id="@+id/et_specifications"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="start|top"
+        android:hint="Specifications"
+        android:inputType="textMultiLine"
+        app:layout_constraintEnd_toEndOf="@+id/et_price"
+        app:layout_constraintStart_toStartOf="@+id/et_price"
+        app:layout_constraintTop_toBottomOf="@+id/et_price" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

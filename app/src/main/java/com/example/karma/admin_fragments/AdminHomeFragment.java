@@ -42,7 +42,7 @@ public class AdminHomeFragment extends Fragment {
         // rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mLayoutManager.setReverseLayout(true);
-        mLayoutManager.setStackFromEnd(true);
+        mLayoutManager.setStackFromEnd(false);
         // Set the layout manager to your recyclerview
         rvProducts.setLayoutManager(mLayoutManager);
         showAllProducts();

@@ -38,10 +38,10 @@ import java.util.TimeZone;
 import static android.app.Activity.RESULT_OK;
 
 public class AddItemFragment extends Fragment {
-    private EditText etProductName,etPrice;
+    private EditText etProductName,etPrice,etSpecifications;
     private ImageView ivProductImage;
     private TextView tvSelectcatagory,tvUpload,tvSelectImage,tvSelectSubCatagory;
-    private String seletedCatagory="",curDate,curTime,randomid,downloadUrl,selectedSubCatagory;
+    private String seletedCatagory="",curDate,curTime,randomid,downloadUrl,selectedSubCatagory,specifications;
     private StorageReference itemStorageRef;
     private DatabaseReference itemsRef,catRef;
     private long countPosts;
@@ -54,6 +54,7 @@ public class AddItemFragment extends Fragment {
          TextView textView = root.findViewById(R.id.text_dashboard);
          etProductName=root.findViewById(R.id.et_product_name);
          etPrice=root.findViewById(R.id.et_price);
+         etSpecifications=root.findViewById(R.id.et_specifications);
          ivProductImage=root.findViewById(R.id.iv_product_image);
          tvSelectcatagory=root.findViewById(R.id.tv_select_catogary);
          tvSelectImage=root.findViewById(R.id.tv_select_image);
@@ -377,6 +378,7 @@ public class AddItemFragment extends Fragment {
     }
 
     private void savePostInformation() {
+        itemsRef= FirebaseDatabase.getInstance().getReference().child("Products");
         itemsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -400,6 +402,7 @@ public class AddItemFragment extends Fragment {
         postMap.put("ProductSubCatagory", selectedSubCatagory);
         postMap.put("Price",etPrice.getText().toString());
         postMap.put("ProductImage",downloadUrl);
+        postMap.put("Specifications",etSpecifications.getText().toString());
 
         postMap.put("Counter", countPosts);
         itemsRef.child(randomid).updateChildren(postMap).addOnCompleteListener(new OnCompleteListener() {

@@ -65,7 +65,7 @@ public class TopFragment extends Fragment {
 
         rvTopFragments.setHasFixedSize(true);
         // rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
-        LinearLayoutManager horizontalYalayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
+        LinearLayoutManager horizontalYalayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,true);
         horizontalYalayoutManager.setReverseLayout(true);
         horizontalYalayoutManager.setStackFromEnd(true);
 

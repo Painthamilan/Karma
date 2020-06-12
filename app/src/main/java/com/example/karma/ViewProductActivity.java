@@ -1,10 +1,12 @@
 package com.example.karma;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -31,19 +33,21 @@ import java.util.TimeZone;
 public class ViewProductActivity extends AppCompatActivity {
     ImageView ivProductImage;
     TextView tvProductName,tvPrice;
-    TextView tvOrder;
+    TextView tvOrder,tvSpecs;
     DatabaseReference productRef,ordersref;
     FirebaseAuth cfAuth;
     String curUserId,key,curDate,curTime,randomid;
     String productUrl;
-    String productName;
+    String productName,productSpecs;
     String price,phoneNum,adress;
     long countPosts;
     EditText etPhoneNumber,etAdress;
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_product);
+        Utils.setTopBar(getWindow(),getResources());
         ivProductImage=findViewById(R.id.iv_product_image);
         tvProductName=findViewById(R.id.tv_product_name);
         tvPrice=findViewById(R.id.tv_price);
@@ -51,6 +55,7 @@ public class ViewProductActivity extends AppCompatActivity {
         cfAuth=FirebaseAuth.getInstance();
         curUserId=cfAuth.getCurrentUser().getUid();
         etAdress=findViewById(R.id.et_adress);
+        tvSpecs=findViewById(R.id.tv_specifications);
         etPhoneNumber=findViewById(R.id.et_phone_number);
         key=getIntent().getStringExtra("REF_KEY");
 
@@ -69,10 +74,12 @@ public class ViewProductActivity extends AppCompatActivity {
                    productUrl=dataSnapshot.child("ProductImage").getValue().toString();
                    productName=dataSnapshot.child("ProductName").getValue().toString();
                    price=dataSnapshot.child("Price").getValue().toString();
+                   productSpecs=dataSnapshot.child("Specifications").getValue().toString();
 
                   Picasso.get().load(productUrl).into(ivProductImage);
                   tvProductName.setText(productName);
                   tvPrice.setText(price);
+                  tvSpecs.setText(productSpecs);
               }
             }
 
