@@ -8,12 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,12 +23,9 @@ import com.example.karma.ViewProductActivity;
 import com.example.karma.ViewSubCatsActivity;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 public class TopFragment extends Fragment {
@@ -65,8 +60,8 @@ public class TopFragment extends Fragment {
 
         rvTopFragments.setHasFixedSize(true);
         // rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
-        LinearLayoutManager horizontalYalayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,true);
-        horizontalYalayoutManager.setReverseLayout(true);
+        LinearLayoutManager horizontalYalayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false
+        );
         horizontalYalayoutManager.setStackFromEnd(true);
 
         // Set the layout manager to your recyclerview
@@ -85,7 +80,7 @@ public class TopFragment extends Fragment {
 
     private void showTop(LinearLayoutManager horizontalYalayoutManager) {
         topRef = FirebaseDatabase.getInstance().getReference().child("TopItems");
-        //Query searchPeopleAndFriendsQuery = cfPostRef.orderByChild("Counter");
+        Query searchPeopleAndFriendsQuery = topRef.orderByChild("Rank");
         FirebaseRecyclerAdapter<Top, TopViewHolder> firebaseRecyclerAdapter =
                 new FirebaseRecyclerAdapter<Top, TopViewHolder>(
                         Top.class,
@@ -222,19 +217,19 @@ public class TopFragment extends Fragment {
                         switch (item.getItemId()) {
                             case R.id.rank_first:
                                 // Toast.makeText(context, ""+postId, Toast.LENGTH_SHORT).show();
-                                updateRank("First",postId, name, image, price);
+                                updateRank("First",postId, name, image, price,"a");
                                 break;
                             case R.id.rank_second:
                                 // Toast.makeText(context, "second", Toast.LENGTH_SHORT).show();
-                                updateRank("Second",postId, name, image, price);
+                                updateRank("Second",postId, name, image, price, "b");
                                 break;
                             case R.id.rank_thirt:
                                 // Toast.makeText(context, "thirt", Toast.LENGTH_SHORT).show();
-                                updateRank("Thirt",postId, name, image, price);
+                                updateRank("Thirt",postId, name, image, price, "c");
                                 break;
                             case R.id.rank_forth:
                                 // Toast.makeText(context, "thirt", Toast.LENGTH_SHORT).show();
-                                updateRank("Fourth",postId, name, image, price);
+                                updateRank("Fourth",postId, name, image, price, "d");
                                 break;
                         }
                         return true;
@@ -243,11 +238,12 @@ public class TopFragment extends Fragment {
                 }
             });
         }
-        private void updateRank(String rank, String postId,String name,String image,String price) {
+        private void updateRank(String rank, String postId, String name, String image, String price, String i) {
             topRef.child(rank).child("ItemId").setValue(postId);
             topRef.child(rank).child("ItemName").setValue(name);
             topRef.child(rank).child("ItemImage").setValue(image);
             topRef.child(rank).child("ItemPrice").setValue(price);
+            topRef.child(rank).child("Rank").setValue(i);
         }
 
 
