@@ -65,6 +65,7 @@ public class ViewItemsActivity extends AppCompatActivity {
                             public void onClick(View v) {
                                 Intent intent=new Intent(ViewItemsActivity.this, ViewProductActivity.class);
                                 intent.putExtra("REF_KEY",postKey);
+                                intent.putExtra("isOffer",false);
                                 startActivity(intent);
                             }
                         });

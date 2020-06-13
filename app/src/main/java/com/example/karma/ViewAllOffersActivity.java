@@ -68,6 +68,8 @@ public class ViewAllOffersActivity extends AppCompatActivity {
                             public void onClick(View v) {
                                 Intent intent=new Intent(ViewAllOffersActivity.this, ViewProductActivity.class);
                                 intent.putExtra("REF_KEY",postKey);
+                                intent.putExtra("isOffer",true);
+                                intent.putExtra("ActualPrice",postViewHolder.setNewPrice(model.getPercentage(),model.getPrice()));
                                 startActivity(intent);
                             }
                         });
@@ -108,7 +110,7 @@ public class ViewAllOffersActivity extends AppCompatActivity {
             Picasso.get().load(productImage).into(ivproductImage);
         }
 
-        public void setNewPrice(String percentage, String price) {
+        public String setNewPrice(String percentage, String price) {
             tvPrice.setText(price+".00 ₹");
             tvPrice.setTextColor(Color.RED);
             tvPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
@@ -120,6 +122,7 @@ public class ViewAllOffersActivity extends AppCompatActivity {
             int newPrice=pr-(pr*percent/100);
             String amt=String.valueOf(newPrice);
             tvNewPrice.setText(amt+".00 ₹");
+            return amt;
         }
 
     }

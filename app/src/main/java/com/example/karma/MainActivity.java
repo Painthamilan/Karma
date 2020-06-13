@@ -43,10 +43,6 @@ String curUserId;
     @Override
     protected void onStart() {
         super.onStart();
-        if(curUserId==null){
-            SendUserToLoginActivity();
-        }
-        else {
             if (curUserId.equals(Constants.ADMIN_ID)){
                sendUserToAdminBottomBarActivity();
             }else {
@@ -55,7 +51,6 @@ String curUserId;
 
             // CheckUserExistence();
 
-        }
     }
 
     private void SendUserToLoginActivity() {

@@ -39,8 +39,9 @@ public class ViewProductActivity extends AppCompatActivity {
     String curUserId,key,curDate,curTime,randomid;
     String productUrl;
     String productName,productSpecs;
-    String price,phoneNum,adress;
+    String price,phoneNum,adress,actualPrice;
     long countPosts;
+    boolean isOffer;
     EditText etPhoneNumber,etAdress;
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -58,6 +59,8 @@ public class ViewProductActivity extends AppCompatActivity {
         tvSpecs=findViewById(R.id.tv_specifications);
         etPhoneNumber=findViewById(R.id.et_phone_number);
         key=getIntent().getStringExtra("REF_KEY");
+        isOffer=getIntent().getBooleanExtra("isOffer",false);
+
 
 
 
@@ -66,28 +69,56 @@ public class ViewProductActivity extends AppCompatActivity {
             tvOrder.setVisibility(View.INVISIBLE);
         }
         ordersref= FirebaseDatabase.getInstance().getReference().child("Orders");
-        productRef= FirebaseDatabase.getInstance().getReference().child("Products").child(key);
-        productRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-              if (dataSnapshot.exists()){
-                   productUrl=dataSnapshot.child("ProductImage").getValue().toString();
-                   productName=dataSnapshot.child("ProductName").getValue().toString();
-                   price=dataSnapshot.child("Price").getValue().toString();
-                   productSpecs=dataSnapshot.child("Specifications").getValue().toString();
+        if (isOffer){
+            actualPrice=getIntent().getStringExtra("ActualPrice");
+            productRef= FirebaseDatabase.getInstance().getReference().child("Offers").child(key);
+            productRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()){
+                        productUrl=dataSnapshot.child("ProductImage").getValue().toString();
+                        productName=dataSnapshot.child("ProductName").getValue().toString();
+                        price=actualPrice;
+                        productSpecs=dataSnapshot.child("Specifications").getValue().toString();
 
-                  Picasso.get().load(productUrl).into(ivProductImage);
-                  tvProductName.setText(productName);
-                  tvPrice.setText(price);
-                  tvSpecs.setText(productSpecs);
-              }
-            }
+                        Picasso.get().load(productUrl).into(ivProductImage);
+                        tvProductName.setText(productName);
+                        tvPrice.setText(price);
+                        tvSpecs.setText(productSpecs);
+                    }
+                }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
+        }{
+            productRef= FirebaseDatabase.getInstance().getReference().child("Products").child(key);
+            productRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()){
+                        productUrl=dataSnapshot.child("ProductImage").getValue().toString();
+                        productName=dataSnapshot.child("ProductName").getValue().toString();
+                        price=dataSnapshot.child("Price").getValue().toString();
+                        productSpecs=dataSnapshot.child("Specifications").getValue().toString();
+
+                        Picasso.get().load(productUrl).into(ivProductImage);
+                        tvProductName.setText(productName);
+                        tvPrice.setText(price);
+                        tvSpecs.setText(productSpecs);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+
+
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         curDate = dateFormat.format(new Date());

@@ -109,6 +109,7 @@ public class TopFragment extends Fragment {
                             public void onClick(View v) {
                                 Intent intent=new Intent(getActivity(), ViewProductActivity.class);
                                 intent.putExtra("REF_KEY",model.getItemId());
+                                intent.putExtra("isOffer",false);
                                 startActivity(intent);
                             }
                         });
@@ -139,6 +140,7 @@ public class TopFragment extends Fragment {
                             public void onClick(View v) {
                                 Intent intent=new Intent(getActivity(), ViewProductActivity.class);
                                 intent.putExtra("REF_KEY",postKey);
+                                intent.putExtra("isOffer",false);
                                 startActivity(intent);
                             }
                         });
