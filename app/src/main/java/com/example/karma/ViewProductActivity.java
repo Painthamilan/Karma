@@ -4,11 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -145,35 +148,109 @@ public class ViewProductActivity extends AppCompatActivity {
         tvOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                phoneNum=etPhoneNumber.getText().toString();
-                adress=etAdress.getText().toString();
-                if (TextUtils.isEmpty(phoneNum)||TextUtils.isEmpty(adress)){
-                    Toast.makeText(ViewProductActivity.this, "please give phone number and address!", Toast.LENGTH_SHORT).show();
+                if (curUserId==null){
+                    showDialogForNotLoggedId();
                 }else {
 
-                    HashMap postMap = new HashMap();
-                    postMap.put("OrderId", curUserId + randomid);
-                    postMap.put("ProductId", key);
-                    postMap.put("ProductName", productName);
-                    postMap.put("ProductImage", productUrl);
-                    postMap.put("UserId", curUserId);
-                    postMap.put("Counter", countPosts);
-                    postMap.put("PhoneNumber", phoneNum);
-                    postMap.put("Address", adress);
-                    postMap.put("Status", "Not verified");
-                    ordersref.child(curUserId + randomid).updateChildren(postMap).addOnCompleteListener(new OnCompleteListener() {
-                        @Override
-                        public void onComplete(@NonNull Task task) {
-                             Toast.makeText(ViewProductActivity.this, "Ordered successfully, We will verify soon..", Toast.LENGTH_SHORT).show();
-                            intentToUpdateDetails();
-                        }
-                    });
+                    showDialogForConfirmorder();
                 }
 
             }
         });
 
+
+    }
+
+    private void showDialogForConfirmorder() {
+        AlertDialog.Builder dialogBuilder=new AlertDialog.Builder(ViewProductActivity.this, R.style.AlertDialogTheme).setCancelable(false);
+        View rowView= LayoutInflater.from(ViewProductActivity.this).inflate(R.layout.general_alert_dialog,null);
+        dialogBuilder.setView(rowView);
+        AlertDialog dialog = dialogBuilder.create();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        }
+        TextView dialogTitleTextView=rowView.findViewById(R.id.dialogTitle);
+        TextView dialogMessageTextView=rowView.findViewById(R.id.dialogText);
+        TextView dialogCancelTextView=rowView.findViewById(R.id.dialogCancel);
+        TextView dialogConfirmTextView=rowView.findViewById(R.id.dialogConfirm);
+        dialogConfirmTextView.setText("Confirm");
+
+        dialogTitleTextView.setText("Confirm order");
+        dialogMessageTextView.setText("Are you sure you want to purchase?");
+        dialogConfirmTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                orderProduct();
+            }
+        });
+        dialogCancelTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+    private void orderProduct() {
+        phoneNum = etPhoneNumber.getText().toString();
+        adress = etAdress.getText().toString();
+        if (TextUtils.isEmpty(phoneNum) || TextUtils.isEmpty(adress)) {
+            Toast.makeText(ViewProductActivity.this, "please give phone number and address!", Toast.LENGTH_SHORT).show();
+        } else {
+
+            HashMap postMap = new HashMap();
+            postMap.put("OrderId", curUserId + randomid);
+            postMap.put("ProductId", key);
+            postMap.put("ProductName", productName);
+            postMap.put("ProductImage", productUrl);
+            postMap.put("UserId", curUserId);
+            postMap.put("Counter", countPosts);
+            postMap.put("PhoneNumber", phoneNum);
+            postMap.put("Address", adress);
+            postMap.put("Status", "Not verified");
+            ordersref.child(curUserId + randomid).updateChildren(postMap).addOnCompleteListener(new OnCompleteListener() {
+                @Override
+                public void onComplete(@NonNull Task task) {
+                    Toast.makeText(ViewProductActivity.this, "Ordered successfully, We will verify soon..", Toast.LENGTH_SHORT).show();
+                    intentToUpdateDetails();
+                }
+            });
+        }
+    }
+
+    private void showDialogForNotLoggedId() {
+        AlertDialog.Builder dialogBuilder=new AlertDialog.Builder(ViewProductActivity.this, R.style.AlertDialogTheme).setCancelable(false);
+        View rowView= LayoutInflater.from(ViewProductActivity.this).inflate(R.layout.general_alert_dialog,null);
+        dialogBuilder.setView(rowView);
+        AlertDialog dialog = dialogBuilder.create();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        }
+        TextView dialogTitleTextView=rowView.findViewById(R.id.dialogTitle);
+        TextView dialogMessageTextView=rowView.findViewById(R.id.dialogText);
+        TextView dialogCancelTextView=rowView.findViewById(R.id.dialogCancel);
+        TextView dialogConfirmTextView=rowView.findViewById(R.id.dialogConfirm);
+        dialogConfirmTextView.setText("Sign In");
+
+        dialogTitleTextView.setText("Sign In required");
+        dialogMessageTextView.setText("you have to login befor order something..");
+        dialogConfirmTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               Intent intent=new Intent(ViewProductActivity.this,LoginActivity.class);
+               startActivity(intent);
+            }
+        });
+        dialogCancelTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 
     private void intentToUpdateDetails() {
