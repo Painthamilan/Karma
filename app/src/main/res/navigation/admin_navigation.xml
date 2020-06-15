@@ -16,6 +16,11 @@
         android:name="com.example.karma.admin_fragments.AddItemFragment"
         android:label="Add Items"
         tools:layout="@layout/fragment_add_items" />
+    <fragment
+        android:id="@+id/navigation_add_catogories"
+        android:name="com.example.karma.admin_fragments.AddCatagoriesDetails"
+        android:label="Add Cats"
+        tools:layout="@layout/fragment_add_catagories" />
 
     <fragment
         android:id="@+id/navigation_notifications"

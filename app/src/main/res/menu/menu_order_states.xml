@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/state_confirm_order"
+        android:title="Confirm"/>
+
+    <item
+        android:id="@+id/state_pack_order"
+        android:title="Pack "/>
+
+    <item
+        android:id="@+id/state_carry_order"
+        android:title="On the way"/>
+    <item
+        android:id="@+id/state_deliver_order"
+        android:title="Delivered"/>
+
+    <item
+        android:id="@+id/state_return_order"
+        android:title="Returned"/>
+
+</menu>

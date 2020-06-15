@@ -44,18 +44,22 @@ String curUserId;
     protected void onStart() {
         super.onStart();
         if(curUserId==null){
-            SendUserToLoginActivity();
+         Intent intent=new Intent(MainActivity.this,LoginActivity.class);
+         startActivity(intent);
+
         }
         else {
             if (curUserId.equals(Constants.ADMIN_ID)){
-               sendUserToAdminBottomBarActivity();
+                sendUserToAdminBottomBarActivity();
             }else {
                 sendUserToBottomBarActivity();
             }
-
             // CheckUserExistence();
 
         }
+
+            // CheckUserExistence();
+
     }
 
     private void SendUserToLoginActivity() {

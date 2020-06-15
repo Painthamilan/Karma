@@ -5,5 +5,5 @@
         android:title="Baby Products"/>
     <item
         android:id="@+id/sub_cat_essential_milk_products"
-        android:title="Milk Products"/>
+        android:title="Baby Products"/>
 </menu>

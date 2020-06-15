@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ViewProductActivity">
+    tools:context=".ViewProductActivity"
+    android:background="@drawable/main_theme"
+    tools:ignore="GradleDependency">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/iv_product_image"
@@ -26,7 +33,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_product_image"
         android:textStyle="bold"
-        android:textSize="20sp"/>
+        android:textSize="16sp"/>
 
     <TextView
         android:id="@+id/tv_price"
@@ -37,18 +44,61 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_product_name"
-        android:textSize="18sp"
+        android:textSize="14sp"
         android:textStyle="bold|italic"/>
 
     <TextView
         android:id="@+id/tv_order"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
+        android:layout_marginTop="30dp"
         android:text="Order"
+        android:textColor="@color/white"
+        android:textSize="18sp"
         android:textStyle="bold"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_adress" />
+
+
+    <EditText
+        android:id="@+id/et_phone_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingHorizontal="4dp"
+        android:paddingVertical="2dp"
+        android:background="@drawable/edit_text_background"
+        android:ems="10"
+        android:hint="Enter mobile number"
+        android:inputType="number"
+        app:layout_constraintTop_toBottomOf="@+id/tv_specifications"
+        app:layout_constraintEnd_toEndOf="@+id/tv_price"
+        app:layout_constraintStart_toStartOf="@+id/tv_price" />
+
+    <EditText
+        android:id="@+id/et_adress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingHorizontal="4dp"
+        android:paddingVertical="2dp"
+        android:background="@drawable/edit_text_background"
+        android:ems="10"
+        android:hint="Your adress"
+
+        app:layout_constraintEnd_toEndOf="@+id/tv_product_name"
+        app:layout_constraintStart_toStartOf="@+id/tv_product_name"
+        app:layout_constraintTop_toBottomOf="@+id/et_phone_number" />
+
+    <TextView
+        android:id="@+id/tv_specifications"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_price" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
