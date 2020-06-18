@@ -26,7 +26,7 @@ String curUserId;
         if (cfAuth.getCurrentUser() != null) {
             curUserId = cfAuth.getCurrentUser().getUid().toString();
         }
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+       /* if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
 
             if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     == PackageManager.PERMISSION_DENIED) {
@@ -38,6 +38,8 @@ String curUserId;
 
             }
         }
+
+        */
     }
 
     @Override

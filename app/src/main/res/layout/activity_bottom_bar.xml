@@ -4,19 +4,19 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@drawable/main_theme"
     >
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"
         android:layout_width="0dp"
         android:layout_height="40dp"
-        android:background="@color/light_black"
-        app:itemTextColor="@color/white"
+        android:background="@drawable/layout_background"
+        app:itemTextColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:itemIconTint="@color/lightGray"
+        app:itemIconTint="@color/black"
         app:menu="@menu/bottom_nav_menu" />
 
     <fragment
