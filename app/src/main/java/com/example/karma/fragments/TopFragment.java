@@ -84,6 +84,8 @@ public class TopFragment extends Fragment {
     private void showInstants() {
         Intent intent=new Intent(getActivity(), ViewSubCatsActivity.class);
         intent.putExtra("CAT_NAME","Instant");
+        intent.putExtra("IsInstant",true);
+
         startActivity(intent);
     }
 

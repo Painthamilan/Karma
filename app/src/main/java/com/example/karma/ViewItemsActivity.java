@@ -18,21 +18,25 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 public class ViewItemsActivity extends AppCompatActivity {
     String catName,catImage,mainCatName;
-    DatabaseReference subCatRef;
+    DatabaseReference subCatRef,instantsRef;
+    Query mainRef;
     RecyclerView rvCats;
+    boolean isInstant;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_items);
         catName=getIntent().getStringExtra("CAT_NAME");
         mainCatName=getIntent().getStringExtra("MAIN_CAT_NAME");
+        isInstant=getIntent().getBooleanExtra("IsInstant",false);
         subCatRef= FirebaseDatabase.getInstance().getReference().child("Catagories").child(mainCatName).child("SubCatagories").child(catName).child("Products");
-
+        instantsRef=FirebaseDatabase.getInstance().getReference().child("Instants");
         rvCats=findViewById(R.id.rv_list_items);
         rvCats.setHasFixedSize(true);
         // rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -47,12 +51,18 @@ public class ViewItemsActivity extends AppCompatActivity {
     }
 
     private void shoeAllItems() {
+        if (isInstant){
+            mainRef=instantsRef.orderByChild("IsAvailable").equalTo("Yes");
+        }
+        else {
+            mainRef=subCatRef;
+        }
         FirebaseRecyclerAdapter<Products, CatsViewHolder> firebaseRecyclerAdapter =
                 new FirebaseRecyclerAdapter<Products, CatsViewHolder>(
                         Products.class,
                         R.layout.item_grid_layout,
                         CatsViewHolder.class,
-                        subCatRef
+                        mainRef
 
                 ) {
                     @Override

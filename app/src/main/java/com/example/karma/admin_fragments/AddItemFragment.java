@@ -43,8 +43,9 @@ public class AddItemFragment extends Fragment {
     private TextView tvSelectcatagory,tvUpload,tvSelectImage,tvSelectSubCatagory;
     private String seletedCatagory="",curDate,curTime,randomid,downloadUrl,selectedSubCatagory,specifications;
     private StorageReference itemStorageRef;
-    private DatabaseReference itemsRef,catRef;
+    private DatabaseReference itemsRef,catRef,instantRef;
     private long countPosts;
+    private boolean isinstant;
     private static final int GalleryPick = 1;
     Uri imageUri;
 
@@ -67,6 +68,7 @@ public class AddItemFragment extends Fragment {
         PopupMenu popup = new PopupMenu(AddItemFragment.this.getContext(),tvSelectcatagory);
 
         popup.getMenuInflater().inflate(R.menu.main_catagory, popup.getMenu());
+        isinstant=false;
         tvSelectcatagory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,6 +95,7 @@ public class AddItemFragment extends Fragment {
 
                         case R.id.main_cat_instant:
                             seletedCatagory="Instant";
+                            isinstant=true;
                             break;
 
                         case R.id.main_cat_cab:
@@ -155,7 +158,7 @@ public class AddItemFragment extends Fragment {
                               selectedSubCatagory="Men";
                               break;
                           case R.id.sub_cat_clothin_woman:
-                              selectedSubCatagory="Female";
+                              selectedSubCatagory="Women";
                               break;
                       }
                       tvSelectSubCatagory.setText(selectedSubCatagory);
@@ -378,6 +381,38 @@ public class AddItemFragment extends Fragment {
     }
 
     private void savePostInformation() {
+        if (isinstant){
+            instantRef= FirebaseDatabase.getInstance().getReference().child("Instants");
+            instantRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    HashMap postMap = new HashMap();
+                    postMap.put("ProductId",randomid);
+                    postMap.put("ProductName", etProductName.getText().toString());
+                    postMap.put("ProductCatagory", seletedCatagory);
+                    postMap.put("ProductSubCatagory", selectedSubCatagory);
+                    postMap.put("Price",etPrice.getText().toString());
+                    postMap.put("ProductImage",downloadUrl);
+                    postMap.put("Specifications",etSpecifications.getText().toString());
+                    postMap.put("Counter", countPosts);
+                    postMap.put("IsAvailable","Yes");
+
+                    instantRef.child(randomid).updateChildren(postMap).addOnCompleteListener(new OnCompleteListener() {
+                        @Override
+                        public void onComplete(@NonNull Task task) {
+                            if (task.isSuccessful()){
+                                Toast.makeText(AddItemFragment.this.getContext(), "Uploaded", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
         itemsRef= FirebaseDatabase.getInstance().getReference().child("Products");
         itemsRef.addValueEventListener(new ValueEventListener() {
             @Override
