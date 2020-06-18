@@ -158,4 +158,6 @@
     <color name="black">#000000</color>
     <color name="pale">#fcfbf9</color>
     <color name="darkGray">#402810</color>
+    <color name="light_black">#212121</color>
+
 </resources>

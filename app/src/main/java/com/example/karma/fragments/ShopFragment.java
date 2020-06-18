@@ -11,12 +11,14 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.karma.Cats;
 import com.example.karma.CatsDetailActivity;
 import com.example.karma.R;
+import com.example.karma.ViewItemsActivity;
 import com.example.karma.ViewSubCatsActivity;
 import com.example.karma.admin_fragments.AddCatagoriesDetails;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -43,6 +45,7 @@ DatabaseReference listCatsRef;
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mLayoutManager.setReverseLayout(true);
         mLayoutManager.setStackFromEnd(true);
+        mLayoutManager=new GridLayoutManager(getContext(),3);
         // Set the layout manager to your recyclerview
         rvCats.setLayoutManager(mLayoutManager);
 

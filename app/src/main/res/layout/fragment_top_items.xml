@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    android:background="@drawable/main_theme">
+    android:background="@color/light_black">
 
     <TextView
         android:id="@+id/text_home"
@@ -16,6 +16,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:textAlignment="textStart"
+        android:textColor="@color/blue"
         android:textStyle="bold|italic"
         android:textSize="16sp"
         android:text="Top Items"
@@ -33,6 +34,7 @@
         android:textStyle="bold|italic"
         android:textSize="16sp"
         android:text="Recently Added"
+        android:textColor="@color/blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_instants" />
@@ -40,7 +42,6 @@
         android:id="@+id/rv_top"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@drawable/layout_background"
         app:layout_constraintBottom_toTopOf="@id/iv_offers"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
