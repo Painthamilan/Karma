@@ -6,9 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -45,7 +43,7 @@ public class ViewProductActivity extends AppCompatActivity {
     String productName,productSpecs;
     String price,phoneNum,adress,actualPrice;
     long countPosts;
-    boolean isOffer;
+    boolean isOffer,isInstant;
     EditText etPhoneNumber,etAdress;
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -64,6 +62,7 @@ public class ViewProductActivity extends AppCompatActivity {
         etPhoneNumber=findViewById(R.id.et_phone_number);
         key=getIntent().getStringExtra("REF_KEY");
         isOffer=getIntent().getBooleanExtra("isOffer",false);
+        isInstant=getIntent().getBooleanExtra("IsInstant",false);
 
 
 
@@ -153,7 +152,12 @@ public class ViewProductActivity extends AppCompatActivity {
                     showDialogForNotLoggedId();
                 }else {
 
-                    showDialogForConfirmorder();
+                    if (isInstant) {
+                        showDialogForConfirmInstant();
+                    }
+                    else {
+                        showDialogForConfirmorder();
+                    }
                 }
 
             }
@@ -162,26 +166,31 @@ public class ViewProductActivity extends AppCompatActivity {
 
     }
 
-    private void showDialogForConfirmorder() {
+    private void showDialogForConfirmInstant() {
+
         AlertDialog.Builder dialogBuilder=new AlertDialog.Builder(ViewProductActivity.this, R.style.AlertDialogTheme).setCancelable(false);
-        View rowView= LayoutInflater.from(ViewProductActivity.this).inflate(R.layout.general_alert_dialog,null);
+        View rowView= LayoutInflater.from(ViewProductActivity.this).inflate(R.layout.instant_layout,null);
         dialogBuilder.setView(rowView);
         AlertDialog dialog = dialogBuilder.create();
         if (dialog.getWindow() != null) {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
         }
         TextView dialogTitleTextView=rowView.findViewById(R.id.dialogTitle);
+        EditText etNic=rowView.findViewById(R.id.et_nic);
         TextView dialogMessageTextView=rowView.findViewById(R.id.dialogText);
         TextView dialogCancelTextView=rowView.findViewById(R.id.dialogCancel);
         TextView dialogConfirmTextView=rowView.findViewById(R.id.dialogConfirm);
-        dialogConfirmTextView.setText("Confirm");
-
-        dialogTitleTextView.setText("Confirm order");
-        dialogMessageTextView.setText("Are you sure you want to purchase?");
+        dialogMessageTextView.setText("Need to give NIC number");
         dialogConfirmTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                orderProduct();
+                String nic=etNic.getText().toString();
+                if (TextUtils.isEmpty(nic)){
+                    Toast.makeText(ViewProductActivity.this, "Please enter NIC number", Toast.LENGTH_SHORT).show();
+                }else {
+                    orderProduct(nic);
+                }
+
                 /*Intent i = new Intent(Intent.ACTION_SEND);
                 i.setType("message/rfc822");
                 i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"painthamilan29@gmail.com"});
@@ -204,7 +213,49 @@ public class ViewProductActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private void orderProduct() {
+    private void showDialogForConfirmorder() {
+        AlertDialog.Builder dialogBuilder=new AlertDialog.Builder(ViewProductActivity.this, R.style.AlertDialogTheme).setCancelable(false);
+        View rowView= LayoutInflater.from(ViewProductActivity.this).inflate(R.layout.general_alert_dialog,null);
+        dialogBuilder.setView(rowView);
+        AlertDialog dialog = dialogBuilder.create();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        }
+        TextView dialogTitleTextView=rowView.findViewById(R.id.dialogTitle);
+        TextView dialogMessageTextView=rowView.findViewById(R.id.dialogText);
+        TextView dialogCancelTextView=rowView.findViewById(R.id.dialogCancel);
+        TextView dialogConfirmTextView=rowView.findViewById(R.id.dialogConfirm);
+        dialogConfirmTextView.setText("Confirm");
+
+        dialogTitleTextView.setText("Confirm order");
+        dialogMessageTextView.setText("Are you sure you want to purchase?");
+        dialogConfirmTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                orderProduct("NO_NIC");
+                /*Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("message/rfc822");
+                i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"painthamilan29@gmail.com"});
+                i.putExtra(Intent.EXTRA_SUBJECT, "subject of email");
+                i.putExtra(Intent.EXTRA_TEXT   , "body of email");
+                try {
+                    startActivity(Intent.createChooser(i, "Send mail..."));
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Toast.makeText(ViewProductActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                }*/
+            }
+        });
+        dialogCancelTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+    private void orderProduct(String nic) {
         phoneNum = etPhoneNumber.getText().toString();
         adress = etAdress.getText().toString();
         if (TextUtils.isEmpty(phoneNum) || TextUtils.isEmpty(adress)) {
@@ -220,7 +271,11 @@ public class ViewProductActivity extends AppCompatActivity {
             postMap.put("Counter", countPosts);
             postMap.put("PhoneNumber", phoneNum);
             postMap.put("Address", adress);
-            postMap.put("Status", "Not verified");
+            postMap.put("NIC", nic);
+            if (isInstant){
+                postMap.put("IsInstant", true);
+            }
+
             ordersref.child(curUserId + randomid).updateChildren(postMap).addOnCompleteListener(new OnCompleteListener() {
                 @Override
                 public void onComplete(@NonNull Task task) {
