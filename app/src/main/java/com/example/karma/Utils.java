@@ -21,4 +21,7 @@ public class Utils {
             window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
     }
+    public static boolean isAdmin(String userId){
+        return userId.equals(Constants.ADMIN_ID);
+    }
 }

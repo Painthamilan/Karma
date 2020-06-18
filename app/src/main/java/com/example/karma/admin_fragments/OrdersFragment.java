@@ -13,11 +13,12 @@ import androidx.fragment.app.Fragment;
 import com.example.karma.LoginActivity;
 import com.example.karma.R;
 import com.example.karma.ViewMyOrdersActivity;
+import com.example.karma.ViewSubCatsActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class OrdersFragment extends Fragment {
 private FirebaseAuth cfAuth;
-    TextView tvMyOrders,tvAddOffers;
+    TextView tvMyOrders,tvAddOffers,tvManageInstants;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -47,6 +48,18 @@ private FirebaseAuth cfAuth;
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(getActivity(), AddOffersActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        tvManageInstants=root.findViewById(R.id.tv_manage_instants);
+        tvManageInstants.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(), ViewSubCatsActivity.class);
+                intent.putExtra("CAT_NAME","Instant");
+                intent.putExtra("IsInstant",true);
+
                 startActivity(intent);
             }
         });
