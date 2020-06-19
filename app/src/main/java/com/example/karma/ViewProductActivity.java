@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.app.Notification;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -233,16 +234,7 @@ public class ViewProductActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 orderProduct("NO_NIC");
-                /*Intent i = new Intent(Intent.ACTION_SEND);
-                i.setType("message/rfc822");
-                i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"painthamilan29@gmail.com"});
-                i.putExtra(Intent.EXTRA_SUBJECT, "subject of email");
-                i.putExtra(Intent.EXTRA_TEXT   , "body of email");
-                try {
-                    startActivity(Intent.createChooser(i, "Send mail..."));
-                } catch (android.content.ActivityNotFoundException ex) {
-                    Toast.makeText(ViewProductActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
-                }*/
+
             }
         });
         dialogCancelTextView.setOnClickListener(new View.OnClickListener() {
@@ -273,6 +265,7 @@ public class ViewProductActivity extends AppCompatActivity {
             postMap.put("Address", adress);
             postMap.put("Price",price);
             postMap.put("Status","Not Verified");
+            postMap.put("Email",cfAuth.getCurrentUser().getEmail().toString());
             postMap.put("NIC", nic);
             if (isInstant){
                 postMap.put("IsInstant", true);

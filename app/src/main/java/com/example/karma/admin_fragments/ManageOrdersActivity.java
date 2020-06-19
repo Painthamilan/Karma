@@ -4,10 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.karma.R;
 import com.google.firebase.database.DataSnapshot;
@@ -22,7 +24,7 @@ public class ManageOrdersActivity extends AppCompatActivity {
     ImageView ivProductImage;
     TextView tvProductName,tvPhoneNumber,tvAddress,tvPrice,tvSelect;
     DatabaseReference orderRef;
-    String orderId,state;
+    String orderId,state,email;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +53,7 @@ public class ManageOrdersActivity extends AppCompatActivity {
                      tvPhoneNumber.setText(phone);
                      String address=dataSnapshot.child("Address").getValue().toString();
                      tvAddress.setText(address);
+                     email=dataSnapshot.child("Email").getValue().toString();
 
                  }
              }
@@ -72,22 +75,27 @@ public class ManageOrdersActivity extends AppCompatActivity {
                         case R.id.state_confirm_order:
                             state="Confirmed";
                             updateState("Confirmed",orderId);
+                            showPopup(state);
                             break;
                         case R.id.state_pack_order:
                             state="Packed";
                             updateState("Packed", orderId);
+                            showPopup(state);
                             break;
                         case R.id.state_carry_order:
                             state="On the way";
                             updateState("On the way", orderId);
+                            showPopup(state);
                             break;
                         case R.id.state_deliver_order:
                             state="Delivered";
                             updateState("Delivered", orderId);
+                            showPopup(state);
                             break;
                         case R.id.state_return_order:
                             state="Returned";
                             updateState("Returned", orderId);
+                            showPopup(state);
                             break;
                     }
                     return true;
@@ -98,8 +106,57 @@ public class ManageOrdersActivity extends AppCompatActivity {
 
     }
 
+    private void showPopup(String state) {
+        switch (state) {
+            case "Confirmed":
+                sendMessage("Order Confirmed","Your oeder is confirmed. You can see more details by D2D App ==> Profile ==> My Orders.  \n" +
+                        "Thank you foe using D2D");
+                break;
+            case "Packed":
+                 sendMessage("Order Packed","Your oeder is packed. You can see more details by D2D App ==> Profile ==> My Orders.  \n" +
+                        "Thank you foe using D2D");
+                break;
+            case "On the way":
+                sendMessage("Order on the way","Your oeder is on the way. You can see more details by D2D App ==> Profile ==> My Orders.  \n" +
+                        "Thank you foe using D2D");
+                break;
+            case "Delivered":
+                sendMessage("Order Delivered","Your oeder is delivered. You can see more details by D2D App ==> Profile ==> My Orders.  \n" +
+                        "Thank you foe using D2D");
+                break;
+            case "Returned":
+                sendMessage("Return accepted","Your oeder is returned. You can see more details by D2D App ==> Profile ==> My Orders.  \n" +
+                        "Thank you foe yousing D2D");
+                break;
+        }
+         /*Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("message/rfc822");
+                i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"painthamilan29@gmail.com"});
+                i.putExtra(Intent.EXTRA_SUBJECT, "subject of email");
+                i.putExtra(Intent.EXTRA_TEXT   , "body of email");
+                try {
+                    startActivity(Intent.createChooser(i, "Send mail..."));
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Toast.makeText(ViewProductActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                }*/
+
+    }
+
     private void updateState(String state, String orderId) {
         orderRef=FirebaseDatabase.getInstance().getReference().child("Orders").child(orderId);
         orderRef.child("Status").setValue(state);
+    }
+    private void sendMessage(String title, String message) {
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("message/rfc822");
+        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{email});
+        i.putExtra(Intent.EXTRA_SUBJECT, title);
+        i.putExtra(Intent.EXTRA_TEXT   , message);
+        try {
+            startActivity(Intent.createChooser(i, "Send mail..."));
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(ManageOrdersActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }
