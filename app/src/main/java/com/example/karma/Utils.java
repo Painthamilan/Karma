@@ -9,7 +9,12 @@ import android.view.WindowManager;
 
 import androidx.annotation.RequiresApi;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+
 public class Utils {
+
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     public static void setTopBar(Window window, Resources resources) {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
@@ -23,5 +28,9 @@ public class Utils {
     }
     public static boolean isAdmin(String userId){
         return userId.equals(Constants.ADMIN_ID);
+    }
+    public static String getUserid(){
+        FirebaseAuth cfAuth=FirebaseAuth.getInstance();
+        return cfAuth.getCurrentUser().getUid();
     }
 }

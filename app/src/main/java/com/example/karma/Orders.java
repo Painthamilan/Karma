@@ -7,16 +7,20 @@ public class Orders {
     String ProductImage;
     String UserId;
     String Status;
+    String PhoneNumber;
+    String Address;
 
     public Orders() {
     }
 
-    public Orders(String productId, String productName, String productImage, String userId, String status) {
+    public Orders(String productId, String productName, String productImage, String userId, String status, String phoneNumber, String address) {
         ProductId = productId;
         ProductName = productName;
         ProductImage = productImage;
         UserId = userId;
         Status = status;
+        PhoneNumber = phoneNumber;
+        Address = address;
     }
 
     public String getProductId() {
@@ -57,5 +61,21 @@ public class Orders {
 
     public void setStatus(String status) {
         Status = status;
+    }
+
+    public String getPhoneNumber() {
+        return PhoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        PhoneNumber = phoneNumber;
+    }
+
+    public String getAddress() {
+        return Address;
+    }
+
+    public void setAddress(String address) {
+        Address = address;
     }
 }

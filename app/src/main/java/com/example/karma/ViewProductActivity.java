@@ -271,6 +271,8 @@ public class ViewProductActivity extends AppCompatActivity {
             postMap.put("Counter", countPosts);
             postMap.put("PhoneNumber", phoneNum);
             postMap.put("Address", adress);
+            postMap.put("Price",price);
+            postMap.put("Status","Not Verified");
             postMap.put("NIC", nic);
             if (isInstant){
                 postMap.put("IsInstant", true);

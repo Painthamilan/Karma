@@ -30,7 +30,7 @@ private FirebaseAuth cfAuth;
         tvMyOrders.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getActivity(), ViewMyOrdersActivity.class);
+                Intent intent=new Intent(getActivity(), ViewAllOrdersActivity.class);
                 startActivity(intent);
             }
         });

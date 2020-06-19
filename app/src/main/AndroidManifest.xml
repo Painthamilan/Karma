@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_new_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.Light.NoActionBar">
-        <activity android:name=".ViewAllOffersActivity"></activity>
+        <activity android:name=".admin_fragments.ManageOrdersActivity"></activity>
+        <activity android:name=".admin_fragments.ViewAllOrdersActivity" />
+        <activity android:name=".ViewAllOffersActivity" />
         <activity android:name=".admin_fragments.AddOffersActivity" />
         <activity android:name=".ViewMyOrdersActivity" />
         <activity android:name=".ViewItemsActivity" />
