@@ -45,7 +45,7 @@
         android:background="@drawable/all_button_background"
         android:paddingHorizontal="20dp"
         android:paddingVertical="8dp"
-        android:text="Add offers"
+        android:text="Manage Instants"
         android:textAlignment="center"
         android:textSize="20sp"
         android:textStyle="bold"

@@ -91,9 +91,11 @@ public class SignupActivity extends AppCompatActivity {
         userRef.child(currentUser).child("DisplayName").setValue(name);
         if (cfAuth.getCurrentUser().getUid().equals(Constants.ADMIN_ID)){
             Intent intent=new Intent(SignupActivity.this,AdminBottomBarActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }else {
             Intent intent=new Intent(SignupActivity.this,BottomBarActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
     }

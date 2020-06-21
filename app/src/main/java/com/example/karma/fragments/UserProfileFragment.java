@@ -2,28 +2,63 @@ package com.example.karma.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.example.karma.LoginActivity;
 import com.example.karma.R;
+import com.example.karma.UpdateProfileActivity;
 import com.example.karma.ViewMyOrdersActivity;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 public class UserProfileFragment extends Fragment {
     FirebaseAuth cfAuth;
-    TextView tvMyOrders;
+    TextView tvMyOrders,tvName,tvUpdateProfile;
+    ImageView ivImage;
+    ConstraintLayout layoutProfile,layoutLogin;
+    String userId;
+    DatabaseReference cfUserRef;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_user_notifications, container, false);
+        cfAuth=FirebaseAuth.getInstance();
+        userId=cfAuth.getCurrentUser().getUid();
         final TextView textView = root.findViewById(R.id.text_notifications);
         tvMyOrders=root.findViewById(R.id.tv_my_orders);
+        layoutProfile=root.findViewById(R.id.constraint_layout_ptofile);
+        layoutLogin=root.findViewById(R.id.constraint_layout_not_logged_in);
+        tvName=root.findViewById(R.id.tv_name);
+        ivImage=root.findViewById(R.id.iv_profile);
+        tvUpdateProfile=root.findViewById(R.id.tv_update_profile);
+
+
+        if (TextUtils.isEmpty(userId)){
+            layoutLogin.setVisibility(View.VISIBLE);
+            layoutProfile.setVisibility(View.INVISIBLE);
+        }else {
+            
+            layoutProfile.setVisibility(View.VISIBLE);
+            layoutLogin.setVisibility(View.INVISIBLE);
+            showProfile(userId);
+        }
+
+
+
         tvMyOrders.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -31,7 +66,15 @@ public class UserProfileFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        cfAuth=FirebaseAuth.getInstance();
+
+        tvUpdateProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(), UpdateProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+
         textView.setText("Logout");
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,5 +87,30 @@ public class UserProfileFragment extends Fragment {
         });
 
         return root;
+    }
+
+    private void showProfile(String userId) {
+        cfUserRef= FirebaseDatabase.getInstance().getReference().child("User").child(userId);
+        cfUserRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+               if (dataSnapshot.exists()){
+                   try {
+                       String profileImage=cfAuth.getCurrentUser().getPhotoUrl().toString();
+                       Picasso.get().load(profileImage).into(ivImage);
+                   }catch (Exception e){
+                       e.printStackTrace();
+                   }
+
+                   String name=dataSnapshot.child("DisplayName").getValue().toString();
+                   tvName.setText(name);
+               }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

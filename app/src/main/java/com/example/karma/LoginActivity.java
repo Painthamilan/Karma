@@ -83,9 +83,11 @@ public class LoginActivity extends AppCompatActivity {
     private void validateProfile() {
         if (cfAuth.getCurrentUser().getUid().equals(Constants.ADMIN_ID)){
             Intent intent=new Intent(LoginActivity.this,AdminBottomBarActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }else {
             Intent intent=new Intent(LoginActivity.this,BottomBarActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
     }
