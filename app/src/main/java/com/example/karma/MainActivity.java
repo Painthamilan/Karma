@@ -46,7 +46,7 @@ String curUserId;
     protected void onStart() {
         super.onStart();
         if(curUserId==null){
-         Intent intent=new Intent(MainActivity.this,LoginActivity.class);
+         Intent intent=new Intent(MainActivity.this,BottomBarActivity.class);
          startActivity(intent);
 
         }

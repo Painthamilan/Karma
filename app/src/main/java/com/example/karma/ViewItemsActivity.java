@@ -14,6 +14,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,18 +27,24 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 public class ViewItemsActivity extends AppCompatActivity {
-    String catName,catImage,mainCatName,userId;
-    DatabaseReference subCatRef,instantsRef;
+    String catName, catImage, mainCatName, userId;
+    DatabaseReference subCatRef, instantsRef;
     Query mainRef;
     RecyclerView rvCats;
     FirebaseAuth cfAuth;
-    boolean isInstant,isAdmin;
+    boolean isInstant, isAdmin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_items);
         cfAuth=FirebaseAuth.getInstance();
-        userId=cfAuth.getCurrentUser().getUid();
+        if (cfAuth.getCurrentUser() != null) {
+            userId = cfAuth.getCurrentUser().getUid().toString();
+        }else {
+            userId="bkblkhlkhlhjg";
+        }
+
         catName=getIntent().getStringExtra("CAT_NAME");
         mainCatName=getIntent().getStringExtra("MAIN_CAT_NAME");
         isInstant=getIntent().getBooleanExtra("IsInstant",false);
@@ -49,7 +56,7 @@ public class ViewItemsActivity extends AppCompatActivity {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager.setReverseLayout(true);
         mLayoutManager.setStackFromEnd(true);
-        mLayoutManager=new GridLayoutManager(ViewItemsActivity.this,3);
+        mLayoutManager = new GridLayoutManager(ViewItemsActivity.this, 3);
         // Set the layout manager to your recyclerview
         rvCats.setLayoutManager(mLayoutManager);
 
@@ -121,7 +128,10 @@ public class ViewItemsActivity extends AppCompatActivity {
             tvPrice=cfView.findViewById(R.id.price);
             ivDownArrow=cfView.findViewById(R.id.iv_down_arrow);
             cfAuth=FirebaseAuth.getInstance();
-            userId=cfAuth.getCurrentUser().getUid();
+            if (cfAuth.getCurrentUser() != null) {
+                userId = cfAuth.getCurrentUser().getUid().toString();
+            }
+           // userId=cfAuth.getCurrentUser().getUid();
 
         }
 

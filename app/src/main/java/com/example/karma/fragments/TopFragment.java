@@ -164,8 +164,10 @@ public class TopFragment extends Fragment {
             tvPrice=cfView.findViewById(R.id.tv_price);
             tvProductName=cfView.findViewById(R.id.tv_item_name);
             ivproductImage=cfView.findViewById(R.id.iv_item_image);
+            if (cfAuth.getCurrentUser() != null) {
+                userId=cfAuth.getCurrentUser().getUid();
+            }
 
-            userId=cfAuth.getCurrentUser().getUid();
 
             topRef=FirebaseDatabase.getInstance().getReference().child("TopItems");
 
@@ -199,10 +201,13 @@ public class TopFragment extends Fragment {
             tvProductName=cfView.findViewById(R.id.tv_product_name);
             ivproductImage=cfView.findViewById(R.id.iv_product_image);
             ivDropArrow=cfView.findViewById(R.id.iv_down_arrow);
-            userId=cfAuth.getCurrentUser().getUid();
-            if (!userId.equals(Constants.ADMIN_ID)){
-                ivDropArrow.setVisibility(View.INVISIBLE);
+            if (cfAuth.getCurrentUser() != null) {
+                userId=cfAuth.getCurrentUser().getUid();
+                if (!userId.equals(Constants.ADMIN_ID)){
+                    ivDropArrow.setVisibility(View.INVISIBLE);
+                }
             }
+
             topRef=FirebaseDatabase.getInstance().getReference().child("TopItems");
 
         }

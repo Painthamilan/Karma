@@ -27,7 +27,7 @@ public class Utils {
         }
     }
     public static boolean isAdmin(String userId){
-        return userId.equals(Constants.ADMIN_ID);
+        return Constants.ADMIN_ID.equals(userId);
     }
     public static String getUserid(){
         FirebaseAuth cfAuth=FirebaseAuth.getInstance();

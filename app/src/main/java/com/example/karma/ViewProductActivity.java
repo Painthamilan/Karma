@@ -57,7 +57,13 @@ public class ViewProductActivity extends AppCompatActivity {
         tvPrice=findViewById(R.id.tv_price);
         tvOrder=findViewById(R.id.tv_order);
         cfAuth=FirebaseAuth.getInstance();
-        curUserId=cfAuth.getCurrentUser().getUid();
+        if (cfAuth.getCurrentUser() != null) {
+            curUserId = cfAuth.getCurrentUser().getUid().toString();
+            if (curUserId.equals(Constants.ADMIN_ID)){
+                tvOrder.setVisibility(View.INVISIBLE);
+            }
+        }
+       // curUserId=cfAuth.getCurrentUser().getUid();
         etAdress=findViewById(R.id.et_adress);
         tvSpecs=findViewById(R.id.tv_specifications);
         etPhoneNumber=findViewById(R.id.et_phone_number);
@@ -69,9 +75,7 @@ public class ViewProductActivity extends AppCompatActivity {
 
 
 
-        if (curUserId.equals(Constants.ADMIN_ID)){
-            tvOrder.setVisibility(View.INVISIBLE);
-        }
+
         ordersref= FirebaseDatabase.getInstance().getReference().child("Orders");
         if (isOffer){
             actualPrice=getIntent().getStringExtra("ActualPrice");

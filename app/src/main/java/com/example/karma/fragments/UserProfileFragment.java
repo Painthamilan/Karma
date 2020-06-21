@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.karma.LoginActivity;
 import com.example.karma.R;
+import com.example.karma.SignupActivity;
 import com.example.karma.UpdateProfileActivity;
 import com.example.karma.ViewMyOrdersActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,7 +28,7 @@ import com.squareup.picasso.Picasso;
 
 public class UserProfileFragment extends Fragment {
     FirebaseAuth cfAuth;
-    TextView tvMyOrders,tvName,tvUpdateProfile;
+    TextView tvMyOrders,tvName,tvUpdateProfile,tvLogin,tvSignup;
     ImageView ivImage;
     ConstraintLayout layoutProfile,layoutLogin;
     String userId;
@@ -37,7 +38,10 @@ public class UserProfileFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_user_notifications, container, false);
         cfAuth=FirebaseAuth.getInstance();
-        userId=cfAuth.getCurrentUser().getUid();
+        if (cfAuth.getCurrentUser() != null) {
+            userId=cfAuth.getCurrentUser().getUid();
+        }
+
         final TextView textView = root.findViewById(R.id.text_notifications);
         tvMyOrders=root.findViewById(R.id.tv_my_orders);
         layoutProfile=root.findViewById(R.id.constraint_layout_ptofile);
@@ -45,6 +49,22 @@ public class UserProfileFragment extends Fragment {
         tvName=root.findViewById(R.id.tv_name);
         ivImage=root.findViewById(R.id.iv_profile);
         tvUpdateProfile=root.findViewById(R.id.tv_update_profile);
+        tvLogin=root.findViewById(R.id.tv_login);
+        tvSignup=root.findViewById(R.id.tv_signin);
+        tvLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(), LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+        tvSignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(), SignupActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
         if (TextUtils.isEmpty(userId)){

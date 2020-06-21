@@ -94,9 +94,12 @@ public class ViewAllOffersActivity extends AppCompatActivity {
             ivDropArrow=cfView.findViewById(R.id.iv_down_arrow);
             tvNewPrice=cfView.findViewById(R.id.tv_new_price);
             tvPercentage=cfView.findViewById(R.id.tv_percentage);
-            userId=cfAuth.getCurrentUser().getUid();
-            if (!userId.equals(Constants.ADMIN_ID)){
-                ivDropArrow.setVisibility(View.INVISIBLE);
+
+            if (cfAuth.getCurrentUser() != null) {
+                userId=cfAuth.getCurrentUser().getUid();
+                if (userId.equals(Constants.ADMIN_ID)){
+                    ivDropArrow.setVisibility(View.VISIBLE);
+                }
             }
 
         }
