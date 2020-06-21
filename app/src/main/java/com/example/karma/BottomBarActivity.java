@@ -1,8 +1,11 @@
 package com.example.karma;
 
+import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.inputmethod.InputMethodManager;
 
+import com.example.karma.fragments.TopFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.RequiresApi;
@@ -29,6 +32,7 @@ public class BottomBarActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 //      NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+
     }
 
 }

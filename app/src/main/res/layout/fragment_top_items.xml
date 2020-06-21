@@ -6,119 +6,179 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     <androidx.constraintlayout.widget.ConstraintLayout
-
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/black">
+        <TextView
+            android:id="@+id/tv_home"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:clickable="true"
 
-        android:background="@drawable/main_theme">
+            android:background="@drawable/general_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_d2d"
+            android:layout_width="50dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="4dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/launcher_transparant"
+            android:text="Door To Delivery"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/et_search_bar"
+            app:layout_constraintEnd_toStartOf="@+id/tv_d2d"
+            app:layout_constraintTop_toTopOf="@+id/tv_home" />
+
+        <TextView
+            android:id="@+id/tv_d2d"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="Door To Delivery"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:fontFamily="@font/d2d_font"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/tv_home"
+            app:layout_constraintStart_toStartOf="@+id/tv_home"
+            app:layout_constraintTop_toTopOf="@+id/iv_d2d" />
+
+        <EditText
+            android:id="@+id/et_search_bar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/layout_background"
+            android:focusableInTouchMode="true"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="2dp"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_home"
+            app:layout_constraintEnd_toEndOf="@+id/tv_home"
+            app:layout_constraintStart_toStartOf="@+id/tv_home" />
+
 
         <TextView
             android:id="@+id/text_home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:textAllCaps="true"
+            android:paddingVertical="4dp"
+            android:paddingHorizontal="10dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:text="Top Items"
+            android:text="Top Products"
             android:textAlignment="textStart"
-            android:textColor="@color/blue"
+            android:textColor="@color/white"
             android:textSize="16sp"
-            android:textStyle="bold|italic"
+            android:textStyle="bold"
+            android:background="@drawable/general_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/tv_home" />
 
         <TextView
             android:id="@+id/recent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:textAllCaps="true"
+            android:paddingVertical="4dp"
+            android:paddingHorizontal="10dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="8dp"
-            android:text="Recently Added"
+            android:text="Recently added"
             android:textAlignment="textStart"
-            android:textColor="@color/blue"
+            android:textColor="@color/white"
             android:textSize="16sp"
-            android:textStyle="bold|italic"
+            android:textStyle="bold"
+            android:background="@drawable/general_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_instants" />
+            app:layout_constraintTop_toBottomOf="@id/iv_offers" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/recent" />
 
-        <ImageView
+        <TextView
             android:id="@+id/iv_offers"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="8dp"
-            android:background="@color/white"
-            android:scaleType="fitStart"
-            android:src="@drawable/offers"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rv_top" />
-
-        <TextView
-            android:id="@+id/tv_offers"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:textAllCaps="true"
+            android:paddingVertical="8dp"
+            android:paddingHorizontal="10dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:text="Offer Zone"
+            android:text="Special offers"
             android:textAlignment="textStart"
-            android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textColor="@color/yellow"
+            android:textSize="25sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/iv_offers"
-            app:layout_constraintEnd_toEndOf="@id/iv_offers"
-            app:layout_constraintTop_toTopOf="@id/iv_offers" />
+            android:background="@drawable/radius_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rv_instants" />
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_topItems"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginTop="4dp"
-            app:layout_constraintBottom_toTopOf="@+id/guideline"
+            android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_home" />
 
-        <ImageView
-            android:id="@+id/iv_instants"
+        <TextView
+            android:id="@+id/tv_instants"
             android:layout_width="match_parent"
-            android:layout_height="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textAllCaps="true"
+            android:paddingVertical="4dp"
+            android:paddingHorizontal="10dp"
             android:layout_marginTop="8dp"
-            android:background="@color/white"
-            android:scaleType="fitStart"
-            android:src="@drawable/instant_delivery"
+            android:layout_marginEnd="8dp"
+            android:text="Instant delivery products"
+            android:textAlignment="textStart"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:background="@drawable/general_background"
             app:layout_constraintEnd_toEndOf="parent"
 
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rv_topItems" />
 
-        <TextView
-            android:id="@+id/tv_instant"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:text="Instant Delivery"
-            android:textAlignment="textStart"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/iv_instants"
-            app:layout_constraintEnd_toEndOf="@id/iv_instants"
-            app:layout_constraintTop_toTopOf="@id/iv_instants" />
-
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_instants"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_instants" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"
@@ -126,5 +186,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="175dp" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

@@ -18,7 +18,7 @@ public class Utils {
     @RequiresApi(api = Build.VERSION_CODES.M)
     public static void setTopBar(Window window, Resources resources) {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            Drawable background = resources.getDrawable(R.drawable.main_theme);
+            Drawable background = resources.getDrawable(R.drawable.general_background);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(resources.getColor(android.R.color.transparent));
             window.setNavigationBarColor(resources.getColor(android.R.color.transparent));

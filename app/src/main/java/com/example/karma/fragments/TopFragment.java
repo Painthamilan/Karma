@@ -1,25 +1,31 @@
 package com.example.karma.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.karma.Constants;
 import com.example.karma.Products;
 import com.example.karma.R;
+import com.example.karma.RoundedCorners;
 import com.example.karma.Top;
 import com.example.karma.ViewAllOffersActivity;
+import com.example.karma.ViewItemsActivity;
 import com.example.karma.ViewProductActivity;
 import com.example.karma.ViewSubCatsActivity;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -32,9 +38,10 @@ import com.squareup.picasso.Picasso;
 public class TopFragment extends Fragment {
     private FirebaseAuth cfAuth;
     private String curUserId;
-    private RecyclerView rvProducts,rvTopFragments;
-    private DatabaseReference cfPostRef,topRef;
-    private ImageView ivInstant,ivOffers;
+    EditText etSearch;
+    private RecyclerView rvProducts,rvTopFragments,rvInstants;
+    private DatabaseReference cfPostRef,topRef,instantsRef;
+    private TextView ivInstant,ivOffers;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -43,6 +50,9 @@ public class TopFragment extends Fragment {
         rvProducts=root.findViewById(R.id.rv_top);
         rvTopFragments=root.findViewById(R.id.rv_topItems);
         ivOffers=root.findViewById(R.id.iv_offers);
+        rvInstants=root.findViewById(R.id.rv_instants);
+        etSearch=root.findViewById(R.id.et_search_bar);
+
         ivOffers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,36 +60,36 @@ public class TopFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        ivInstant=root.findViewById(R.id.iv_instants);
-        ivInstant.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showInstants();
-            }
-        });
-        rvProducts.setHasFixedSize(true);
-        // rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
-       // LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
 
+        rvProducts.setHasFixedSize(true);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
         mLayoutManager.setReverseLayout(true);
         mLayoutManager.setStackFromEnd(true);
-        // Set the layout manager to your recyclerview
         rvProducts.setLayoutManager(mLayoutManager);
 
+
+        rvInstants.setHasFixedSize(true);
+        LinearLayoutManager instantsLayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
+        instantsLayoutManager.setStackFromEnd(true);
+        rvInstants.setLayoutManager(instantsLayoutManager);
+
+
+
         rvTopFragments.setHasFixedSize(true);
-        // rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
         LinearLayoutManager horizontalYalayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false
         );
         horizontalYalayoutManager.setStackFromEnd(true);
-
-        // Set the layout manager to your recyclerview
         rvTopFragments.setLayoutManager(horizontalYalayoutManager);
+
         showTop(horizontalYalayoutManager);
+        showHomeInstants();
         showAllProducts();
+
         
         return root;
     }
+
+
 
     private void showInstants() {
         Intent intent=new Intent(getActivity(), ViewSubCatsActivity.class);
@@ -118,6 +128,38 @@ public class TopFragment extends Fragment {
                     }
                 };
         rvTopFragments.setAdapter(firebaseRecyclerAdapter);
+    }
+
+    private void showHomeInstants() {
+        instantsRef = FirebaseDatabase.getInstance().getReference().child("Instants");
+        Query searchPeopleAndFriendsQuery = instantsRef.orderByChild("Counter");
+        FirebaseRecyclerAdapter<Products, TopViewHolder> firebaseRecyclerAdapter =
+                new FirebaseRecyclerAdapter<Products, TopViewHolder>(
+                        Products.class,
+                        R.layout.top_layout,
+                        TopViewHolder.class,
+                        searchPeopleAndFriendsQuery
+
+                ) {
+                    @Override
+                    protected void populateViewHolder(TopViewHolder postViewHolder, Products model, int position) {
+                        String postKey = getRef(position).getKey();
+                        postViewHolder.setPrice(model.getPrice());
+                        postViewHolder.setProductImage(model.getProductImage());
+                        postViewHolder.setProductName(model.getProductName());
+                        postViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent=new Intent(getActivity(), ViewProductActivity.class);
+                                intent.putExtra("REF_KEY",model.getProductId());
+                                intent.putExtra("isOffer",false);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                };
+        rvInstants.setAdapter(firebaseRecyclerAdapter);
+
     }
 
     private void showAllProducts() {
@@ -183,7 +225,7 @@ public class TopFragment extends Fragment {
         }
 
         public void setProductImage(String productImage) {
-            Picasso.get().load(productImage).into(ivproductImage);
+            Picasso.get().load(productImage).transform(new RoundedCorners(80, 0)).into(ivproductImage);
         }
 
     }
@@ -199,8 +241,9 @@ public class TopFragment extends Fragment {
             cfView = itemView;
             tvPrice=cfView.findViewById(R.id.price);
             tvProductName=cfView.findViewById(R.id.tv_product_name);
+            tvProductName.setSelected(true);
             ivproductImage=cfView.findViewById(R.id.iv_product_image);
-            ivDropArrow=cfView.findViewById(R.id.iv_down_arrow);
+                    ivDropArrow=cfView.findViewById(R.id.iv_down_arrow);
             if (cfAuth.getCurrentUser() != null) {
                 userId=cfAuth.getCurrentUser().getUid();
                 if (!userId.equals(Constants.ADMIN_ID)){
@@ -222,7 +265,7 @@ public class TopFragment extends Fragment {
         }
 
         public void setProductImage(String productImage) {
-            Picasso.get().load(productImage).into(ivproductImage);
+            Picasso.get().load(productImage).transform(new RoundedCorners(80, 0)).into(ivproductImage);
         }
         public void dropDownClicker(String name,String image,String price,String postId, Context context) {
             PopupMenu popup = new PopupMenu(context,ivDropArrow);

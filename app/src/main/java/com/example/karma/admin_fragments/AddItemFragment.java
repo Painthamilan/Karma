@@ -433,6 +433,8 @@ public class AddItemFragment extends Fragment {
         postMap.put("ProductImage",downloadUrl);
         postMap.put("Specifications",etSpecifications.getText().toString());
         postMap.put("Counter", countPosts);
+        postMap.put("IsInstant", isinstant);
+
         itemsRef.child(randomid).updateChildren(postMap).addOnCompleteListener(new OnCompleteListener() {
             @Override
             public void onComplete(@NonNull Task task) {

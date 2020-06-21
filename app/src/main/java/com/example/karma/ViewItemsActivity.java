@@ -65,7 +65,7 @@ public class ViewItemsActivity extends AppCompatActivity {
 
     private void shoeAllItems() {
         if (Utils.isAdmin(userId)) {
-            mainRef=instantsRef;
+            mainRef=subCatRef;
         }else{
             if (isInstant){
                 mainRef=instantsRef.orderByChild("IsAvailable").equalTo("Yes");
