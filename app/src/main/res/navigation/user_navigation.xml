@@ -21,6 +21,6 @@
             android:id="@+id/navigation_notifications"
             android:name="com.example.karma.fragments.UserProfileFragment"
             android:label="Profile"
-            tools:layout="@layout/fragment_user_notifications" />
+            tools:layout="@layout/fragment_user_profile" />
             -->
     </navigation>

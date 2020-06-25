@@ -1,11 +1,7 @@
 package com.example.karma;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.inputmethod.InputMethodManager;
 
 import com.example.karma.fragments.RefreshableFragment;
 import com.example.karma.fragments.ShopFragment;
@@ -17,10 +13,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import java.util.List;
 
@@ -79,7 +71,7 @@ public class BottomBarActivity extends AppCompatActivity {
             if (fragment == null) {
                 transaction.add(R.id.nav_host_fragment, shop, Utils.CURRENT_NAVIGATION_BAR + "").show(shop);
             }
-        } else if (R.id.navigation_notifications == Utils.CURRENT_NAVIGATION_BAR) {
+        } else if (R.id.navigation_profile == Utils.CURRENT_NAVIGATION_BAR) {
             if (fragment == null) {
                 transaction.add(R.id.nav_host_fragment, profile, Utils.CURRENT_NAVIGATION_BAR + "").show(profile);
             }

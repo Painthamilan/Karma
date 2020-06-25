@@ -71,26 +71,36 @@
             app:layout_constraintEnd_toEndOf="@+id/tv_home"
             app:layout_constraintStart_toStartOf="@+id/tv_home" />
 
+        <ImageView
+            android:id="@+id/iv_offer_of_day"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/offer_of_day"
+            android:text="Door To Delivery"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="@+id/et_search_bar"
+            app:layout_constraintStart_toStartOf="@+id/et_search_bar"
+            app:layout_constraintTop_toBottomOf="@+id/et_search_bar"
+            app:layout_constraintBottom_toBottomOf="@id/guideline2"/>
 
         <TextView
             android:id="@+id/text_home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:textAllCaps="true"
-            android:paddingVertical="4dp"
-            android:paddingHorizontal="10dp"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:background="@drawable/general_background"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="4dp"
             android:text="Top Products"
             android:textAlignment="textStart"
+            android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:background="@drawable/general_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_home" />
+            app:layout_constraintTop_toBottomOf="@+id/iv_offer_of_day" />
 
         <TextView
             android:id="@+id/recent"
@@ -174,11 +184,11 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_instants"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="@+id/rv_topItems"
+            app:layout_constraintStart_toStartOf="@+id/rv_topItems"
             app:layout_constraintTop_toBottomOf="@+id/tv_instants" />
 
         <androidx.constraintlayout.widget.Guideline
@@ -187,6 +197,12 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="175dp" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="160dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

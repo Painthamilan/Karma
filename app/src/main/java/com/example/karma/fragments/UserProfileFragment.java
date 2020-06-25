@@ -36,7 +36,7 @@ public class UserProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.fragment_user_notifications, container, false);
+        View root = inflater.inflate(R.layout.fragment_user_profile, container, false);
         cfAuth=FirebaseAuth.getInstance();
         if (cfAuth.getCurrentUser() != null) {
             userId=cfAuth.getCurrentUser().getUid();

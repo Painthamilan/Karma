@@ -12,7 +12,7 @@
         android:title="Shop" />
 
     <item
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_profile"
         android:icon="@drawable/cf_profile"
         android:title="Profile" />
 

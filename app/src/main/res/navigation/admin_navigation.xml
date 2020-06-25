@@ -23,7 +23,7 @@
         tools:layout="@layout/fragment_add_catagories" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_profile"
         android:name="com.example.karma.admin_fragments.OrdersFragment"
         android:label="View orders"
         tools:layout="@layout/fragment_orders" />

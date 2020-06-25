@@ -1,14 +1,11 @@
 package com.example.karma.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,8 +13,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,7 +22,6 @@ import com.example.karma.R;
 import com.example.karma.RoundedCorners;
 import com.example.karma.Top;
 import com.example.karma.ViewAllOffersActivity;
-import com.example.karma.ViewItemsActivity;
 import com.example.karma.ViewProductActivity;
 import com.example.karma.ViewSubCatsActivity;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -44,7 +38,6 @@ public class TopFragment extends Fragment {
     private RecyclerView rvProducts,rvTopFragments,rvInstants;
     private DatabaseReference cfPostRef,topRef,instantsRef;
     private TextView ivInstant,ivOffers;
-    LinearLayoutManager horizontalYalayoutManager;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -78,14 +71,13 @@ public class TopFragment extends Fragment {
 
 
         rvTopFragments.setHasFixedSize(true);
-         horizontalYalayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false
-        );
+        LinearLayoutManager horizontalYalayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
         horizontalYalayoutManager.setStackFromEnd(true);
         rvTopFragments.setLayoutManager(horizontalYalayoutManager);
 
-        showTop(horizontalYalayoutManager);
-        showHomeInstants();
         showAllProducts();
+        showHomeInstants();
+        showTop();
 
         
         return root;
@@ -102,7 +94,7 @@ public class TopFragment extends Fragment {
         startActivity(intent);
     }
 
-    private void showTop(LinearLayoutManager horizontalYalayoutManager) {
+    private void showTop() {
         topRef = FirebaseDatabase.getInstance().getReference().child("TopItems");
         Query searchPeopleAndFriendsQuery = topRef.orderByChild("Rank");
         FirebaseRecyclerAdapter<Top, TopViewHolder> firebaseRecyclerAdapter =
