@@ -54,7 +54,7 @@
             app:layout_constraintStart_toStartOf="@+id/tv_home"
             app:layout_constraintTop_toTopOf="@+id/iv_d2d" />
 
-        <EditText
+        <TextView
             android:id="@+id/et_search_bar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

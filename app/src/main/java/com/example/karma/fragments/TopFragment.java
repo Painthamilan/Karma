@@ -20,6 +20,7 @@ import com.example.karma.Constants;
 import com.example.karma.Products;
 import com.example.karma.R;
 import com.example.karma.RoundedCorners;
+import com.example.karma.SearchActivity;
 import com.example.karma.Top;
 import com.example.karma.ViewAllOffersActivity;
 import com.example.karma.ViewProductActivity;
@@ -34,7 +35,7 @@ import com.squareup.picasso.Picasso;
 public class TopFragment extends Fragment {
     private FirebaseAuth cfAuth;
     private String curUserId;
-    EditText etSearch;
+    TextView etSearch;
     private RecyclerView rvProducts,rvTopFragments,rvInstants;
     private DatabaseReference cfPostRef,topRef,instantsRef;
     private TextView ivInstant,ivOffers;
@@ -48,6 +49,14 @@ public class TopFragment extends Fragment {
         ivOffers=root.findViewById(R.id.iv_offers);
         rvInstants=root.findViewById(R.id.rv_instants);
         etSearch=root.findViewById(R.id.et_search_bar);
+
+        etSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(), SearchActivity.class);
+                startActivity(intent);
+            }
+        });
 
         ivOffers.setOnClickListener(new View.OnClickListener() {
             @Override

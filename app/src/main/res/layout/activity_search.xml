@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SearchActivity">
+    <TextView
+        android:id="@+id/tv_home"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:clickable="true"
+
+        android:background="@drawable/general_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_d2d"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="4dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/launcher_transparant"
+        android:text="Door To Delivery"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/et_search_bar"
+        app:layout_constraintEnd_toStartOf="@+id/tv_d2d"
+        app:layout_constraintTop_toTopOf="@+id/tv_home" />
+
+    <TextView
+        android:id="@+id/tv_d2d"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:text="Door To Delivery"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:fontFamily="@font/d2d_font"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/tv_home"
+        app:layout_constraintStart_toStartOf="@+id/tv_home"
+        app:layout_constraintTop_toTopOf="@+id/iv_d2d" />
+
+    <EditText
+        android:id="@+id/et_search_bar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/layout_background"
+        android:focusableInTouchMode="true"
+        android:hint="Search"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="2dp"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_home"
+        app:layout_constraintEnd_toStartOf="@+id/iv_search"
+        app:layout_constraintStart_toStartOf="@+id/tv_home" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_search"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_home" />
+
+    <ImageView
+        android:id="@+id/iv_search"
+        android:layout_width="30dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="10dp"
+        android:tint="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/et_search_bar"
+        app:layout_constraintEnd_toEndOf="@+id/tv_home"
+        app:layout_constraintTop_toTopOf="@+id/et_search_bar"
+        app:srcCompat="@drawable/ic_search_black_48dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

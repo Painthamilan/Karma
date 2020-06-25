@@ -3,6 +3,8 @@ package com.example.karma;
 import android.os.Build;
 import android.os.Bundle;
 
+import com.example.karma.fragments.CartFragment;
+import com.example.karma.fragments.NotificationFragment;
 import com.example.karma.fragments.RefreshableFragment;
 import com.example.karma.fragments.ShopFragment;
 import com.example.karma.fragments.TopFragment;
@@ -21,6 +23,8 @@ public class BottomBarActivity extends AppCompatActivity {
     private Fragment top;
     private Fragment shop;
     private Fragment profile;
+    private Fragment cart;
+    private Fragment notifications;
   //  private Fragment myinfo;
     //private Fragment notification;
 
@@ -39,6 +43,8 @@ public class BottomBarActivity extends AppCompatActivity {
         profile = new UserProfileFragment();
         top = new TopFragment();
         shop = new ShopFragment();
+        cart=new CartFragment();
+        notifications=new NotificationFragment();
       //  myinfo = new MyInfoFragment();
        // notification = new NotificationsFragment();
         navigation = findViewById(R.id.nav_view);
@@ -75,7 +81,16 @@ public class BottomBarActivity extends AppCompatActivity {
             if (fragment == null) {
                 transaction.add(R.id.nav_host_fragment, profile, Utils.CURRENT_NAVIGATION_BAR + "").show(profile);
             }
-        }/* else if (R.id.navigation_notification == CrasherAppUtil.CURRENT_NAVIGATION_BAR) {
+        }
+     else if (R.id.navigation_cart == Utils.CURRENT_NAVIGATION_BAR) {
+        if (fragment == null) {
+            transaction.add(R.id.nav_host_fragment, cart, Utils.CURRENT_NAVIGATION_BAR + "").show(cart);
+        }
+    } else if (R.id.navigation_notification == Utils.CURRENT_NAVIGATION_BAR) {
+        if (fragment == null) {
+            transaction.add(R.id.nav_host_fragment, notifications, Utils.CURRENT_NAVIGATION_BAR + "").show(notifications);
+        }
+    }/* else if (R.id.navigation_notification == CrasherAppUtil.CURRENT_NAVIGATION_BAR) {
             if (fragment == null) {
                 transaction.add(R.id.content, notification, CrasherAppUtil.CURRENT_NAVIGATION_BAR + "").show(notification);
             }
