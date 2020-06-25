@@ -15,6 +15,8 @@ import com.google.firebase.database.DatabaseReference;
 public class Utils {
 
 
+    public static int CURRENT_NAVIGATION_BAR =R.id.navigation_home ;
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     public static void setTopBar(Window window, Resources resources) {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {

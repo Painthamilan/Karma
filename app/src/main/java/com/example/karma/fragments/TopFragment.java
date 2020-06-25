@@ -3,6 +3,7 @@ package com.example.karma.fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,6 +44,7 @@ public class TopFragment extends Fragment {
     private RecyclerView rvProducts,rvTopFragments,rvInstants;
     private DatabaseReference cfPostRef,topRef,instantsRef;
     private TextView ivInstant,ivOffers;
+    LinearLayoutManager horizontalYalayoutManager;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -63,7 +66,6 @@ public class TopFragment extends Fragment {
 
         rvProducts.setHasFixedSize(true);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
-        mLayoutManager.setReverseLayout(true);
         mLayoutManager.setStackFromEnd(true);
         rvProducts.setLayoutManager(mLayoutManager);
 
@@ -76,7 +78,7 @@ public class TopFragment extends Fragment {
 
 
         rvTopFragments.setHasFixedSize(true);
-        LinearLayoutManager horizontalYalayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false
+         horizontalYalayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false
         );
         horizontalYalayoutManager.setStackFromEnd(true);
         rvTopFragments.setLayoutManager(horizontalYalayoutManager);
@@ -88,6 +90,7 @@ public class TopFragment extends Fragment {
         
         return root;
     }
+
 
 
 
