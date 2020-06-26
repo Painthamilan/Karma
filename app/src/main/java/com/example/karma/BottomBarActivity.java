@@ -1,5 +1,6 @@
 package com.example.karma;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -122,4 +123,13 @@ public class BottomBarActivity extends AppCompatActivity {
         return true;
     };
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+        homeIntent.addCategory( Intent.CATEGORY_HOME );
+        homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(homeIntent);
+        System.exit(1);
+    }
 }

@@ -123,6 +123,12 @@ public class CartFragment extends Fragment {
                                 startActivity(intent);
                             }
                         });
+                        findFriendsViewHolder.ivRemove.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                getRef(position).removeValue();
+                            }
+                        });
 
 
 
@@ -166,5 +172,4 @@ public class CartFragment extends Fragment {
 
 
     }
-
 }
