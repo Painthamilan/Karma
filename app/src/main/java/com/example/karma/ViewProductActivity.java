@@ -35,9 +35,9 @@ import java.util.TimeZone;
 
 public class ViewProductActivity extends AppCompatActivity {
     ImageView ivProductImage;
-    TextView tvProductName,tvPrice;
+    TextView tvProductName,tvPrice,tvAddCart;
     TextView tvOrder,tvSpecs;
-    DatabaseReference productRef,ordersref;
+    DatabaseReference productRef,ordersref,cardRef;
     FirebaseAuth cfAuth;
     String curUserId,key,curDate,curTime,randomid;
     String productUrl;
@@ -46,6 +46,7 @@ public class ViewProductActivity extends AppCompatActivity {
     long countPosts;
     boolean isOffer,isInstant;
     EditText etPhoneNumber,etAdress;
+    boolean isCart;
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +63,14 @@ public class ViewProductActivity extends AppCompatActivity {
             if (curUserId.equals(Constants.ADMIN_ID)){
                 tvOrder.setVisibility(View.INVISIBLE);
             }
+
+            cardRef=FirebaseDatabase.getInstance().getReference().child("User").child(curUserId).child("MyCart");
         }
        // curUserId=cfAuth.getCurrentUser().getUid();
         etAdress=findViewById(R.id.et_adress);
         tvSpecs=findViewById(R.id.tv_specifications);
         etPhoneNumber=findViewById(R.id.et_phone_number);
+        tvAddCart=findViewById(R.id.tv_cart);
         key=getIntent().getStringExtra("REF_KEY");
         isOffer=getIntent().getBooleanExtra("isOffer",false);
         isInstant=getIntent().getBooleanExtra("IsInstant",false);
@@ -167,6 +171,23 @@ public class ViewProductActivity extends AppCompatActivity {
 
             }
         });
+        tvAddCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isCart=true;
+                if (curUserId==null){
+                    showDialogForNotLoggedId();
+                }else {
+
+                    if (isInstant) {
+                        showDialogForConfirmInstant();
+                    }
+                    else {
+                        showDialogForConfirmorder();
+                    }
+                }
+            }
+        });
 
 
     }
@@ -185,6 +206,10 @@ public class ViewProductActivity extends AppCompatActivity {
         TextView dialogMessageTextView=rowView.findViewById(R.id.dialogText);
         TextView dialogCancelTextView=rowView.findViewById(R.id.dialogCancel);
         TextView dialogConfirmTextView=rowView.findViewById(R.id.dialogConfirm);
+        if (isCart){
+           dialogMessageTextView.setText("Are you sure you want to add to cart?");
+            dialogTitleTextView.setText("Add to cart");
+        }
         dialogMessageTextView.setText("Need to give NIC number");
         dialogConfirmTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -193,8 +218,13 @@ public class ViewProductActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(nic)){
                     Toast.makeText(ViewProductActivity.this, "Please enter NIC number", Toast.LENGTH_SHORT).show();
                 }else {
-                    orderProduct(nic);
+                    if (isCart){
+                        addtoCart();
+                    }else {
+                        orderProduct(nic);
+                    }
                 }
+                dialog.dismiss();
 
                 /*Intent i = new Intent(Intent.ACTION_SEND);
                 i.setType("message/rfc822");
@@ -218,6 +248,40 @@ public class ViewProductActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    private void addtoCart() {
+        phoneNum = etPhoneNumber.getText().toString();
+        adress = etAdress.getText().toString();
+        if (TextUtils.isEmpty(phoneNum) || TextUtils.isEmpty(adress)) {
+            Toast.makeText(ViewProductActivity.this, "please give phone number and address!", Toast.LENGTH_SHORT).show();
+        } else {
+            HashMap postMap = new HashMap();
+            postMap.put("CartId", curUserId + randomid);
+            postMap.put("ProductId", key);
+            postMap.put("ProductName", productName);
+            postMap.put("ProductImage", productUrl);
+            postMap.put("UserId", curUserId);
+            postMap.put("Counter", countPosts);
+            postMap.put("PhoneNumber", phoneNum);
+            postMap.put("Address", adress);
+            postMap.put("Price", price);
+            postMap.put("Status", "Not Verified");
+            postMap.put("Email", cfAuth.getCurrentUser().getEmail().toString());
+            postMap.put("NIC", "NO_NIC");
+            if (isInstant) {
+                postMap.put("IsInstant", true);
+            }
+            cardRef.child(curUserId + randomid).updateChildren(postMap).addOnCompleteListener(new OnCompleteListener() {
+                @Override
+                public void onComplete(@NonNull Task task) {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(ViewProductActivity.this, "Added", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+
+    }
+
     private void showDialogForConfirmorder() {
         AlertDialog.Builder dialogBuilder=new AlertDialog.Builder(ViewProductActivity.this, R.style.AlertDialogTheme).setCancelable(false);
         View rowView= LayoutInflater.from(ViewProductActivity.this).inflate(R.layout.general_alert_dialog,null);
@@ -234,10 +298,19 @@ public class ViewProductActivity extends AppCompatActivity {
 
         dialogTitleTextView.setText("Confirm order");
         dialogMessageTextView.setText("Are you sure you want to purchase?");
+        if (isCart){
+            dialogMessageTextView.setText("Are you sure you want to add to cart?");
+            dialogTitleTextView.setText("Add to cart");
+        }
         dialogConfirmTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                orderProduct("NO_NIC");
+                if (isCart){
+                    addtoCart();
+                }else {
+                    orderProduct("NO_NIC");
+                }
+                dialog.dismiss();
 
             }
         });
