@@ -2,6 +2,7 @@ package com.example.karma;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,6 +38,7 @@ boolean isInstant;
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager.setReverseLayout(true);
         mLayoutManager.setStackFromEnd(true);
+        mLayoutManager=new GridLayoutManager(this,3);
         // Set the layout manager to your recyclerview
         rvCats.setLayoutManager(mLayoutManager);
 

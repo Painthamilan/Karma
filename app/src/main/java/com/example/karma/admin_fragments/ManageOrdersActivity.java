@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.karma.R;
+import com.example.karma.Utils;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,7 +25,9 @@ public class ManageOrdersActivity extends AppCompatActivity {
     ImageView ivProductImage;
     TextView tvProductName,tvPhoneNumber,tvAddress,tvPrice,tvSelect;
     DatabaseReference orderRef;
-    String orderId,state,email;
+    String orderId,state,email,userId,productImage;
+    DatabaseReference userRef;
+    long countPosts;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,13 +41,14 @@ public class ManageOrdersActivity extends AppCompatActivity {
          orderId=getIntent().getStringExtra("OrderId");
 
          orderRef= FirebaseDatabase.getInstance().getReference().child("Orders").child(orderId);
+         userRef=FirebaseDatabase.getInstance().getReference().child("User");
 
          orderRef.addValueEventListener(new ValueEventListener() {
              @Override
              public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                  if (dataSnapshot.exists()){
-                     String productimage=dataSnapshot.child("ProductImage").getValue().toString();
-                     Picasso.get().load(productimage).into(ivProductImage);
+                      productImage=dataSnapshot.child("ProductImage").getValue().toString();
+                     Picasso.get().load(productImage).into(ivProductImage);
                      String productName=dataSnapshot.child("ProductName").getValue().toString();
                      tvProductName.setText(productName);
                      String price=dataSnapshot.child("Price").getValue().toString();
@@ -54,6 +58,7 @@ public class ManageOrdersActivity extends AppCompatActivity {
                      String address=dataSnapshot.child("Address").getValue().toString();
                      tvAddress.setText(address);
                      email=dataSnapshot.child("Email").getValue().toString();
+                     userId=dataSnapshot.child("UserId").getValue().toString();
 
                  }
              }
@@ -147,6 +152,27 @@ public class ManageOrdersActivity extends AppCompatActivity {
         orderRef.child("Status").setValue(state);
     }
     private void sendMessage(String title, String message) {
+        String id=Utils.createRandomId();
+        userRef.child(userId).child("Notifications").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    countPosts = dataSnapshot.getChildrenCount();
+                } else {
+                    countPosts = 0;
+                }
+                userRef.child(userId).child("Notifications").child(id).child("Message").setValue(message);
+                userRef.child(userId).child("Notifications").child(id).child("Title").setValue(title);
+                userRef.child(userId).child("Notifications").child(id).child("NotificationImage").setValue(productImage);
+                userRef.child(userId).child("Notifications").child(id).child("Counter").setValue(countPosts);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         Intent i = new Intent(Intent.ACTION_SEND);
         i.setType("message/rfc822");
         i.putExtra(Intent.EXTRA_EMAIL  , new String[]{email});

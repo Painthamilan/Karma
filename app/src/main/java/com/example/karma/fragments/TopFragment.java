@@ -1,14 +1,18 @@
 package com.example.karma.fragments;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
@@ -39,6 +43,9 @@ public class TopFragment extends Fragment {
     private RecyclerView rvProducts,rvTopFragments,rvInstants;
     private DatabaseReference cfPostRef,topRef,instantsRef;
     private TextView ivInstant,ivOffers;
+
+    AlertDialog.Builder dialogBuilder;
+    AlertDialog dialog;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -109,7 +116,7 @@ public class TopFragment extends Fragment {
         FirebaseRecyclerAdapter<Top, TopViewHolder> firebaseRecyclerAdapter =
                 new FirebaseRecyclerAdapter<Top, TopViewHolder>(
                         Top.class,
-                        R.layout.top_layout,
+                        R.layout.item_layout,
                         TopViewHolder.class,
                         searchPeopleAndFriendsQuery
 
@@ -132,6 +139,7 @@ public class TopFragment extends Fragment {
                     }
                 };
         rvTopFragments.setAdapter(firebaseRecyclerAdapter);
+
     }
 
     private void showHomeInstants() {
@@ -207,9 +215,10 @@ public class TopFragment extends Fragment {
         public TopViewHolder(@NonNull View itemView) {
             super(itemView);
             cfView = itemView;
-            tvPrice=cfView.findViewById(R.id.tv_price);
-            tvProductName=cfView.findViewById(R.id.tv_item_name);
-            ivproductImage=cfView.findViewById(R.id.iv_item_image);
+            tvPrice=cfView.findViewById(R.id.price);
+            tvProductName=cfView.findViewById(R.id.tv_product_name);
+            tvProductName.setSelected(true);
+            ivproductImage=cfView.findViewById(R.id.iv_product_image);
             if (cfAuth.getCurrentUser() != null) {
                 userId=cfAuth.getCurrentUser().getUid();
             }
@@ -220,7 +229,7 @@ public class TopFragment extends Fragment {
         }
 
         public void setPrice(String price) {
-            tvPrice.setText(price+".00 ₹");
+            tvPrice.setText(price+".00");
 
         }
 
@@ -248,19 +257,13 @@ public class TopFragment extends Fragment {
             tvProductName.setSelected(true);
             ivproductImage=cfView.findViewById(R.id.iv_product_image);
                     ivDropArrow=cfView.findViewById(R.id.iv_down_arrow);
-            if (cfAuth.getCurrentUser() != null) {
-                userId=cfAuth.getCurrentUser().getUid();
-                if (!userId.equals(Constants.ADMIN_ID)){
-                    ivDropArrow.setVisibility(View.INVISIBLE);
-                }
-            }
 
             topRef=FirebaseDatabase.getInstance().getReference().child("TopItems");
 
         }
 
         public void setPrice(String price) {
-            tvPrice.setText(price+".00 ₹");
+            tvPrice.setText(price+".00");
 
         }
 

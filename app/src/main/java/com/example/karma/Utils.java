@@ -12,6 +12,10 @@ import androidx.annotation.RequiresApi;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
 public class Utils {
 
 
@@ -34,5 +38,16 @@ public class Utils {
     public static String getUserid(){
         FirebaseAuth cfAuth=FirebaseAuth.getInstance();
         return cfAuth.getCurrentUser().getUid();
+    }
+    public static String createRandomId(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        String curDate = dateFormat.format(new Date());
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH-mm-ss");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        String curTime = timeFormat.format(new Date());
+        String randomId = curDate + curTime;
+        return randomId;
+
     }
 }
