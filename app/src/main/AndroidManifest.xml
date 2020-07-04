@@ -8,8 +8,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_new_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Design.NoActionBar">
-        <activity android:name=".SelectPaymentMethodActivity"></activity>
+        android:theme="@style/Theme.Design.Light.NoActionBar">
+        <activity android:name=".admin_fragments.AdminViewProductActivity"></activity>
+        <activity android:name=".SelectPaymentMethodActivity" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".UpdateProfileActivity" />
         <activity android:name=".admin_fragments.ManageOrdersActivity" />
@@ -36,7 +37,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

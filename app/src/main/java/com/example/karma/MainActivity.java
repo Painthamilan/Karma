@@ -6,6 +6,8 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.Menu;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -40,25 +42,34 @@ String curUserId;
         }
 
         */
+
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if(curUserId==null){
-         Intent intent=new Intent(MainActivity.this,BottomBarActivity.class);
-         startActivity(intent);
+        new Handler().postDelayed(new Runnable(){
+            @Override
+            public void run() {
+                /* Create an Intent that will start the Menu-Activity. */
+                if(curUserId==null){
+                    Intent intent=new Intent(MainActivity.this,BottomBarActivity.class);
+                    startActivity(intent);
 
-        }
-        else {
-            if (curUserId.equals(Constants.ADMIN_ID)){
-                sendUserToAdminBottomBarActivity();
-            }else {
-                sendUserToBottomBarActivity();
+                }
+                else {
+                    if (curUserId.equals(Constants.ADMIN_ID)){
+                        sendUserToAdminBottomBarActivity();
+                    }else {
+                        sendUserToBottomBarActivity();
+                    }
+                    // CheckUserExistence();
+
+                }
+
             }
-            // CheckUserExistence();
-
-        }
+        }, 3000);
 
             // CheckUserExistence();
 

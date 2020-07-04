@@ -46,7 +46,7 @@ public class AdminHomeFragment extends Fragment {
         // rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mLayoutManager.setReverseLayout(true);
-        mLayoutManager.setStackFromEnd(false);
+        mLayoutManager.setStackFromEnd(true);
         // Set the layout manager to your recyclerview
         rvProducts.setLayoutManager(mLayoutManager);
         showAllProducts();
@@ -73,7 +73,7 @@ public class AdminHomeFragment extends Fragment {
                         postViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent=new Intent(getActivity(), ViewProductActivity.class);
+                                Intent intent=new Intent(getActivity(), AdminViewProductActivity.class);
                                 intent.putExtra("REF_KEY",postKey);
                                 startActivity(intent);
                             }

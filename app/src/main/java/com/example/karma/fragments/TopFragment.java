@@ -1,6 +1,7 @@
 package com.example.karma.fragments;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -58,7 +59,11 @@ public class TopFragment extends Fragment {
         ivOffers=root.findViewById(R.id.iv_offers);
         rvInstants=root.findViewById(R.id.rv_instants);
         etSearch=root.findViewById(R.id.et_search_bar);
-
+        ProgressDialog dialog=new ProgressDialog(getContext());
+        dialog.setMessage("Loading");
+        dialog.setCancelable(false);
+        dialog.setInverseBackgroundForced(false);
+        dialog.show();
         etSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,7 +100,7 @@ public class TopFragment extends Fragment {
 
         showAllProducts();
         showHomeInstants();
-        showTop();
+        showTop(dialog);
 
         
         return root;
@@ -112,7 +117,7 @@ public class TopFragment extends Fragment {
         startActivity(intent);
     }
 
-    private void showTop() {
+    private void showTop(ProgressDialog dialog) {
         topRef = FirebaseDatabase.getInstance().getReference().child("TopItems");
         Query searchPeopleAndFriendsQuery = topRef.orderByChild("Rank");
         FirebaseRecyclerAdapter<Top, TopViewHolder> firebaseRecyclerAdapter =
@@ -141,6 +146,7 @@ public class TopFragment extends Fragment {
                     }
                 };
         rvTopFragments.setAdapter(firebaseRecyclerAdapter);
+        dialog.dismiss();
 
     }
 
