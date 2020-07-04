@@ -9,7 +9,6 @@
     android:padding="10dp"
     android:layout_marginTop="5dp"
     android:layout_marginBottom="5dp"
-    android:background="@drawable/layout_background"
     >
 
     <ImageView
@@ -29,6 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="TextView"
+        android:textColor="@color/black"
         android:textSize="16sp"
         android:layout_marginStart="5dp"
         app:layout_constraintStart_toEndOf="@+id/iv_product_image"
@@ -41,6 +41,7 @@
         android:background="@drawable/background"
        android:padding="10dp"
         android:text="02"
+        android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/tv_new_price"
         app:layout_constraintEnd_toEndOf="parent"
@@ -54,6 +55,7 @@
         android:layout_marginStart="4dp"
         android:layout_marginTop="18dp"
         android:text="TextView"
+        android:textColor="@color/black"
         android:textStyle="italic"
         android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@+id/iv_product_image"
@@ -65,6 +67,7 @@
         android:layout_marginStart="4dp"
         android:layout_marginTop="12dp"
         android:text="TextView"
+        android:textColor="@color/black"
         android:textStyle="italic"
         android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@+id/iv_product_image"

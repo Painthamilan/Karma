@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".admin_fragments.ViewAllOrdersActivity" android:background="@drawable/main_theme">
+    tools:context=".admin_fragments.ViewAllOrdersActivity"
+    android:background="@color/white">
 
     <TextView
         android:id="@+id/text_dashboard"

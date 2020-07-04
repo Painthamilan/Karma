@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_profile"
@@ -21,6 +22,7 @@
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
         android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="@+id/iv_profile"
         app:layout_constraintStart_toStartOf="@+id/iv_profile"
@@ -49,6 +51,7 @@
             android:textAlignment="center"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toTopOf="@+id/tv_update_profile"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -64,6 +67,7 @@
             android:paddingVertical="8dp"
             android:text="Update Profile"
             android:textAlignment="center"
+            android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/text_notifications"
@@ -80,6 +84,7 @@
             android:paddingVertical="8dp"
             android:text="Logout"
             android:textAlignment="center"
+            android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -108,6 +113,7 @@
             android:layout_marginTop="15dp"
             android:background="@drawable/radius_background"
             android:text="Login"
+            android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/tv_signin"/>
@@ -124,6 +130,7 @@
             android:paddingHorizontal="20dp"
             android:gravity="center"
             android:textStyle="bold"
+            android:textColor="@color/black"
             android:background="@drawable/main_theme_radius"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SearchActivity">
+    tools:context=".SearchActivity"
+    android:background="@color/white">
     <TextView
         android:id="@+id/tv_home"
         android:layout_width="match_parent"
@@ -16,7 +17,7 @@
         android:focusableInTouchMode="true"
         android:clickable="true"
 
-        android:background="@drawable/general_background"
+        android:background="@drawable/main_theme_radius"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

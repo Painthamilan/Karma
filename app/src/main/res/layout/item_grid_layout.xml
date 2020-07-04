@@ -8,7 +8,6 @@
     android:layout_height="wrap_content"
     android:padding="10dp"
     android:layout_marginBottom="5dp"
-    android:background="@color/white"
     android:layout_marginHorizontal="4dp">
 
     <ImageView
@@ -31,6 +30,7 @@
         android:ellipsize="marquee"
         android:singleLine="true"
         android:text="TextView"
+        android:textColor="@color/black"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/iv_product_image"
@@ -44,6 +44,7 @@
         android:layout_marginTop="4dp"
         android:text="TextView"
         android:textSize="14sp"
+        android:textColor="@color/black"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="@+id/iv_product_image"
         app:layout_constraintStart_toStartOf="@+id/iv_product_image"
