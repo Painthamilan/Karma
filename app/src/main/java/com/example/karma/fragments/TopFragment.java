@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,6 +28,7 @@ import com.example.karma.RoundedCorners;
 import com.example.karma.SearchActivity;
 import com.example.karma.Top;
 import com.example.karma.ViewAllOffersActivity;
+import com.example.karma.ViewItemsActivity;
 import com.example.karma.ViewProductActivity;
 import com.example.karma.ViewSubCatsActivity;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -148,7 +150,7 @@ public class TopFragment extends Fragment {
         FirebaseRecyclerAdapter<Products, TopViewHolder> firebaseRecyclerAdapter =
                 new FirebaseRecyclerAdapter<Products, TopViewHolder>(
                         Products.class,
-                        R.layout.top_layout,
+                        R.layout.item_layout,
                         TopViewHolder.class,
                         searchPeopleAndFriendsQuery
 
@@ -176,7 +178,7 @@ public class TopFragment extends Fragment {
 
     private void showAllProducts() {
         cfPostRef = FirebaseDatabase.getInstance().getReference().child("Products");
-        Query searchPeopleAndFriendsQuery = cfPostRef.orderByChild("Counter");
+        Query searchPeopleAndFriendsQuery = cfPostRef.orderByChild("Counter").limitToLast(6);
         FirebaseRecyclerAdapter<Products, PostViewHolder> firebaseRecyclerAdapter =
                 new FirebaseRecyclerAdapter<Products, PostViewHolder>(
                         Products.class,
