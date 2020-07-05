@@ -40,6 +40,8 @@ public class UserProfileFragment extends Fragment {
         cfAuth=FirebaseAuth.getInstance();
         if (cfAuth.getCurrentUser() != null) {
             userId=cfAuth.getCurrentUser().getUid();
+            ivImage=root.findViewById(R.id.iv_profile);
+            ivImage.setImageURI(cfAuth.getCurrentUser().getPhotoUrl());
         }
 
         final TextView textView = root.findViewById(R.id.text_notifications);
@@ -47,7 +49,7 @@ public class UserProfileFragment extends Fragment {
         layoutProfile=root.findViewById(R.id.constraint_layout_ptofile);
         layoutLogin=root.findViewById(R.id.constraint_layout_not_logged_in);
         tvName=root.findViewById(R.id.tv_name);
-        ivImage=root.findViewById(R.id.iv_profile);
+
         tvUpdateProfile=root.findViewById(R.id.tv_update_profile);
         tvLogin=root.findViewById(R.id.tv_login);
         tvSignup=root.findViewById(R.id.tv_signin);
