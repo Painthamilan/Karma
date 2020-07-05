@@ -71,17 +71,6 @@
             app:layout_constraintEnd_toEndOf="@+id/tv_home"
             app:layout_constraintStart_toStartOf="@+id/tv_home" />
 
-        <ImageView
-            android:id="@+id/iv_offer_of_day"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:src="@drawable/offer_of_day"
-            android:text="Door To Delivery"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="@+id/et_search_bar"
-            app:layout_constraintStart_toStartOf="@+id/et_search_bar"
-            app:layout_constraintTop_toBottomOf="@+id/et_search_bar"
-            app:layout_constraintBottom_toBottomOf="@id/guideline2"/>
 
         <TextView
             android:id="@+id/text_home"
@@ -89,6 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginTop="2dp"
             android:background="@drawable/main_theme_radius"
             android:paddingHorizontal="10dp"
             android:paddingVertical="4dp"
@@ -100,7 +90,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_offer_of_day" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_home" />
 
         <TextView
             android:id="@+id/recent"
@@ -120,33 +110,23 @@
             android:background="@drawable/main_theme_radius"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_offers" />
+            app:layout_constraintTop_toBottomOf="@id/iv_offer_of_day" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_top"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="@+id/recent"
             app:layout_constraintStart_toStartOf="@+id/recent"
             app:layout_constraintTop_toBottomOf="@+id/recent" />
 
-        <TextView
-            android:id="@+id/iv_offers"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:textAllCaps="true"
-            android:paddingVertical="8dp"
-            android:paddingHorizontal="10dp"
+        <ImageView
+            android:id="@+id/iv_offer_of_day"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:text="Special offers"
-            android:textAlignment="textStart"
-            android:textColor="@color/yellow"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            android:background="@drawable/main_theme_radius"
+            android:src="@drawable/offer_of_day"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rv_instants" />
@@ -156,7 +136,7 @@
             android:id="@+id/rv_topItems"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_home" />
@@ -186,7 +166,7 @@
             android:id="@+id/rv_instants"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="@+id/rv_topItems"
             app:layout_constraintStart_toStartOf="@+id/rv_topItems"
             app:layout_constraintTop_toBottomOf="@+id/tv_instants" />

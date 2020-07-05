@@ -16,7 +16,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.karma.admin_fragments.AdminViewProductActivity;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,8 +40,9 @@ public class ViewProductActivity extends AppCompatActivity {
     ImageView ivProductImage;
     TextView tvProductName,tvPrice,tvAddCart;
     TextView tvOrder,tvSpecs;
-    DatabaseReference productRef,ordersref,cardRef;
+    DatabaseReference productRef,ordersref,cardRef,imageRef;
     FirebaseAuth cfAuth;
+    RecyclerView rvImage;
     String curUserId,key,curDate,curTime,randomid;
     String productUrl;
     String productName,productSpecs;
@@ -65,6 +70,12 @@ public class ViewProductActivity extends AppCompatActivity {
 
             cardRef=FirebaseDatabase.getInstance().getReference().child("User").child(curUserId).child("MyCart");
         }
+        rvImage=findViewById(R.id.rv_images);
+        rvImage.setHasFixedSize(true);
+        LinearLayoutManager horizontalYalayoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,true);
+        horizontalYalayoutManager.setStackFromEnd(true);
+        rvImage.setLayoutManager(horizontalYalayoutManager);
+
        // curUserId=cfAuth.getCurrentUser().getUid();
         etAdress=findViewById(R.id.et_adress);
         tvSpecs=findViewById(R.id.tv_specifications);
@@ -73,6 +84,7 @@ public class ViewProductActivity extends AppCompatActivity {
         key=getIntent().getStringExtra("REF_KEY");
         isOffer=getIntent().getBooleanExtra("isOffer",false);
         isInstant=getIntent().getBooleanExtra("IsInstant",false);
+        showAllImages();
 
 
 
@@ -94,7 +106,7 @@ public class ViewProductActivity extends AppCompatActivity {
 
                         Picasso.get().load(productUrl).into(ivProductImage);
                         tvProductName.setText(productName);
-                        tvPrice.setText(price);
+                        tvPrice.setText(price+".00");
                         tvSpecs.setText(productSpecs);
                     }
                 }
@@ -117,7 +129,7 @@ public class ViewProductActivity extends AppCompatActivity {
 
                         Picasso.get().load(productUrl).into(ivProductImage);
                         tvProductName.setText(productName);
-                        tvPrice.setText(price);
+                        tvPrice.setText(price+".00");
                         tvSpecs.setText(productSpecs);
                     }
                 }
@@ -372,7 +384,7 @@ public class ViewProductActivity extends AppCompatActivity {
         dialogConfirmTextView.setText("Sign In");
 
         dialogTitleTextView.setText("Sign In required");
-        dialogMessageTextView.setText("you have to login befor order something..");
+        dialogMessageTextView.setText("You have to login befor order something..");
         dialogConfirmTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -395,6 +407,26 @@ public class ViewProductActivity extends AppCompatActivity {
 
         startActivity(intent);
 
+    }
+    private void showAllImages() {
+        imageRef = FirebaseDatabase.getInstance().getReference().child("Products").child(key).child("DetailImages");
+
+        FirebaseRecyclerAdapter<Img, AdminViewProductActivity.TopViewHolder> firebaseRecyclerAdapter =
+                new FirebaseRecyclerAdapter<Img, AdminViewProductActivity.TopViewHolder>(
+                        Img.class,
+                        R.layout.image_layout,
+                        AdminViewProductActivity.TopViewHolder.class,
+                        imageRef
+
+                ) {
+                    @Override
+                    protected void populateViewHolder(AdminViewProductActivity.TopViewHolder postViewHolder, Img model, int position) {
+                        String postKey = getRef(position).getKey();
+                        postViewHolder.setImage(model.getImageUrl());
+
+                    }
+                };
+        rvImage.setAdapter(firebaseRecyclerAdapter);
     }
 }
 

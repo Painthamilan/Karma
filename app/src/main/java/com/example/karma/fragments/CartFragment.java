@@ -43,6 +43,8 @@ public class CartFragment extends Fragment {
     FirebaseAuth cfAuth;
     String curUserId;
     TextView tvBuyAll;
+
+    TextView tvNothing;
     int numOfItems;
 
     @Override
@@ -51,37 +53,42 @@ public class CartFragment extends Fragment {
         // Inflate the layout for this fragment
         View root=inflater.inflate(R.layout.fragment_cart, container, false);
         cfAuth=FirebaseAuth.getInstance();
-        if (cfAuth.getCurrentUser() != null) {
-            curUserId = cfAuth.getCurrentUser().getUid().toString();
-
-
-        }
         rvCart=root.findViewById(R.id.rv_cart);
         tvBuyAll=root.findViewById(R.id.tv_buy_all);
-        rvCart.setHasFixedSize(true);
-        rvCart.setLayoutManager(new LinearLayoutManager(getContext()));
+        tvNothing=root.findViewById(R.id.tv_nothing);
+        if (cfAuth.getCurrentUser() != null) {
+            tvBuyAll.setVisibility(View.VISIBLE);
+            curUserId = cfAuth.getCurrentUser().getUid().toString();
 
-        cartRef = FirebaseDatabase.getInstance().getReference().child("User").child(curUserId).child("MyCart");
-        cartRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()){
-                    Iterator<DataSnapshot> dataSnapshotsorder =  dataSnapshot.getChildren().iterator();
-                    while (dataSnapshotsorder .hasNext()) {
-                        DataSnapshot dataSnapshotChild = dataSnapshotsorder.next();
-                        numOfItems += Integer.parseInt(String.valueOf(dataSnapshotChild .child("Price").getValue()));
+            rvCart.setHasFixedSize(true);
+            rvCart.setLayoutManager(new LinearLayoutManager(getContext()));
+
+            cartRef = FirebaseDatabase.getInstance().getReference().child("User").child(curUserId).child("MyCart");
+            cartRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()){
+                        Iterator<DataSnapshot> dataSnapshotsorder =  dataSnapshot.getChildren().iterator();
+                        while (dataSnapshotsorder .hasNext()) {
+                            DataSnapshot dataSnapshotChild = dataSnapshotsorder.next();
+                            numOfItems += Integer.parseInt(String.valueOf(dataSnapshotChild .child("Price").getValue()));
+                        }
+                        tvBuyAll.setText("BUY All "+String.valueOf(numOfItems)+".00 ₹");
                     }
-                    tvBuyAll.setText("BUY All "+String.valueOf(numOfItems)+".00 ₹");
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
 
-        showMyCart();
+            showMyCart();
+        }else {
+            tvNothing.setVisibility(View.VISIBLE);
+        }
+
+
         return root;
     }
 

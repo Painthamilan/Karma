@@ -45,7 +45,8 @@ public class TopFragment extends Fragment {
     TextView etSearch;
     private RecyclerView rvProducts,rvTopFragments,rvInstants;
     private DatabaseReference cfPostRef,topRef,instantsRef;
-    private TextView ivInstant,ivOffers;
+    private TextView ivInstant;
+    ImageView ivOffers;
 
     AlertDialog.Builder dialogBuilder;
     AlertDialog dialog;
@@ -56,14 +57,9 @@ public class TopFragment extends Fragment {
         final TextView textView = root.findViewById(R.id.text_home);
         rvProducts=root.findViewById(R.id.rv_top);
         rvTopFragments=root.findViewById(R.id.rv_topItems);
-        ivOffers=root.findViewById(R.id.iv_offers);
+        ivOffers=root.findViewById(R.id.iv_offer_of_day);
         rvInstants=root.findViewById(R.id.rv_instants);
         etSearch=root.findViewById(R.id.et_search_bar);
-        ProgressDialog dialog=new ProgressDialog(getContext());
-        dialog.setMessage("Loading");
-        dialog.setCancelable(false);
-        dialog.setInverseBackgroundForced(false);
-        dialog.show();
         etSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,9 +96,7 @@ public class TopFragment extends Fragment {
 
         showAllProducts();
         showHomeInstants();
-        showTop(dialog);
-
-        
+        showTop();
         return root;
     }
 
@@ -117,7 +111,7 @@ public class TopFragment extends Fragment {
         startActivity(intent);
     }
 
-    private void showTop(ProgressDialog dialog) {
+    private void showTop() {
         topRef = FirebaseDatabase.getInstance().getReference().child("TopItems");
         Query searchPeopleAndFriendsQuery = topRef.orderByChild("Rank");
         FirebaseRecyclerAdapter<Top, TopViewHolder> firebaseRecyclerAdapter =
@@ -146,7 +140,7 @@ public class TopFragment extends Fragment {
                     }
                 };
         rvTopFragments.setAdapter(firebaseRecyclerAdapter);
-        dialog.dismiss();
+
 
     }
 

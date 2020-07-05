@@ -27,4 +27,16 @@ android:background="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_home" />
 
+    <TextView
+        android:id="@+id/tv_nothing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You have to login first\nClick on profile and login"
+        android:visibility="invisible"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/rv_notification"
+        app:layout_constraintEnd_toEndOf="@+id/rv_notification"
+        app:layout_constraintStart_toStartOf="@+id/rv_notification"
+        app:layout_constraintTop_toBottomOf="@+id/tv_home" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -36,21 +36,27 @@ public class NotificationFragment extends Fragment {
     DatabaseReference notificationRef;
     FirebaseAuth cfAuth;
     String curUserId;
+    TextView tvNothing;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root= inflater.inflate(R.layout.fragment_notification, container, false);
         cfAuth=FirebaseAuth.getInstance();
+        rvNotification=root.findViewById(R.id.rv_notification);
+        tvNothing=root.findViewById(R.id.tv_nothing);
         if (cfAuth.getCurrentUser() != null) {
             curUserId = cfAuth.getCurrentUser().getUid().toString();
             notificationRef = FirebaseDatabase.getInstance().getReference().child("User").child(curUserId).child("Notifications");
-        }
-        rvNotification=root.findViewById(R.id.rv_notification);
-        rvNotification.setHasFixedSize(true);
-        rvNotification.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        showMyNotification();
+            rvNotification.setHasFixedSize(true);
+            rvNotification.setLayoutManager(new LinearLayoutManager(getContext()));
+
+            showMyNotification();
+        }else {
+            tvNothing.setVisibility(View.VISIBLE);
+        }
+
 
         return root;
 

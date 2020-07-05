@@ -33,11 +33,24 @@
        android:padding="15dp"
         android:textSize="25dp"
         android:textStyle="bold"
+        android:visibility="invisible"
         android:textAlignment="center"
         android:textAllCaps="true"
         android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_nothing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You have to login first\nClick on profile and login"
+        android:visibility="invisible"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_home" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
