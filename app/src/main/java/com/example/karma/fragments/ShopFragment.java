@@ -72,11 +72,22 @@ DatabaseReference listCatsRef;
                         postViewHolder.cfView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent=new Intent(getActivity(), ViewSubCatsActivity.class);
-                                intent.putExtra("REF_KEY",postKey);
-                                intent.putExtra("CAT_NAME",model.getCatagoryName());
-                                intent.putExtra("isSub",false);
-                                startActivity(intent);
+                                if(model.isHasSub()) {
+                                    Intent intent = new Intent(getActivity(), ViewSubCatsActivity.class);
+                                    intent.putExtra("REF_KEY", postKey);
+                                    intent.putExtra("CAT_NAME", model.getCatagoryName());
+                                    intent.putExtra("hasSub", false);
+
+                                    startActivity(intent);
+                                }else {
+                                    Intent intent = new Intent(getActivity(), ViewItemsActivity.class);
+                                    intent.putExtra("REF_KEY", postKey);
+                                    intent.putExtra("CAT_NAME", model.getCatagoryName());
+                                    intent.putExtra("MAIN_CAT_NAME", model.getCatagoryName());
+                                    intent.putExtra("hasSub", false);
+
+                                    startActivity(intent);
+                                }
                             }
                         });
                     }

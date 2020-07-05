@@ -30,6 +30,7 @@ public class ViewItemsActivity extends AppCompatActivity {
     String catName, catImage, mainCatName, userId;
     DatabaseReference subCatRef, instantsRef;
     Query mainRef;
+    boolean hasSub;
     RecyclerView rvCats;
     FirebaseAuth cfAuth;
     boolean isInstant, isAdmin;
@@ -47,9 +48,14 @@ public class ViewItemsActivity extends AppCompatActivity {
 
         catName=getIntent().getStringExtra("CAT_NAME");
         mainCatName=getIntent().getStringExtra("MAIN_CAT_NAME");
+        hasSub=getIntent().getBooleanExtra("hasSub",false);
         isInstant=getIntent().getBooleanExtra("IsInstant",false);
-        subCatRef= FirebaseDatabase.getInstance().getReference().child("Catagories").child(mainCatName).child("SubCatagories").child(catName).child("Products");
-        instantsRef=FirebaseDatabase.getInstance().getReference().child("Instants");
+        if(hasSub){
+            subCatRef= FirebaseDatabase.getInstance().getReference().child("Catagories").child(mainCatName).child("SubCatagories").child(catName).child("Products");
+        }else {
+            subCatRef= FirebaseDatabase.getInstance().getReference().child("Catagories").child(mainCatName).child("Products");
+        }
+      instantsRef=FirebaseDatabase.getInstance().getReference().child("Instants");
         rvCats=findViewById(R.id.rv_list_items);
         rvCats.setHasFixedSize(true);
         // rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));

@@ -67,7 +67,7 @@ boolean isInstant;
                                 intent.putExtra("REF_KEY",postKey);
                                 intent.putExtra("CAT_NAME",model.getSubCatagoryName());
                                 intent.putExtra("MAIN_CAT_NAME",catName);
-                                intent.putExtra("isSub",false);
+                                intent.putExtra("hasSub",true);
                                 intent.putExtra("IsInstant",isInstant);
                                 startActivity(intent);
                             }
