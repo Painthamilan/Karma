@@ -38,7 +38,7 @@ import java.util.TimeZone;
 import static android.app.Activity.RESULT_OK;
 
 public class AddItemFragment extends Fragment {
-    private EditText etProductName,etPrice,etSpecifications;
+    private EditText etProductName,etPrice,etSpecifications,etPercentage;
     private ImageView ivProductImage;
     private TextView tvSelectcatagory,tvUpload,tvSelectImage,tvSelectSubCatagory;
     private String seletedCatagory="",curDate,curTime,randomid,downloadUrl,selectedSubCatagory,specifications;
@@ -56,6 +56,7 @@ public class AddItemFragment extends Fragment {
          etProductName=root.findViewById(R.id.et_product_name);
          etPrice=root.findViewById(R.id.et_price);
          etSpecifications=root.findViewById(R.id.et_specifications);
+         etPercentage=root.findViewById(R.id.et_percentage);
          ivProductImage=root.findViewById(R.id.iv_product_image);
          tvSelectcatagory=root.findViewById(R.id.tv_select_catogary);
          tvSelectImage=root.findViewById(R.id.tv_select_image);
@@ -392,6 +393,7 @@ public class AddItemFragment extends Fragment {
                     postMap.put("ProductCatagory", seletedCatagory);
                     postMap.put("ProductSubCatagory", selectedSubCatagory);
                     postMap.put("Price",etPrice.getText().toString());
+                    postMap.put("Percentage",etPercentage.getText().toString());
                     postMap.put("ProductImage",downloadUrl);
                     postMap.put("Specifications",etSpecifications.getText().toString());
                     postMap.put("Counter", countPosts);
@@ -430,6 +432,7 @@ public class AddItemFragment extends Fragment {
         postMap.put("ProductCatagory", seletedCatagory);
         postMap.put("ProductSubCatagory", selectedSubCatagory);
         postMap.put("Price",etPrice.getText().toString());
+        postMap.put("Percentage",etPercentage.getText().toString());
         postMap.put("ProductImage",downloadUrl);
         postMap.put("Specifications",etSpecifications.getText().toString());
         postMap.put("Counter", countPosts);

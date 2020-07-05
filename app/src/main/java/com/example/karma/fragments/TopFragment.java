@@ -3,9 +3,11 @@ package com.example.karma.fragments;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -93,7 +95,28 @@ public class TopFragment extends Fragment {
         LinearLayoutManager horizontalYalayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
         horizontalYalayoutManager.setStackFromEnd(true);
         rvTopFragments.setLayoutManager(horizontalYalayoutManager);
+        ProgressDialog pd = new ProgressDialog(getContext());
+        pd.setMessage("loading");
+        pd.show();
+// Hide after some seconds
+        final Handler handler  = new Handler();
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (pd.isShowing()) {
+                    pd.dismiss();
+                }
+            }
+        };
 
+        pd.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                handler.removeCallbacks(runnable);
+            }
+        });
+
+        handler.postDelayed(runnable, 5000);
         showAllProducts();
         showHomeInstants();
         showTop();
@@ -202,6 +225,14 @@ public class TopFragment extends Fragment {
                                 startActivity(intent);
                             }
                         });
+
+
+
+
+
+
+
+
                     }
                 };
 
@@ -227,6 +258,8 @@ public class TopFragment extends Fragment {
 
 
             topRef=FirebaseDatabase.getInstance().getReference().child("TopItems");
+
+
 
         }
 

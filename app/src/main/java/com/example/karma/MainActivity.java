@@ -69,7 +69,7 @@ String curUserId;
                 }
 
             }
-        }, 3000);
+        }, 2000);
 
             // CheckUserExistence();
 

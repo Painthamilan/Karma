@@ -36,6 +36,7 @@ public class BottomBarActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_bar);
+        Utils.setTopBar(getWindow(),getResources());
         //BottomNavigationView navView = findViewById(R.id.nav_view);
 
         // Pass

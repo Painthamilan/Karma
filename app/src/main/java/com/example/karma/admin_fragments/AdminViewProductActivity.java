@@ -6,9 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -42,9 +47,9 @@ import java.util.HashMap;
 public class AdminViewProductActivity extends AppCompatActivity {
 
     String key,downloadUrl;
-    EditText etPrice,etSpecification,etName;
+    EditText etPrice,etSpecification,etName,etPercentage;
     TextView tvSelect,tvUpload,tvSave;
-    ImageView ivImage;
+    ImageView ivImage,ivDelete;
     DatabaseReference productRef,imageRef;
     Uri imageUri;
     int GalleryPick=1;
@@ -70,6 +75,14 @@ public class AdminViewProductActivity extends AppCompatActivity {
         etPrice.setSelection(etPrice.length());
         etSpecification.setSelection(etSpecification.length());
         rvImage=findViewById(R.id.rv_images);
+        etPercentage=findViewById(R.id.et_percentage);
+        ivDelete=findViewById(R.id.iv_delete);
+        ivDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                productRef.removeValue();
+            }
+        });
         rvImage.setHasFixedSize(true);
         LinearLayoutManager horizontalYalayoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,true);
         horizontalYalayoutManager.setStackFromEnd(true);
@@ -83,6 +96,9 @@ public class AdminViewProductActivity extends AppCompatActivity {
                    etName.setText(dataSnapshot.child("ProductName").getValue().toString());
                    etPrice.setText(dataSnapshot.child("Price").getValue().toString());
                    etSpecification.setText(dataSnapshot.child("Specifications").getValue().toString());
+                   if (dataSnapshot.hasChild("Percentage")){
+                       etSpecification.setText(dataSnapshot.child("Percentage").getValue().toString());
+                   }
 
                }
             }
@@ -115,6 +131,7 @@ public class AdminViewProductActivity extends AppCompatActivity {
                         postMap.put("ProductName", etName.getText().toString());
                         postMap.put("Price", etPrice.getText().toString());
                         postMap.put("Specifications", etSpecification.getText().toString());
+                        postMap.put("Percentage", etPercentage.getText().toString());
                         productRef.updateChildren(postMap).addOnCompleteListener(new OnCompleteListener() {
                             @Override
                             public void onComplete(@NonNull Task task) {
@@ -150,13 +167,19 @@ public class AdminViewProductActivity extends AppCompatActivity {
                     protected void populateViewHolder(TopViewHolder postViewHolder, Img model, int position) {
                         String postKey = getRef(position).getKey();
                         postViewHolder.setImage(model.getImageUrl());
+                        postViewHolder.cfView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                postViewHolder.showDialog(model.getImageUrl(),AdminViewProductActivity.this);
+                            }
+                        });
 
                     }
                 };
         rvImage.setAdapter(firebaseRecyclerAdapter);
     }
     public static class TopViewHolder extends RecyclerView.ViewHolder {
-        View cfView;
+        public  View cfView;
         FirebaseAuth cfAuth = FirebaseAuth.getInstance();
         String userId;
         TextView tvProductName, tvPrice;
@@ -171,6 +194,31 @@ public class AdminViewProductActivity extends AppCompatActivity {
 
         public void setImage(String price) {
             Picasso.get().load(price).into(ivproductImage);
+        }
+
+        public void showDialog(String imageUrl, Context context) {
+
+            AlertDialog.Builder dialogBuilder=new AlertDialog.Builder(context, R.style.AlertDialogTheme).setCancelable(false);
+            View rowView= LayoutInflater.from(context).inflate(R.layout.image_view_layout,null);
+            dialogBuilder.setView(rowView);
+            AlertDialog dialog = dialogBuilder.create();
+            if (dialog.getWindow() != null) {
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+            }
+            ImageView dialogCancel=rowView.findViewById(R.id.image_close);
+            ImageView contentImage=rowView.findViewById(R.id.dialogText);
+
+            Picasso.get().load(imageUrl).into(contentImage);
+            dialogCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    dialog.dismiss();
+
+                }
+            });
+
+            dialog.show();
         }
     }
     private void storeImage() {

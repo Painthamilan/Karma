@@ -2,6 +2,8 @@ package com.example.karma;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -38,7 +40,7 @@ import java.util.TimeZone;
 
 public class ViewProductActivity extends AppCompatActivity {
     ImageView ivProductImage;
-    TextView tvProductName,tvPrice,tvAddCart;
+    TextView tvProductName,tvPrice,tvAddCart,tvNewPrice;
     TextView tvOrder,tvSpecs;
     DatabaseReference productRef,ordersref,cardRef,imageRef;
     FirebaseAuth cfAuth;
@@ -46,7 +48,7 @@ public class ViewProductActivity extends AppCompatActivity {
     String curUserId,key,curDate,curTime,randomid;
     String productUrl;
     String productName,productSpecs;
-    String price,phoneNum,adress,actualPrice;
+    String price,phoneNum,adress,actualPrice,percentage;
     long countPosts;
     boolean isOffer,isInstant;
     EditText etPhoneNumber,etAdress;
@@ -61,6 +63,7 @@ public class ViewProductActivity extends AppCompatActivity {
         tvProductName=findViewById(R.id.tv_product_name);
         tvPrice=findViewById(R.id.tv_price);
         tvOrder=findViewById(R.id.tv_order);
+        tvNewPrice=findViewById(R.id.tv_new_price);
         cfAuth=FirebaseAuth.getInstance();
         if (cfAuth.getCurrentUser() != null) {
             curUserId = cfAuth.getCurrentUser().getUid().toString();
@@ -126,10 +129,29 @@ public class ViewProductActivity extends AppCompatActivity {
                         productName=dataSnapshot.child("ProductName").getValue().toString();
                         price=dataSnapshot.child("Price").getValue().toString();
                         productSpecs=dataSnapshot.child("Specifications").getValue().toString();
+                        if (dataSnapshot.hasChild("Percentage")) {
+                            percentage = dataSnapshot.child("Percentage").getValue().toString();
+                            tvPrice.setText(price+".00 ");
+                            tvPrice.setTextColor(Color.RED);
+                            tvPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
+                           // tvPercentage.setText(percentage +" %");
+
+                            int percent=Integer.parseInt(percentage);
+                            int pr=Integer.parseInt(price);
+                            int newPrice=pr-(pr*percent/100);
+                            String amt=String.valueOf(newPrice);
+                            price=amt;
+                            tvNewPrice.setText(amt+".00");
+
+                        }else{
+                            tvPrice.setText(price+".00");
+                            tvPrice.setTextColor(Color.RED);
+                            tvPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                        }
                         Picasso.get().load(productUrl).into(ivProductImage);
                         tvProductName.setText(productName);
-                        tvPrice.setText(price+".00");
+
                         tvSpecs.setText(productSpecs);
                     }
                 }
@@ -423,6 +445,12 @@ public class ViewProductActivity extends AppCompatActivity {
                     protected void populateViewHolder(AdminViewProductActivity.TopViewHolder postViewHolder, Img model, int position) {
                         String postKey = getRef(position).getKey();
                         postViewHolder.setImage(model.getImageUrl());
+                        postViewHolder.cfView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                postViewHolder.showDialog(model.getImageUrl(),ViewProductActivity.this);
+                            }
+                        });
 
                     }
                 };
