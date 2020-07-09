@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
@@ -16,13 +15,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.karma.AdminBottomBarActivity;
-import com.example.karma.Constants;
 import com.example.karma.Products;
 import com.example.karma.R;
 import com.example.karma.RoundedCorners;
-import com.example.karma.ViewProductActivity;
-import com.example.karma.fragments.TopFragment;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -69,7 +64,7 @@ public class AdminHomeFragment extends Fragment {
                         postViewHolder.setPrice(model.getPrice());
                         postViewHolder.setProductImage(model.getProductImage());
                         postViewHolder.setProductName(model.getProductName());
-                        postViewHolder.dropDownClicker(model.getProductName(),model.getProductImage(),model.getPrice(),postKey,AdminHomeFragment.this.getContext());
+                        postViewHolder.dropDownClicker(model.getPercentage(),model.getProductName(),model.getProductImage(),model.getPrice(),postKey,AdminHomeFragment.this.getContext());
                         postViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -116,7 +111,7 @@ public class AdminHomeFragment extends Fragment {
         public void setProductImage(String productImage) {
             Picasso.get().load(productImage).transform(new RoundedCorners(80, 0)).into(ivproductImage);
         }
-        public void dropDownClicker(String name,String image,String price,String postId, Context context) {
+        public void dropDownClicker(String percentage, String name, String image, String price, String postId, Context context) {
             PopupMenu popup = new PopupMenu(context,ivDropArrow);
             popup.getMenuInflater().inflate(R.menu.top_selector, popup.getMenu());
             ivDropArrow.setOnClickListener(new View.OnClickListener() {
@@ -127,19 +122,19 @@ public class AdminHomeFragment extends Fragment {
                         switch (item.getItemId()) {
                             case R.id.rank_first:
                                 // Toast.makeText(context, ""+postId, Toast.LENGTH_SHORT).show();
-                                updateRank("First",postId, name, image, price,"a");
+                                updateRank(percentage,"First",postId, name, image, price,"a");
                                 break;
                             case R.id.rank_second:
                                 // Toast.makeText(context, "second", Toast.LENGTH_SHORT).show();
-                                updateRank("Second",postId, name, image, price, "b");
+                                updateRank(percentage, "Second",postId, name, image, price, "b");
                                 break;
                             case R.id.rank_thirt:
                                 // Toast.makeText(context, "thirt", Toast.LENGTH_SHORT).show();
-                                updateRank("Thirt",postId, name, image, price, "c");
+                                updateRank(percentage, "Thirt",postId, name, image, price, "c");
                                 break;
                             case R.id.rank_forth:
                                 // Toast.makeText(context, "thirt", Toast.LENGTH_SHORT).show();
-                                updateRank("Fourth",postId, name, image, price, "d");
+                                updateRank(percentage, "Fourth",postId, name, image, price, "d");
                                 break;
                         }
                         return true;
@@ -148,10 +143,11 @@ public class AdminHomeFragment extends Fragment {
                 }
             });
         }
-        private void updateRank(String rank, String postId, String name, String image, String price, String i) {
+        private void updateRank(String percentage, String rank, String postId, String name, String image, String price, String i) {
             topRef.child(rank).child("ItemId").setValue(postId);
             topRef.child(rank).child("ItemName").setValue(name);
             topRef.child(rank).child("ItemImage").setValue(image);
+            topRef.child(rank).child("Percentage").setValue(percentage);
             topRef.child(rank).child("ItemPrice").setValue(price);
             topRef.child(rank).child("Rank").setValue(i);
         }

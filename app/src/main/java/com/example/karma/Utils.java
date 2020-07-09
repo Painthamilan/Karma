@@ -50,4 +50,15 @@ public class Utils {
         return randomId;
 
     }
+    public static String getActualPrice(String price,String percentage){
+        if (!percentage.isEmpty()) {
+            int percent = Integer.parseInt(percentage);
+            int pr = Integer.parseInt(price);
+            int newPrice = pr - (pr * percent / 100);
+            return String.valueOf(newPrice);
+        }else {
+            return price;
+        }
+
+    }
 }

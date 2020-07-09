@@ -117,6 +117,9 @@ public class AddItemFragment extends Fragment {
                         case R.id.main_cat_cctv:
                             seletedCatagory="CCTV";
                             break;
+                        case R.id.main_cat_event_management:
+                            seletedCatagory="Event Management";
+                            break;
                     }
                     tvSelectcatagory.setText(seletedCatagory);
                     return true;

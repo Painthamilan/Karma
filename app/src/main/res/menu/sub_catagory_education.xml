@@ -9,7 +9,7 @@
         android:title="O/L"/>
     <item
         android:id="@+id/sub_cat_education_syllabus"
-        android:title="Syllabus Bus"/>
+        android:title="Scholarship"/>
     <item
         android:id="@+id/sub_cat_education_other_stationary"
         android:title="Other Stationaries"/>

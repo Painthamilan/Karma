@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/main_cat_clothing"
-        android:title="Clothing"/>
 
     <item
-        android:id="@+id/main_cat_electronics"
-        android:title="Electronics "/>
+        android:id="@+id/main_cat_mobile"
+        android:title="Mobile "/>
+
+    <item
+        android:id="@+id/main_cat_mobile_accessories"
+        android:title="Mobile Accessories "/>
 
     <item
         android:id="@+id/main_cat_sports"
@@ -21,10 +22,19 @@
         android:id="@+id/main_cat_cab"
         android:title="Book a cab"/>
     <item
-        android:id="@+id/main_cat_food_delivery"
-        android:title="Food delivery"/>
+        android:id="@+id/main_cat_printout"
+        android:title="Printouts"/>
     <item
-        android:id="@+id/main_cat_essential_goods"
-        android:title=" Essential Goods"/>
+        android:id="@+id/main_cat_gifts"
+        android:title="Gift Items"/>
+    <item
+        android:id="@+id/main_cat_dth"
+        android:title="DTH"/>
+    <item
+        android:id="@+id/main_cat_cctv"
+        android:title="CCTV"/>
+    <item
+        android:id="@+id/main_cat_event_management"
+        android:title="Event Management"/>
 
 </menu>

@@ -5,33 +5,27 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.karma.Constants;
 import com.example.karma.Products;
 import com.example.karma.R;
 import com.example.karma.RoundedCorners;
 import com.example.karma.SearchActivity;
 import com.example.karma.Top;
+import com.example.karma.Utils;
 import com.example.karma.ViewAllOffersActivity;
-import com.example.karma.ViewItemsActivity;
 import com.example.karma.ViewProductActivity;
 import com.example.karma.ViewSubCatsActivity;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -47,7 +41,7 @@ public class TopFragment extends Fragment {
     TextView etSearch;
     private RecyclerView rvProducts,rvTopFragments,rvInstants;
     private DatabaseReference cfPostRef,topRef,instantsRef;
-    private TextView ivInstant;
+    private TextView ivInstant,tvMobile;
     ImageView ivOffers;
 
     AlertDialog.Builder dialogBuilder;
@@ -61,6 +55,8 @@ public class TopFragment extends Fragment {
         rvTopFragments=root.findViewById(R.id.rv_topItems);
         ivOffers=root.findViewById(R.id.iv_offer_of_day);
         rvInstants=root.findViewById(R.id.rv_instants);
+        tvMobile=root.findViewById(R.id.tv_mobile);
+        tvMobile.setSelected(true);
         etSearch=root.findViewById(R.id.et_search_bar);
         etSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,7 +144,7 @@ public class TopFragment extends Fragment {
                     @Override
                     protected void populateViewHolder(TopViewHolder postViewHolder, Top model, int position) {
                         String postKey = getRef(position).getKey();
-                        postViewHolder.setPrice(model.getItemPrice());
+                        postViewHolder.setPrice(model.getItemPrice(),model.getPercentage());
                         postViewHolder.setProductImage(model.getItemImage());
                         postViewHolder.setProductName(model.getItemName());
                         postViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -181,7 +177,7 @@ public class TopFragment extends Fragment {
                     @Override
                     protected void populateViewHolder(TopViewHolder postViewHolder, Products model, int position) {
                         String postKey = getRef(position).getKey();
-                        postViewHolder.setPrice(model.getPrice());
+                        postViewHolder.setPrice(model.getPrice(), model.getPercentage());
                         postViewHolder.setProductImage(model.getProductImage());
                         postViewHolder.setProductName(model.getProductName());
                         postViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -213,7 +209,7 @@ public class TopFragment extends Fragment {
                     @Override
                     protected void populateViewHolder(PostViewHolder postViewHolder, Products model, int position) {
                         String postKey = getRef(position).getKey();
-                        postViewHolder.setPrice(model.getPrice());
+                        postViewHolder.setPrice(model.getPrice(),model.getPercentage());
                         postViewHolder.setProductImage(model.getProductImage());
                         postViewHolder.setProductName(model.getProductName());
                         postViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -263,8 +259,8 @@ public class TopFragment extends Fragment {
 
         }
 
-        public void setPrice(String price) {
-            tvPrice.setText(price+".00");
+        public void setPrice(String price, String percentage) {
+            tvPrice.setText(Utils.getActualPrice(price,percentage) +".00");
 
         }
 
@@ -297,8 +293,8 @@ public class TopFragment extends Fragment {
 
         }
 
-        public void setPrice(String price) {
-            tvPrice.setText(price+".00");
+        public void setPrice(String price, String percentage) {
+            tvPrice.setText(Utils.getActualPrice(price,percentage)+".00");
 
         }
 

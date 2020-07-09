@@ -13,9 +13,6 @@
         android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:clickable="true"
 
         android:background="@drawable/main_theme_radius"
         app:layout_constraintEnd_toEndOf="parent"
@@ -57,12 +54,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginBottom="4dp"
-        android:background="@drawable/layout_background"
-        android:focusableInTouchMode="true"
         android:hint="Search"
         android:paddingHorizontal="20dp"
         android:paddingVertical="2dp"
-        android:textSize="12sp"
+        android:background="@drawable/layout_background"
+        android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="@id/tv_home"
         app:layout_constraintEnd_toStartOf="@+id/iv_search"
         app:layout_constraintStart_toStartOf="@+id/tv_home" />
@@ -78,7 +74,7 @@
 
     <ImageView
         android:id="@+id/iv_search"
-        android:layout_width="30dp"
+        android:layout_width="40dp"
         android:layout_height="0dp"
         android:layout_marginEnd="10dp"
         android:tint="@color/white"

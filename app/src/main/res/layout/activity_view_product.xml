@@ -63,6 +63,18 @@
             android:textStyle="bold|italic"
             app:layout_constraintStart_toEndOf="@id/tv_price"
             app:layout_constraintTop_toBottomOf="@+id/tv_product_name" />
+        <TextView
+            android:id="@+id/tv_percentage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="4dp"
+            android:text="0.00"
+            android:textColor="@color/green"
+            android:textSize="16sp"
+            android:textStyle="bold|italic"
+            app:layout_constraintStart_toStartOf="@id/tv_price"
+            app:layout_constraintTop_toBottomOf="@+id/tv_price" />
 
         <TextView
             android:id="@+id/tv_order"
@@ -181,7 +193,7 @@
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_price" />
+            app:layout_constraintTop_toBottomOf="@+id/separator3" />
         <View android:id="@+id/separator3"
             android:background="@color/black"
             android:layout_width = "fill_parent"
@@ -190,6 +202,6 @@
             android:layout_centerVertical ="true"
             android:layout_alignParentTop="true"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_price"/>
+            app:layout_constraintTop_toBottomOf="@id/tv_percentage"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

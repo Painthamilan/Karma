@@ -1,16 +1,17 @@
 package com.example.karma;
 
 public class Top {
-    String ItemName,ItemImage,ItemPrice,ItemId;
+    String ItemName,ItemImage,ItemPrice,ItemId,Percentage;
 
     public Top() {
     }
 
-    public Top(String itemName, String itemImage, String itemPrice, String itemId) {
+    public Top(String itemName, String itemImage, String itemPrice, String itemId, String percentage) {
         ItemName = itemName;
         ItemImage = itemImage;
         ItemPrice = itemPrice;
         ItemId = itemId;
+        Percentage = percentage;
     }
 
     public String getItemName() {
@@ -43,5 +44,13 @@ public class Top {
 
     public void setItemId(String itemId) {
         ItemId = itemId;
+    }
+
+    public String getPercentage() {
+        return Percentage;
+    }
+
+    public void setPercentage(String percentage) {
+        Percentage = percentage;
     }
 }

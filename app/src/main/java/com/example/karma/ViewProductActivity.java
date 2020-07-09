@@ -41,7 +41,7 @@ import java.util.TimeZone;
 public class ViewProductActivity extends AppCompatActivity {
     ImageView ivProductImage;
     TextView tvProductName,tvPrice,tvAddCart,tvNewPrice;
-    TextView tvOrder,tvSpecs;
+    TextView tvOrder,tvSpecs,tvPercentage;
     DatabaseReference productRef,ordersref,cardRef,imageRef;
     FirebaseAuth cfAuth;
     RecyclerView rvImage;
@@ -64,6 +64,7 @@ public class ViewProductActivity extends AppCompatActivity {
         tvPrice=findViewById(R.id.tv_price);
         tvOrder=findViewById(R.id.tv_order);
         tvNewPrice=findViewById(R.id.tv_new_price);
+        tvPercentage=findViewById(R.id.tv_percentage);
         cfAuth=FirebaseAuth.getInstance();
         if (cfAuth.getCurrentUser() != null) {
             curUserId = cfAuth.getCurrentUser().getUid().toString();
@@ -106,7 +107,10 @@ public class ViewProductActivity extends AppCompatActivity {
                         productName=dataSnapshot.child("ProductName").getValue().toString();
                         price=actualPrice;
                         productSpecs=dataSnapshot.child("Specifications").getValue().toString();
-
+                        if (dataSnapshot.hasChild("Percentage")) {
+                            percentage = dataSnapshot.child("Percentage").getValue().toString();
+                            tvPercentage.setText(percentage+"%  discount");
+                        }
                         Picasso.get().load(productUrl).into(ivProductImage);
                         tvProductName.setText(productName);
                         tvPrice.setText(price+".00");
@@ -131,18 +135,16 @@ public class ViewProductActivity extends AppCompatActivity {
                         productSpecs=dataSnapshot.child("Specifications").getValue().toString();
                         if (dataSnapshot.hasChild("Percentage")) {
                             percentage = dataSnapshot.child("Percentage").getValue().toString();
+                            tvPercentage.setText(percentage+"%");
                             tvPrice.setText(price+".00 ");
                             tvPrice.setTextColor(Color.RED);
                             tvPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
                            // tvPercentage.setText(percentage +" %");
 
-                            int percent=Integer.parseInt(percentage);
-                            int pr=Integer.parseInt(price);
-                            int newPrice=pr-(pr*percent/100);
-                            String amt=String.valueOf(newPrice);
-                            price=amt;
-                            tvNewPrice.setText(amt+".00");
+
+                            price=Utils.getActualPrice(price,percentage);
+                            tvNewPrice.setText(price+".00");
 
                         }else{
                             tvPrice.setText(price+".00");
