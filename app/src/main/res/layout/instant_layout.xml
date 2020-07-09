@@ -7,34 +7,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/main_theme_radius"
     android:padding="10dp">
-    <TextView
-        android:id="@+id/dialogTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Confirm Order"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/dialogText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:textColor="@color/black"
-        android:text="Terms and conditions"
-        android:textSize="16sp"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dialogTitle" />
 
 
     <EditText
@@ -43,34 +16,79 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:hint="Enter your NIC number"
-        android:textSize="14sp"
+        android:textStyle="bold"
         android:textColor="@color/black"
-        android:paddingVertical="4dp"
-        android:inputType="textMultiLine"
         android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        android:background="@drawable/edit_text_background"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dialogText"
-        android:background="@drawable/edit_text_background"/>
+        app:layout_constraintTop_toBottomOf="@id/dialogTitle" />
+
+    <TextView
+        android:id="@+id/dialogTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Select Payment Method"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_cash_on_delivery"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:background="@color/lightGreen"
+        android:gravity="center"
+        android:text="Cash on delivery"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textSize="20dp"
+        android:layout_marginTop="4dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.15"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_adress" />
+
+    <TextView
+        android:id="@+id/tv_cart_payment"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:textAllCaps="true"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:textColor="@color/gray"
+        android:background="@color/light_blue"
+        android:textStyle="bold"
+        android:text="Cart Payment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_cash_on_delivery" />
 
 
     <TextView
         android:id="@+id/dialogCancel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="5dp"
-        android:layout_marginTop="16dp"
-        android:text="Cancel"
+        android:background="@drawable/background_stroke"
+        android:gravity="center"
         android:paddingHorizontal="10dp"
         android:paddingVertical="5dp"
-        android:gravity="center"
-        android:textColor="@color/black"
-        android:background="@drawable/background_stroke"
-        android:layout_marginEnd="2dp"
+        android:text="Cancel"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline23"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_nic"/>
+        app:layout_constraintEnd_toEndOf="@+id/tv_cart_payment"
+        app:layout_constraintStart_toStartOf="@+id/tv_cart_payment"
+        app:layout_constraintTop_toBottomOf="@id/tv_cart_payment" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline23"
@@ -79,21 +97,38 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
 
-    <TextView
-        android:id="@+id/dialogConfirm"
+    <EditText
+        android:id="@+id/et_phone_number"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="2dp"
-        android:text="Agree"
-        android:textColor="@color/black"
+        android:ems="10"
+        android:inputType="number"
+        android:hint="Phone Number"
+        android:paddingHorizontal="8dp"
+android:layout_marginTop="4dp"
+        android:paddingVertical="4dp"
         android:background="@drawable/edit_text_background"
-        android:paddingHorizontal="10dp"
-        android:paddingVertical="5dp"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_nic"
+        android:textStyle="bold"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline23" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_nic" />
+    <EditText
+        android:id="@+id/et_adress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Address"
+
+        android:inputType="textMultiLine"
+        android:paddingHorizontal="8dp"
+android:layout_marginTop="4dp"
+        android:paddingVertical="4dp"
+        android:background="@drawable/edit_text_background"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_phone_number" />
+
 </androidx.constraintlayout.widget.ConstraintLayout >

@@ -80,10 +80,7 @@ public class ViewProductActivity extends AppCompatActivity {
         horizontalYalayoutManager.setStackFromEnd(true);
         rvImage.setLayoutManager(horizontalYalayoutManager);
 
-       // curUserId=cfAuth.getCurrentUser().getUid();
-        etAdress=findViewById(R.id.et_adress);
         tvSpecs=findViewById(R.id.tv_specifications);
-        etPhoneNumber=findViewById(R.id.et_phone_number);
         tvAddCart=findViewById(R.id.tv_cart);
         key=getIntent().getStringExtra("REF_KEY");
         isOffer=getIntent().getBooleanExtra("isOffer",false);
@@ -236,17 +233,20 @@ public class ViewProductActivity extends AppCompatActivity {
         if (dialog.getWindow() != null) {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
         }
-        TextView dialogTitleTextView=rowView.findViewById(R.id.dialogTitle);
         EditText etNic=rowView.findViewById(R.id.et_nic);
-        TextView dialogMessageTextView=rowView.findViewById(R.id.dialogText);
         TextView dialogCancelTextView=rowView.findViewById(R.id.dialogCancel);
-        TextView dialogConfirmTextView=rowView.findViewById(R.id.dialogConfirm);
-        if (isCart){
-           dialogMessageTextView.setText("Are you sure you want to add to cart?");
-            dialogTitleTextView.setText("Add to cart");
-        }
-        dialogMessageTextView.setText("Need to give NIC number");
-        dialogConfirmTextView.setOnClickListener(new View.OnClickListener() {
+
+        etAdress=rowView.findViewById(R.id.et_adress);
+        etPhoneNumber =rowView.findViewById(R.id.et_phone_number);
+        TextView cashOnDelivery=rowView.findViewById(R.id.tv_cash_on_delivery);
+        TextView cartPayment=rowView.findViewById(R.id.tv_cart_payment);
+        cartPayment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(ViewProductActivity.this, "Cart payment is not available", Toast.LENGTH_SHORT).show();
+            }
+        });
+        cashOnDelivery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String nic=etNic.getText().toString();
@@ -260,17 +260,6 @@ public class ViewProductActivity extends AppCompatActivity {
                     }
                 }
                 dialog.dismiss();
-
-                /*Intent i = new Intent(Intent.ACTION_SEND);
-                i.setType("message/rfc822");
-                i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"painthamilan29@gmail.com"});
-                i.putExtra(Intent.EXTRA_SUBJECT, "subject of email");
-                i.putExtra(Intent.EXTRA_TEXT   , "body of email");
-                try {
-                    startActivity(Intent.createChooser(i, "Send mail..."));
-                } catch (android.content.ActivityNotFoundException ex) {
-                    Toast.makeText(ViewProductActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
-                }*/
             }
         });
         dialogCancelTextView.setOnClickListener(new View.OnClickListener() {
@@ -319,25 +308,25 @@ public class ViewProductActivity extends AppCompatActivity {
 
     private void showDialogForConfirmorder() {
         AlertDialog.Builder dialogBuilder=new AlertDialog.Builder(ViewProductActivity.this, R.style.AlertDialogTheme).setCancelable(false);
-        View rowView= LayoutInflater.from(ViewProductActivity.this).inflate(R.layout.general_alert_dialog,null);
+        View rowView= LayoutInflater.from(ViewProductActivity.this).inflate(R.layout.buy_all_dialog,null);
         dialogBuilder.setView(rowView);
         AlertDialog dialog = dialogBuilder.create();
         if (dialog.getWindow() != null) {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
         }
-        TextView dialogTitleTextView=rowView.findViewById(R.id.dialogTitle);
-        TextView dialogMessageTextView=rowView.findViewById(R.id.dialogText);
         TextView dialogCancelTextView=rowView.findViewById(R.id.dialogCancel);
-        TextView dialogConfirmTextView=rowView.findViewById(R.id.dialogConfirm);
-        dialogConfirmTextView.setText("Confirm");
+        etAdress=rowView.findViewById(R.id.et_adress);
+        etPhoneNumber =rowView.findViewById(R.id.et_phone_number);
+        TextView cashOnDelivery=rowView.findViewById(R.id.tv_cash_on_delivery);
+        TextView cartPayment=rowView.findViewById(R.id.tv_cart_payment);
+        cartPayment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(ViewProductActivity.this, "Cart payment is not available", Toast.LENGTH_SHORT).show();
+            }
+        });
 
-        dialogTitleTextView.setText("Confirm order");
-        dialogMessageTextView.setText("Are you sure you want to purchase?");
-        if (isCart){
-            dialogMessageTextView.setText("Are you sure you want to add to cart?");
-            dialogTitleTextView.setText("Add to cart");
-        }
-        dialogConfirmTextView.setOnClickListener(new View.OnClickListener() {
+        cashOnDelivery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isCart){

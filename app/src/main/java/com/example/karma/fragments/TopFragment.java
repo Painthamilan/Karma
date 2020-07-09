@@ -186,6 +186,7 @@ public class TopFragment extends Fragment {
                                 Intent intent=new Intent(getActivity(), ViewProductActivity.class);
                                 intent.putExtra("REF_KEY",model.getProductId());
                                 intent.putExtra("isOffer",false);
+                                intent.putExtra("isInstant",true);
                                 startActivity(intent);
                             }
                         });
