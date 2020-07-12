@@ -12,12 +12,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.karma.Products;
 import com.example.karma.R;
 import com.example.karma.RoundedCorners;
+import com.example.karma.ViewItemsActivity;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -42,6 +44,7 @@ public class AdminHomeFragment extends Fragment {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mLayoutManager.setReverseLayout(true);
         mLayoutManager.setStackFromEnd(true);
+        mLayoutManager = new GridLayoutManager(getContext(), 4);
         // Set the layout manager to your recyclerview
         rvProducts.setLayoutManager(mLayoutManager);
         showAllProducts();

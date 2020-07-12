@@ -7,10 +7,10 @@ private boolean HasSub;
     public Cats() {
     }
 
-    public Cats(String catagoryName, String catagoryImage, boolean hasSub) {
+    public Cats(String catagoryName, String catagoryImage, boolean HasSub) {
         CatagoryName = catagoryName;
         CatagoryImage = catagoryImage;
-        HasSub = hasSub;
+        HasSub = HasSub;
     }
 
     public String getCatagoryName() {

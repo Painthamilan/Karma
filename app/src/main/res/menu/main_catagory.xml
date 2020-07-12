@@ -8,6 +8,9 @@
     <item
         android:id="@+id/main_cat_mobile_accessories"
         android:title="Mobile Accessories "/>
+    <item
+        android:id="@+id/main_cat_accessories"
+        android:title="Accessories "/>
 
     <item
         android:id="@+id/main_cat_sports"

@@ -47,13 +47,15 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String text = etSearch.getText().toString();
-                SearchPeopleAndFriends(text);
+                if (SearchPeopleAndFriends(text)==0){
+                    SearchPeopleAndFriends(text.toUpperCase());
+                }
             }
         });
 
     }
 
-    private void SearchPeopleAndFriends(String searchKey) {
+    private int SearchPeopleAndFriends(String searchKey) {
         Query searchPeopleAndFriendsQuery = searchRef.orderByChild("ProductName")
                 .startAt(searchKey)
                 .endAt(searchKey + "\uf8ff");
@@ -88,7 +90,9 @@ public class SearchActivity extends AppCompatActivity {
 
                     }
                 };
+
         rvSearchedItems.setAdapter(firebaseRecyclerAdapter);
+        return firebaseRecyclerAdapter.getItemCount();
 
     }
     public static class ItemViewHolder extends RecyclerView.ViewHolder {

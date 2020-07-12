@@ -50,7 +50,7 @@ public class AdminViewProductActivity extends AppCompatActivity {
     EditText etPrice,etSpecification,etName,etPercentage;
     TextView tvSelect,tvUpload,tvSave;
     ImageView ivImage,ivDelete;
-    DatabaseReference productRef,imageRef;
+    DatabaseReference productRef,imageRef,catRef;
     Uri imageUri;
     int GalleryPick=1;
     private StorageReference itemStorageRef;
@@ -77,10 +77,46 @@ public class AdminViewProductActivity extends AppCompatActivity {
         rvImage=findViewById(R.id.rv_images);
         etPercentage=findViewById(R.id.et_percentage);
         ivDelete=findViewById(R.id.iv_delete);
+
+        catRef=FirebaseDatabase.getInstance().getReference().child("Catagories");
         ivDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                productRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()){
+                           String catName=dataSnapshot.child("ProductCatagory").getValue().toString();
+                            String subCatName=dataSnapshot.child("ProductCatagory").getValue().toString();
+                            catRef.child(catName).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                  if (dataSnapshot.hasChild("ProductSubCatagory")) {
+                                      catRef.child(catName).child(subCatName).child("Products").child(key).removeValue();
+                                  }else {
+                                      catRef.child(catName).child("Products").child(key).removeValue();
+                                  }
+                                    Toast.makeText(AdminViewProductActivity.this, "Deleted", Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
                 productRef.removeValue();
+
+
             }
         });
         rvImage.setHasFixedSize(true);

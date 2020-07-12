@@ -17,8 +17,7 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/progress_horizontal" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/tv_product_name"
@@ -29,7 +28,6 @@
         android:marqueeRepeatLimit="marquee_forever"
         android:ellipsize="marquee"
         android:singleLine="true"
-        android:text="TextView"
         android:textColor="@color/black"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -42,7 +40,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="TextView"
         android:textSize="14sp"
         android:textColor="@color/black"
         android:textStyle="italic"

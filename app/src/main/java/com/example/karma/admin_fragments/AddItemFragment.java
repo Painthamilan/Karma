@@ -75,6 +75,7 @@ public class AddItemFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+                tvSelectSubCatagory.setVisibility(View.INVISIBLE);
                 popup.setOnMenuItemClickListener(item->{
                     switch (item.getItemId()) {
                         case R.id.main_cat_mobile:
@@ -89,11 +90,13 @@ public class AddItemFragment extends Fragment {
 
                         case R.id.main_cat_sports:
                           seletedCatagory="Sports";
+                          tvSelectSubCatagory.setVisibility(View.VISIBLE);
                           hasSubCat=true;
                             break;
 
                         case R.id.main_cat_education:
                             seletedCatagory="Education";
+                            tvSelectSubCatagory.setVisibility(View.VISIBLE);
                             hasSubCat=true;
                             break;
 
@@ -104,12 +107,12 @@ public class AddItemFragment extends Fragment {
 
                         case R.id.main_cat_cab:
                             seletedCatagory="Cab";
-                            tvSelectSubCatagory.setVisibility(View.INVISIBLE);
+
                             break;
 
                         case R.id.main_cat_gifts:
                             seletedCatagory="Gifts";
-                            tvSelectSubCatagory.setVisibility(View.INVISIBLE);
+
                             break;
                         case R.id.main_cat_dth:
                             seletedCatagory="DTH";
@@ -119,6 +122,9 @@ public class AddItemFragment extends Fragment {
                             break;
                         case R.id.main_cat_event_management:
                             seletedCatagory="Event Management";
+                            break;
+                        case R.id.main_cat_accessories:
+                            seletedCatagory="Accessories";
                             break;
                     }
                     tvSelectcatagory.setText(seletedCatagory);
@@ -191,10 +197,10 @@ public class AddItemFragment extends Fragment {
               public boolean onMenuItemClick(MenuItem item) {
                   switch (item.getItemId()) {
                       case R.id.sub_cat_education_al:
-                          selectedSubCatagory="A/L";
+                          selectedSubCatagory="Advance Level";
                           break;
                       case R.id.sub_cat_education_ol:
-                          selectedSubCatagory="O/L";
+                          selectedSubCatagory="Ordianary Level";
                           break;
                       case R.id.sub_cat_education_other_stationary:
                           selectedSubCatagory="Other Stationary";
@@ -214,16 +220,16 @@ public class AddItemFragment extends Fragment {
       }
 
     }
-   private void saveCats(boolean hasCats){
+   private void saveCats(boolean hasCats, String seletedCatagory){
+       catRef.child(seletedCatagory).child("CatagoryName").setValue(this.seletedCatagory);
         if (hasCats){
             catRef.child(seletedCatagory).child("SubCatagories").child(selectedSubCatagory).child("SubCatagoryName").setValue(selectedSubCatagory);
             catRef.child(seletedCatagory).child("SubCatagories").child(selectedSubCatagory).child("Products").child(randomid).child("ProductId").setValue(randomid);
         }else{
             catRef.child(seletedCatagory).child("Products").child(randomid).child("ProductId").setValue(randomid);
-            catRef.child(seletedCatagory).child("CatagoryName").setValue(seletedCatagory);
         }
 
-       catRef.child(seletedCatagory).child("HasSub").setValue(hasCats);
+       catRef.child(this.seletedCatagory).child("HasSub").setValue(hasCats);
        // catRef.child(seletedCatagory).child(selectedSubCatagory).child("ProductId").setValue(randomid);
 
    }
@@ -306,7 +312,7 @@ public class AddItemFragment extends Fragment {
                 }
             });
         }
-        saveCats(hasSubCat);
+        saveCats(hasSubCat,seletedCatagory);
         itemsRef= FirebaseDatabase.getInstance().getReference().child("Products");
         itemsRef.addValueEventListener(new ValueEventListener() {
             @Override
