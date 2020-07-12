@@ -126,6 +126,18 @@ public class AddItemFragment extends Fragment {
                         case R.id.main_cat_accessories:
                             seletedCatagory="Accessories";
                             break;
+                        case R.id.main_cosmetics:
+                            seletedCatagory="Cosmetics";
+                            break;
+                        case R.id.main_cat_birthday_party:
+                            seletedCatagory="Birthday Party";
+                            break;
+                        case R.id.main_cat_second_hand:
+                            seletedCatagory="Second Hand";
+                            break;
+                        case R.id.main_cat_essential_goods:
+                            seletedCatagory="Essential Goods";
+                            break;
                     }
                     tvSelectcatagory.setText(seletedCatagory);
                     return true;

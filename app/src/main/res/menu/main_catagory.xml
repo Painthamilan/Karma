@@ -39,5 +39,17 @@
     <item
         android:id="@+id/main_cat_event_management"
         android:title="Event Management"/>
+    <item
+        android:id="@+id/main_cosmetics"
+        android:title="Cosmetics"/>
+    <item
+        android:id="@+id/main_cat_second_hand"
+        android:title="Second Hand"/>
+    <item
+        android:id="@+id/main_cat_birthday_party"
+        android:title="Birthday Party"/>
+    <item
+        android:id="@+id/main_cat_essential_goods"
+        android:title="Essential Goods"/>
 
 </menu>
