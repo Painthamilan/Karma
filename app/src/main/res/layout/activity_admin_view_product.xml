@@ -45,6 +45,18 @@
             app:layout_constraintTop_toTopOf="@+id/iv_product_image" />
 
         <TextView
+            android:id="@+id/tv_select_availability"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="Availability"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@+id/iv_product_image"
+            app:layout_constraintTop_toBottomOf="@id/tv_upload_image"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
             android:id="@+id/tv_upload_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -102,6 +114,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/et_price"
             app:layout_constraintTop_toBottomOf="@+id/et_product_name" />
+
 
         <EditText
             android:id="@+id/et_specifications"

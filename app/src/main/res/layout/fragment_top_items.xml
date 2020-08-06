@@ -160,6 +160,26 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_home" />
+        <TextView
+            android:id="@+id/tv_cats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textAllCaps="true"
+            android:paddingVertical="4dp"
+            android:paddingHorizontal="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="Catagories"
+            android:textAlignment="textStart"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:background="@drawable/main_theme_radius"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rv_topItems" />
 
         <TextView
             android:id="@+id/tv_instants"
@@ -180,7 +200,7 @@
             app:layout_constraintEnd_toEndOf="parent"
 
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rv_topItems" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_cats" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_instants"

@@ -52,4 +52,11 @@
         android:id="@+id/main_cat_essential_goods"
         android:title="Essential Goods"/>
 
+    <item
+        android:id="@+id/main_cat_clouth"
+        android:title="Clothes"/>
+    <item
+        android:id="@+id/main_cake"
+        android:title="Cake"/>
+
 </menu>
