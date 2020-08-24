@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.doordelivery.karma.AllCatActivity;
 import com.doordelivery.karma.Products;
 import com.doordelivery.karma.R;
+import com.doordelivery.karma.RecentItemsActivity;
 import com.doordelivery.karma.RoundedCorners;
 import com.doordelivery.karma.SearchActivity;
 import com.doordelivery.karma.Top;
@@ -39,7 +40,7 @@ import com.squareup.picasso.Picasso;
 public class TopFragment extends Fragment {
     private FirebaseAuth cfAuth;
     private String curUserId;
-    TextView etSearch,tvCats;
+    TextView etSearch,tvCats,tvRecent;
     private RecyclerView rvProducts,rvTopFragments,rvInstants;
     private DatabaseReference cfPostRef,topRef,instantsRef;
     private TextView ivInstant,tvMobile;
@@ -52,11 +53,19 @@ public class TopFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_top_items, container, false);
         final TextView textView = root.findViewById(R.id.text_home);
-        rvProducts=root.findViewById(R.id.rv_top);
+
         tvCats=root.findViewById(R.id.tv_cats);
         rvTopFragments=root.findViewById(R.id.rv_topItems);
         ivOffers=root.findViewById(R.id.iv_offer_of_day);
-        rvInstants=root.findViewById(R.id.rv_instants);
+        tvRecent=root.findViewById(R.id.recent);
+
+        tvRecent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showrecentItems(getContext());
+            }
+        });
+
         tvMobile=root.findViewById(R.id.tv_mobile);
         tvMobile.setSelected(true);
         etSearch=root.findViewById(R.id.et_search_bar);
@@ -83,16 +92,6 @@ public class TopFragment extends Fragment {
             }
         });
 
-        rvProducts.setHasFixedSize(true);
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
-        mLayoutManager.setStackFromEnd(true);
-        rvProducts.setLayoutManager(mLayoutManager);
-
-
-        rvInstants.setHasFixedSize(true);
-        LinearLayoutManager instantsLayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
-        instantsLayoutManager.setStackFromEnd(true);
-        rvInstants.setLayoutManager(instantsLayoutManager);
 
 
 
@@ -100,6 +99,8 @@ public class TopFragment extends Fragment {
         LinearLayoutManager horizontalYalayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
         horizontalYalayoutManager.setStackFromEnd(true);
         rvTopFragments.setLayoutManager(horizontalYalayoutManager);
+        showTop();
+
         ProgressDialog pd = new ProgressDialog(getContext());
         pd.setMessage("loading");
         pd.show();
@@ -122,22 +123,15 @@ public class TopFragment extends Fragment {
         });
 
         handler.postDelayed(runnable, 5000);
-        showAllProducts();
-        showHomeInstants();
-        showTop();
+
         return root;
     }
 
-
-
-
-    private void showInstants() {
-        Intent intent=new Intent(getActivity(), ViewSubCatsActivity.class);
-        intent.putExtra("CAT_NAME","Instant");
-        intent.putExtra("IsInstant",true);
-
+    private void showrecentItems(Context context) {
+        Intent intent=new Intent(context, RecentItemsActivity.class);
         startActivity(intent);
     }
+
 
     private void showTop() {
         topRef = FirebaseDatabase.getInstance().getReference().child("TopItems");
@@ -172,78 +166,7 @@ public class TopFragment extends Fragment {
 
     }
 
-    private void showHomeInstants() {
-        instantsRef = FirebaseDatabase.getInstance().getReference().child("Instants");
-        Query searchPeopleAndFriendsQuery = instantsRef.orderByChild("Counter");
-        FirebaseRecyclerAdapter<Products, TopViewHolder> firebaseRecyclerAdapter =
-                new FirebaseRecyclerAdapter<Products, TopViewHolder>(
-                        Products.class,
-                        R.layout.item_layout,
-                        TopViewHolder.class,
-                        searchPeopleAndFriendsQuery
 
-                ) {
-                    @Override
-                    protected void populateViewHolder(TopViewHolder postViewHolder, Products model, int position) {
-                        String postKey = getRef(position).getKey();
-                        postViewHolder.setPrice(model.getPrice(), model.getPercentage());
-                        postViewHolder.setProductImage(model.getProductImage());
-                        postViewHolder.setProductName(model.getProductName());
-                        postViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent=new Intent(getActivity(), ViewProductActivity.class);
-                                intent.putExtra("REF_KEY",model.getProductId());
-                                intent.putExtra("isOffer",false);
-                                intent.putExtra("isInstant",true);
-                                startActivity(intent);
-                            }
-                        });
-                    }
-                };
-        rvInstants.setAdapter(firebaseRecyclerAdapter);
-
-    }
-
-    private void showAllProducts() {
-        cfPostRef = FirebaseDatabase.getInstance().getReference().child("Products");
-        Query searchPeopleAndFriendsQuery = cfPostRef.orderByChild("Counter").limitToLast(6);
-        FirebaseRecyclerAdapter<Products, PostViewHolder> firebaseRecyclerAdapter =
-                new FirebaseRecyclerAdapter<Products, PostViewHolder>(
-                        Products.class,
-                        R.layout.item_layout,
-                        PostViewHolder.class,
-                        searchPeopleAndFriendsQuery
-
-                ) {
-                    @Override
-                    protected void populateViewHolder(PostViewHolder postViewHolder, Products model, int position) {
-                        String postKey = getRef(position).getKey();
-                        postViewHolder.setPrice(model.getPrice(),model.getPercentage());
-                        postViewHolder.setProductImage(model.getProductImage());
-                        postViewHolder.setProductName(model.getProductName());
-                        postViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent=new Intent(getActivity(), ViewProductActivity.class);
-                                intent.putExtra("REF_KEY",postKey);
-                                intent.putExtra("isOffer",false);
-                                startActivity(intent);
-                            }
-                        });
-
-
-
-
-
-
-
-
-                    }
-                };
-
-        rvProducts.setAdapter(firebaseRecyclerAdapter);
-    }
     public static class TopViewHolder extends RecyclerView.ViewHolder {
         View cfView;
         FirebaseAuth cfAuth=FirebaseAuth.getInstance();
@@ -280,79 +203,6 @@ public class TopFragment extends Fragment {
 
         public void setProductImage(String productImage) {
             Picasso.get().load(productImage).transform(new RoundedCorners(80, 0)).into(ivproductImage);
-        }
-
-    }
-    public static class PostViewHolder extends RecyclerView.ViewHolder {
-        View cfView;
-        FirebaseAuth cfAuth=FirebaseAuth.getInstance();
-        String userId;
-        TextView tvProductName,tvPrice;
-        ImageView ivproductImage,ivDropArrow;
-        DatabaseReference topRef;
-        public PostViewHolder(@NonNull View itemView) {
-            super(itemView);
-            cfView = itemView;
-            tvPrice=cfView.findViewById(R.id.price);
-            tvProductName=cfView.findViewById(R.id.tv_product_name);
-            tvProductName.setSelected(true);
-            ivproductImage=cfView.findViewById(R.id.iv_product_image);
-                    ivDropArrow=cfView.findViewById(R.id.iv_down_arrow);
-
-            topRef=FirebaseDatabase.getInstance().getReference().child("TopItems");
-
-        }
-
-        public void setPrice(String price, String percentage) {
-            tvPrice.setText(Utils.getActualPrice(price,percentage)+".00");
-
-        }
-
-        public void setProductName(String productName) {
-         tvProductName.setText(productName);
-        }
-
-        public void setProductImage(String productImage) {
-            Picasso.get().load(productImage).transform(new RoundedCorners(80, 0)).into(ivproductImage);
-        }
-        public void dropDownClicker(String name,String image,String price,String postId, Context context) {
-            PopupMenu popup = new PopupMenu(context,ivDropArrow);
-            popup.getMenuInflater().inflate(R.menu.top_selector, popup.getMenu());
-            ivDropArrow.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    popup.setOnMenuItemClickListener(item->{
-                        switch (item.getItemId()) {
-                            case R.id.rank_first:
-                                // Toast.makeText(context, ""+postId, Toast.LENGTH_SHORT).show();
-                                updateRank("First",postId, name, image, price,"a");
-                                break;
-                            case R.id.rank_second:
-                                // Toast.makeText(context, "second", Toast.LENGTH_SHORT).show();
-                                updateRank("Second",postId, name, image, price, "b");
-                                break;
-                            case R.id.rank_thirt:
-                                // Toast.makeText(context, "thirt", Toast.LENGTH_SHORT).show();
-                                updateRank("Thirt",postId, name, image, price, "c");
-                                break;
-                            case R.id.rank_forth:
-                                // Toast.makeText(context, "thirt", Toast.LENGTH_SHORT).show();
-                                updateRank("Fourth",postId, name, image, price, "d");
-                                break;
-                        }
-                        return true;
-                    });
-                    popup.show();
-                }
-            });
-        }
-        private void updateRank(String rank, String postId, String name, String image, String price, String i) {
-            topRef.child(rank).child("ItemId").setValue(postId);
-            topRef.child(rank).child("ItemName").setValue(name);
-            topRef.child(rank).child("ItemImage").setValue(image);
-            topRef.child(rank).child("ItemPrice").setValue(price);
-            topRef.child(rank).child("Rank").setValue(i);
         }
 
 

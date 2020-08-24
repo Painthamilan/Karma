@@ -139,10 +139,16 @@ public class AddItemFragment extends Fragment {
                             seletedCatagory="Essential Goods";
                             break;
                         case R.id.main_cat_clouth:
-                            seletedCatagory="Clothes";
+                            seletedCatagory="Clothings";
                             break;
                         case R.id.main_cake:
                             seletedCatagory="Cake";
+                            break;
+                        case R.id.main_cat_library:
+                            seletedCatagory="Library";
+                            break;
+                        case R.id.main_cat_flowers:
+                            seletedCatagory="Flowers & Bouquests";
                             break;
                     }
                     tvSelectcatagory.setText(seletedCatagory);
