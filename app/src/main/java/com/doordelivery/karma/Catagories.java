@@ -1,16 +1,16 @@
 package com.doordelivery.karma;
 
-public class Cats {
+public class Catagories {
 private String CatagoryName,CatagoryImage;
 private boolean HasSub;
 
-    public Cats() {
+    public Catagories() {
     }
 
-    public Cats(String catagoryName, String catagoryImage, boolean HasSub) {
+    public Catagories(String catagoryName, String catagoryImage, boolean hasSub) {
         CatagoryName = catagoryName;
         CatagoryImage = catagoryImage;
-        HasSub = HasSub;
+        HasSub = hasSub;
     }
 
     public String getCatagoryName() {

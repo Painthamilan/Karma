@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.doordelivery.karma.Cats;
+import com.doordelivery.karma.Catagories;
 import com.doordelivery.karma.CatsDetailActivity;
 import com.doordelivery.karma.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -54,16 +54,16 @@ public class AddCatagoriesDetails extends Fragment {
 
     private void showAllCats() {
         cfPostRef = FirebaseDatabase.getInstance().getReference().child("Catagories");
-        FirebaseRecyclerAdapter<Cats, CatsViewHolder> firebaseRecyclerAdapter =
-                new FirebaseRecyclerAdapter<Cats, CatsViewHolder>(
-                        Cats.class,
+        FirebaseRecyclerAdapter<Catagories, CatsViewHolder> firebaseRecyclerAdapter =
+                new FirebaseRecyclerAdapter<Catagories, CatsViewHolder>(
+                        Catagories.class,
                         R.layout.list_cats_layout,
                         CatsViewHolder.class,
                         cfPostRef
 
                 ) {
                     @Override
-                    protected void populateViewHolder(CatsViewHolder postViewHolder, Cats model, int position) {
+                    protected void populateViewHolder(CatsViewHolder postViewHolder, Catagories model, int position) {
                         String postKey = getRef(position).getKey();
                         postViewHolder.setCatagoryName(model.getCatagoryName());
                         postViewHolder.setCatagoryImage(model.getCatagoryImage());

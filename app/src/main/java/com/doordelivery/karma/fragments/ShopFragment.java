@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.doordelivery.karma.Cats;
+import com.doordelivery.karma.Catagories;
 import com.doordelivery.karma.R;
 import com.doordelivery.karma.ViewItemsActivity;
 import com.doordelivery.karma.ViewSubCatsActivity;
@@ -50,16 +50,16 @@ DatabaseReference listCatsRef;
     }
 
     private void shoeAllCats() {
-        FirebaseRecyclerAdapter<Cats, CatsViewHolder> firebaseRecyclerAdapter =
-                new FirebaseRecyclerAdapter<Cats, CatsViewHolder>(
-                        Cats.class,
+        FirebaseRecyclerAdapter<Catagories, CatsViewHolder> firebaseRecyclerAdapter =
+                new FirebaseRecyclerAdapter<Catagories, CatsViewHolder>(
+                        Catagories.class,
                         R.layout.catagory_list_layout,
                         CatsViewHolder.class,
                         listCatsRef
 
                 ) {
                     @Override
-                    protected void populateViewHolder(CatsViewHolder postViewHolder, Cats model, int position) {
+                    protected void populateViewHolder(CatsViewHolder postViewHolder, Catagories model, int position) {
                         String postKey = getRef(position).getKey();
                         postViewHolder.setCatagoryName(model.getCatagoryName());
                         postViewHolder.setCatagoryImage(model.getCatagoryImage());
