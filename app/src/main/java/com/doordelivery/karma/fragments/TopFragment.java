@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.doordelivery.karma.AllCatActivity;
+import com.doordelivery.karma.ContactUs;
 import com.doordelivery.karma.Products;
 import com.doordelivery.karma.R;
 import com.doordelivery.karma.RecentItemsActivity;
@@ -40,11 +41,11 @@ import com.squareup.picasso.Picasso;
 public class TopFragment extends Fragment {
     private FirebaseAuth cfAuth;
     private String curUserId;
-    TextView etSearch,tvCats,tvRecent;
+    TextView etSearch,tvContact;
     private RecyclerView rvProducts,rvTopFragments,rvInstants;
     private DatabaseReference cfPostRef,topRef,instantsRef;
     private TextView ivInstant,tvMobile;
-    ImageView ivOffers;
+    ImageView ivOffers,tvCats,tvRecent;
 
     AlertDialog.Builder dialogBuilder;
     AlertDialog dialog;
@@ -58,6 +59,15 @@ public class TopFragment extends Fragment {
         rvTopFragments=root.findViewById(R.id.rv_topItems);
         ivOffers=root.findViewById(R.id.iv_offer_of_day);
         tvRecent=root.findViewById(R.id.recent);
+        tvContact=root.findViewById(R.id.tv_mobile);
+        tvContact.setSelected(true);
+        tvContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getContext(), ContactUs.class);
+                startActivity(intent);
+            }
+        });
 
         tvRecent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,8 +76,7 @@ public class TopFragment extends Fragment {
             }
         });
 
-        tvMobile=root.findViewById(R.id.tv_mobile);
-        tvMobile.setSelected(true);
+        tvContact.setSelected(true);
         etSearch=root.findViewById(R.id.et_search_bar);
         etSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,7 +131,7 @@ public class TopFragment extends Fragment {
             }
         });
 
-        handler.postDelayed(runnable, 5000);
+        handler.postDelayed(runnable, 2000);
 
         return root;
     }

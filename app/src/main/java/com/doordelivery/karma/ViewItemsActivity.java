@@ -1,19 +1,26 @@
 package com.doordelivery.karma;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.doordelivery.karma.adapters.CatagoryAdapter;
+import com.doordelivery.karma.adapters.ProductAdapter;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -24,6 +31,9 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ViewItemsActivity extends AppCompatActivity {
     String catName, catImage, mainCatName, userId;
     DatabaseReference subCatRef, instantsRef;
@@ -33,16 +43,27 @@ public class ViewItemsActivity extends AppCompatActivity {
     FirebaseAuth cfAuth;
     boolean isInstant, isAdmin;
 
+    final int ITEM_LOAD_COUNT = 5;
+    int tota_item = 0, last_visible_item;
+
+    ProductAdapter productAdapter;
+    boolean isLoading = false, isMaxData = false;
+    String last_node = "", last_key = "";
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_items);
+        Utils.setTopBar(getWindow(),getResources());
         cfAuth=FirebaseAuth.getInstance();
         if (cfAuth.getCurrentUser() != null) {
             userId = cfAuth.getCurrentUser().getUid().toString();
         }else {
             userId="bkblkhlkhlhjg";
         }
+
+        rvCats=findViewById(R.id.rv_list_items);
 
         catName=getIntent().getStringExtra("CAT_NAME");
         mainCatName=getIntent().getStringExtra("MAIN_CAT_NAME");
@@ -54,142 +75,115 @@ public class ViewItemsActivity extends AppCompatActivity {
             subCatRef= FirebaseDatabase.getInstance().getReference().child("Catagories").child(mainCatName).child("Products");
         }
       instantsRef=FirebaseDatabase.getInstance().getReference().child("Instants");
-        rvCats=findViewById(R.id.rv_list_items);
-        rvCats.setHasFixedSize(true);
-        // rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        getLastItem();
+
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
-        mLayoutManager.setReverseLayout(true);
-        mLayoutManager.setStackFromEnd(true);
-        mLayoutManager = new GridLayoutManager(ViewItemsActivity.this, 3);
         // Set the layout manager to your recyclerview
+        mLayoutManager.setStackFromEnd(true);
+        mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvCats.setLayoutManager(mLayoutManager);
 
-        shoeAllItems();
-    }
-
-    private void shoeAllItems() {
-        if (Utils.isAdmin(userId)) {
-            mainRef=subCatRef;
-        }else{
-            if (isInstant){
-                mainRef=instantsRef.orderByChild("IsAvailable").equalTo("Yes");
-            }
-            else {
-                mainRef=subCatRef;
-            }
-        }
-
-        FirebaseRecyclerAdapter<Products, CatsViewHolder> firebaseRecyclerAdapter =
-                new FirebaseRecyclerAdapter<Products, CatsViewHolder>(
-                        Products.class,
-                        R.layout.item_grid_layout,
-                        CatsViewHolder.class,
-                        mainRef
-
-                ) {
-                    @Override
-                    protected void populateViewHolder(CatsViewHolder postViewHolder, Products model, int position) {
-                        String postKey = getRef(position).getKey();
-                        postViewHolder.getItemDetails(model.getProductId());
+        DividerItemDecoration dividerItemDecoration=new DividerItemDecoration(rvCats.getContext(),mLayoutManager.getOrientation());
+        rvCats.addItemDecoration(dividerItemDecoration);
 
 
 
-                            postViewHolder.cfView.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    if (Utils.isAdmin(postViewHolder.userId)) {
-                                        postViewHolder.manageDropDown(postViewHolder.cfView, ViewItemsActivity.this, postKey);
-                                    }
-                                    else {
-                                        Intent intent = new Intent(ViewItemsActivity.this, ViewProductActivity.class);
-                                        intent.putExtra("REF_KEY", postKey);
-                                        intent.putExtra("isOffer", false);
-                                        intent.putExtra("IsInstant", isInstant);
-                                        startActivity(intent);
-                                    }
-                                }
-                            });
+        productAdapter = new ProductAdapter(this);
+        rvCats.setAdapter(productAdapter);
 
+        showAllItems();
 
-                    }
-                };
+        rvCats.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
 
-        rvCats.setAdapter(firebaseRecyclerAdapter);
-    }
-    public static class CatsViewHolder extends RecyclerView.ViewHolder {
-        View cfView;
+                tota_item = mLayoutManager.getItemCount();
+                last_visible_item = mLayoutManager.findLastCompletelyVisibleItemPosition();
 
-        DatabaseReference itemRef;
-        TextView tvName,tvPrice;
-        ImageView tvImage,ivDownArrow;
-        FirebaseAuth cfAuth;
-        String userId;
-        public CatsViewHolder(@NonNull View itemView) {
-            super(itemView);
-            cfView = itemView;
-            tvName=cfView.findViewById(R.id.tv_product_name);
-            tvImage=cfView.findViewById(R.id.iv_product_image);
-            tvPrice=cfView.findViewById(R.id.price);
-            ivDownArrow=cfView.findViewById(R.id.iv_down_arrow);
-            cfAuth=FirebaseAuth.getInstance();
-            if (cfAuth.getCurrentUser() != null) {
-                userId = cfAuth.getCurrentUser().getUid().toString();
-            }
-           // userId=cfAuth.getCurrentUser().getUid();
-
-        }
-
-        public void getItemDetails(String productId) {
-            itemRef=FirebaseDatabase.getInstance().getReference().child("Products").child(productId);
-            itemRef.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                 if (dataSnapshot.exists()){
-                     String name=dataSnapshot.child("ProductName").getValue().toString();
-                     tvName.setText(name);
-                     String image=dataSnapshot.child("ProductImage").getValue().toString();
-                     Picasso.get().load(image).into(tvImage);
-                     String price=dataSnapshot.child("Price").getValue().toString();
-                     tvPrice.setText(price+".00");
-                 }
+                if (!isLoading && tota_item <= ((last_visible_item + ITEM_LOAD_COUNT))) {
+                    showAllItems();
+                    isLoading = true;
                 }
 
+            }
+        });
+
+        productAdapter.notifyDataSetChanged();
+
+    }
+
+    private void showAllItems() {
+
+        if (!isMaxData) {
+            Query query;
+            if (TextUtils.isEmpty(last_node))
+
+                query = subCatRef
+                        .orderByKey()
+                        .limitToFirst(ITEM_LOAD_COUNT);
+
+            else
+
+                query = subCatRef
+                        .orderByKey()
+                        .startAt(last_node)
+                        .limitToFirst(ITEM_LOAD_COUNT);
+
+            query.addValueEventListener(new ValueEventListener() {
                 @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
-        }
-
-        public void manageDropDown(View cfView, Context context, String postKey) {
-            PopupMenu popup = new PopupMenu(context,cfView);
-            popup.getMenuInflater().inflate(R.menu.instant_available_menu, popup.getMenu());
-            cfView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    popup.setOnMenuItemClickListener(item->{
-                        switch (item.getItemId()) {
-                            case R.id.availability_yes:
-                                // Toast.makeText(context, ""+postId, Toast.LENGTH_SHORT).show();
-                                updateAvailability("Yes",postKey);
-                                break;
-                            case R.id.availability_no:
-                                // Toast.makeText(context, "second", Toast.LENGTH_SHORT).show();
-                                updateAvailability("No",postKey);
-                                break;
-
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.hasChildren()) {
+                        List<Products> newProducts = new ArrayList<>();
+                        for (DataSnapshot productSnapShot : snapshot.getChildren()) {
+                            newProducts.add(productSnapShot.getValue(Products.class));
                         }
-                        return true;
-                    });
-                    popup.show();
+                        last_node = newProducts.get(newProducts.size() - 1).getProductId();
+
+                        if (!last_node.equals(last_key))
+                            newProducts.remove(newProducts.size() - 1);
+                        else
+                            last_node = "end";
+
+                        productAdapter.addAll(newProducts);
+                        isLoading = false;
+
+                    } else {
+                        isLoading = false;
+                        isMaxData = true;
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    isLoading = false;
+
                 }
             });
         }
-
-        private void updateAvailability(String available,String key) {
-            DatabaseReference instantRef=FirebaseDatabase.getInstance().getReference().child("Instants").child(key);
-            instantRef.child("IsAvailable").setValue(available);
-        }
     }
+
+    private void getLastItem() {
+
+        Query getLastKey = subCatRef
+                .orderByKey()
+                .limitToLast(1);
+        getLastKey.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot lastKey : snapshot.getChildren())
+                    last_key = lastKey.getKey();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+                Toast.makeText(ViewItemsActivity.this, "something went wrong", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
 }

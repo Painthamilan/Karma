@@ -153,7 +153,7 @@ public class AdminViewProductActivity extends AppCompatActivity {
                    etPrice.setText(dataSnapshot.child("Price").getValue().toString());
                    etSpecification.setText(dataSnapshot.child("Specifications").getValue().toString());
                    if (dataSnapshot.hasChild("Percentage")){
-                       etSpecification.setText(dataSnapshot.child("Percentage").getValue().toString());
+                       etPercentage.setText(dataSnapshot.child("Percentage").getValue().toString());
                    }
 
                }

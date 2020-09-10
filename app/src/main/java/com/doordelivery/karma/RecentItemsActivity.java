@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,16 +13,26 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.doordelivery.karma.adapters.ProductAdapter;
+import com.doordelivery.karma.adapters.RecentAdapters;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.app.PendingIntent.getActivity;
 
@@ -29,6 +40,15 @@ public class RecentItemsActivity extends AppCompatActivity {
 
     DatabaseReference cfPostRef;
     RecyclerView rvProducts;
+
+    final int ITEM_LOAD_COUNT = 5;
+    int tota_item = 0, last_visible_item;
+
+    RecentAdapters productAdapter;
+    boolean isLoading = false, isMaxData = false;
+    String last_node = "", last_key = "";
+
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,80 +58,113 @@ public class RecentItemsActivity extends AppCompatActivity {
         Utils.setTopBar(getWindow(),getResources());
         rvProducts=findViewById(R.id.rv_list_recent);
 
-        rvProducts.setHasFixedSize(true);
-        // rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
-        // LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        LinearLayoutManager mLayoutManager =new LinearLayoutManager(this);
-        mLayoutManager.setReverseLayout(true);
-        mLayoutManager.setStackFromEnd(true);
-        mLayoutManager=new GridLayoutManager(this,4);;
+        getLastItem();
+
+
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         // Set the layout manager to your recyclerview
+        mLayoutManager.setStackFromEnd(true);
+        mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvProducts.setLayoutManager(mLayoutManager);
+
+        DividerItemDecoration dividerItemDecoration=new DividerItemDecoration(rvProducts.getContext(),mLayoutManager.getOrientation());
+        rvProducts.addItemDecoration(dividerItemDecoration);
+
+
+
+        productAdapter = new RecentAdapters(this);
+        rvProducts.setAdapter(productAdapter);
+
         showAllProducts();
+
+        rvProducts.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                tota_item = mLayoutManager.getItemCount();
+                last_visible_item = mLayoutManager.findLastCompletelyVisibleItemPosition();
+
+                if (!isLoading && tota_item <= ((last_visible_item + ITEM_LOAD_COUNT))) {
+                    showAllProducts();
+                    isLoading = true;
+                }
+
+            }
+        });
+
+        productAdapter.notifyDataSetChanged();
+
     }
     private void showAllProducts() {
-        cfPostRef = FirebaseDatabase.getInstance().getReference().child("Products");
-        Query searchPeopleAndFriendsQuery = cfPostRef.orderByChild("Counter");
-        FirebaseRecyclerAdapter<Products, PostViewHolder> firebaseRecyclerAdapter =
-                new FirebaseRecyclerAdapter<Products, PostViewHolder>(
-                        Products.class,
-                        R.layout.recent_layout,
-                        PostViewHolder.class,
-                        searchPeopleAndFriendsQuery
+        cfPostRef=FirebaseDatabase.getInstance().getReference().child("Products");
+        if (!isMaxData) {
+            Query query;
+            if (TextUtils.isEmpty(last_node))
 
-                ) {
-                    @Override
-                    protected void populateViewHolder(PostViewHolder postViewHolder, Products model, int position) {
-                        String postKey = getRef(position).getKey();
-                        postViewHolder.setPrice(model.getPrice());
-                        postViewHolder.setProductImage(model.getProductImage());
-                        postViewHolder.setProductName(model.getProductName());
-                        postViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent=new Intent(RecentItemsActivity.this, ViewProductActivity.class);
-                                intent.putExtra("REF_KEY",postKey);
-                                intent.putExtra("isOffer",false);
-                                startActivity(intent);
-                            }
-                        });
+                query = cfPostRef
+                        .orderByKey()
+                        .limitToFirst(ITEM_LOAD_COUNT);
+
+            else
+
+                query = cfPostRef
+                        .orderByKey()
+                        .startAt(last_node)
+                        .limitToFirst(ITEM_LOAD_COUNT);
+
+            query.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.hasChildren()) {
+                        List<Products> newProducts = new ArrayList<>();
+                        for (DataSnapshot productSnapShot : snapshot.getChildren()) {
+                            newProducts.add(productSnapShot.getValue(Products.class));
+                        }
+                        last_node = newProducts.get(newProducts.size() - 1).getProductId();
+
+                        if (!last_node.equals(last_key))
+                            newProducts.remove(newProducts.size() - 1);
+                        else
+                            last_node = "end";
+
+                        productAdapter.addAll(newProducts);
+                        isLoading = false;
+
+                    } else {
+                        isLoading = false;
+                        isMaxData = true;
                     }
-                };
 
-        rvProducts.setAdapter(firebaseRecyclerAdapter);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    isLoading = false;
+
+                }
+            });
+        }
     }
 
-    public static class PostViewHolder extends RecyclerView.ViewHolder {
-        View cfView;
-        FirebaseAuth cfAuth= FirebaseAuth.getInstance();
-        String userId;
-        TextView tvProductName,tvPrice;
-        ImageView ivproductImage,ivDropArrow;
-        DatabaseReference topRef;
-        public PostViewHolder(@NonNull View itemView) {
-            super(itemView);
-            cfView = itemView;
-            tvPrice=cfView.findViewById(R.id.price);
-            tvProductName=cfView.findViewById(R.id.tv_product_name);
-            ivproductImage=cfView.findViewById(R.id.iv_product_image);
-            ivDropArrow=cfView.findViewById(R.id.iv_down_arrow);
-            topRef= FirebaseDatabase.getInstance().getReference().child("TopItems");
+    private void getLastItem() {
+        cfPostRef=FirebaseDatabase.getInstance().getReference().child("Products");
+        Query getLastKey = cfPostRef
+                .orderByChild("Counter")
+                .limitToLast(1);
+        getLastKey.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot lastKey : snapshot.getChildren())
+                    last_key = lastKey.getKey();
+            }
 
-        }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-        public void setPrice(String price) {
-            tvPrice.setText(price+".00 ₹");
-
-        }
-
-        public void setProductName(String productName) {
-            tvProductName.setText(productName);
-        }
-
-        public void setProductImage(String productImage) {
-            Picasso.get().load(productImage).into(ivproductImage);
-        }
-
-
+                Toast.makeText(RecentItemsActivity.this, "something went wrong", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
 }

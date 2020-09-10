@@ -1,12 +1,14 @@
 package com.doordelivery.karma;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.TextView;
@@ -35,10 +37,12 @@ public class AllCatActivity extends AppCompatActivity {
     String last_node = "", last_key = "";
 
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_cat);
+        Utils.setTopBar(getWindow(),getResources());
 
         final TextView textView = findViewById(R.id.text_dashboard);
         rvCats = findViewById(R.id.rv_list_cats);
@@ -149,7 +153,7 @@ public class AllCatActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
-                Toast.makeText(AllCatActivity.this, "unable to get last", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AllCatActivity.this, "something went wrong", Toast.LENGTH_SHORT).show();
             }
         });
     }

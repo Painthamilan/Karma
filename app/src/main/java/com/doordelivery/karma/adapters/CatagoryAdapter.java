@@ -59,7 +59,7 @@ public class CatagoryAdapter extends RecyclerView.Adapter<CatagoryAdapter.CatVie
 
         holder.tvCatName.setText(catList.get(position).getCatagoryName());
         Picasso.get().load(catList.get(position).getCatagoryImage()).into(holder.ivCatImage);
-        holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
+        holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(catList.get(position).isHasSub()) {
@@ -93,9 +93,11 @@ public class CatagoryAdapter extends RecyclerView.Adapter<CatagoryAdapter.CatVie
         TextView tvCatName;
         ImageView ivCatImage;
         ConstraintLayout constraintLayout;
+        View view;
 
         public CatViewHolder(@NonNull View itemView) {
             super(itemView);
+            view=itemView;
             tvCatName=itemView.findViewById(R.id.tv_cat_name);
             ivCatImage=itemView.findViewById(R.id.iv_cat_label);
             constraintLayout=itemView.findViewById(R.id.con_layout);
