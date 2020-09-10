@@ -27,7 +27,7 @@
             android:id="@+id/tv_home"
             android:layout_width="match_parent"
             android:layout_height="140dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="4dp"
 
             android:background="@drawable/main_theme_radius"
             android:clickable="true"
@@ -36,7 +36,7 @@
             android:focusableInTouchMode="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/text_dashboard" />
 
         <ImageView
             android:id="@+id/iv_d2d"
@@ -61,23 +61,24 @@
             android:textSize="26dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/iv_d2d"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/iv_d2d"
             app:layout_constraintTop_toTopOf="@+id/iv_d2d" />
+
         <TextView
             android:id="@+id/tv_mobile"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/mid_font"
             android:layout_marginTop="18dp"
-            android:layout_marginStart="50dp"
-            android:layout_marginEnd="50dp"
-            android:text="Click here to contact us"
+            android:ellipsize="marquee"
+            android:fontFamily="@font/mid_font"
             android:gravity="center"
             android:singleLine="true"
+            android:text="Click here to contact us"
             android:textAllCaps="true"
-            android:textColor="@color/yellow"
+            android:textColor="@color/mint_cream"
             android:textSize="18dp"
-            android:ellipsize="marquee"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/tv_home"
             app:layout_constraintStart_toStartOf="@+id/tv_home"
