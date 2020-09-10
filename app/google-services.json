@@ -8,17 +8,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:810358702942:android:2b4d661fdcfb9d56f785cf",
+        "mobilesdk_app_id": "1:810358702942:android:e8d67283902694abf785cf",
         "android_client_info": {
-          "package_name": "com.example.karma"
+          "package_name": "com.doordelivery.karma"
         }
       },
       "oauth_client": [
         {
-          "client_id": "810358702942-fm36c89fipc8kblaj57cgr9rkq0cusu1.apps.googleusercontent.com",
+          "client_id": "810358702942-u2q22al7uqhnjjv893i6dss9ddg5s6fp.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.karma",
+            "package_name": "com.doordelivery.karma",
             "certificate_hash": "07ff6b0c280683dc60467aaa025c33ca2f514d1d"
           }
         },

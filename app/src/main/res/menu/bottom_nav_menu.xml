@@ -12,8 +12,18 @@
         android:title="Shop" />
 
     <item
-        android:id="@+id/navigation_notifications"
-        android:icon="@drawable/ic_notifications_black_24dp"
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/cf_profile"
         android:title="Profile" />
+
+    <item
+        android:id="@+id/navigation_cart"
+        android:icon="@drawable/ic_shopping_cart_black_48dp"
+        android:title="Cart" />
+
+    <item
+        android:id="@+id/navigation_notification"
+        android:icon="@drawable/ic_notifications_black_24dp"
+        android:title="Notifications" />
 
 </menu>

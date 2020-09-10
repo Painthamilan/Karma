@@ -37,6 +37,21 @@
         app:layout_constraintEnd_toEndOf="@+id/tv_my_orders"
         app:layout_constraintStart_toStartOf="@+id/tv_my_orders"
         app:layout_constraintTop_toBottomOf="@id/tv_my_orders" />
+    <TextView
+        android:id="@+id/tv_manage_instants"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:background="@drawable/all_button_background"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="8dp"
+        android:text="Manage Instants"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/tv_add_special"
+        app:layout_constraintStart_toStartOf="@+id/tv_add_special"
+        app:layout_constraintTop_toBottomOf="@id/tv_add_special" />
 
     <TextView
         android:id="@+id/text_notifications"
@@ -50,7 +65,7 @@
         android:textAlignment="center"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/tv_add_special"
-        app:layout_constraintStart_toStartOf="@+id/tv_add_special"
-        app:layout_constraintTop_toBottomOf="@id/tv_add_special" />
+        app:layout_constraintEnd_toEndOf="@+id/tv_manage_instants"
+        app:layout_constraintStart_toStartOf="@+id/tv_manage_instants"
+        app:layout_constraintTop_toBottomOf="@id/tv_manage_instants" />
 </androidx.constraintlayout.widget.ConstraintLayout>

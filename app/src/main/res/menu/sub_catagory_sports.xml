@@ -3,11 +3,6 @@
     <item
         android:id="@+id/sub_cat_sports_tennis_ball"
         android:title="Tennis Ball"/>
-
-    <item
-        android:id="@+id/sub_cat_sports_stumps"
-        android:title="Stumps"/>
-
     <item
         android:id="@+id/sub_cat_sports_volly_ball"
         android:title="Volly Ball"/>
