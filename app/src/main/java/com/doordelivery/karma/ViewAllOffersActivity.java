@@ -61,7 +61,7 @@ public class ViewAllOffersActivity extends AppCompatActivity {
                       postViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent=new Intent(ViewAllOffersActivity.this, ViewProductActivity.class);
+                                Intent intent=new Intent(ViewAllOffersActivity.this, ViewSingleProductActivity.class);
                                 intent.putExtra("REF_KEY",postKey);
                                 intent.putExtra("isOffer",true);
                                 intent.putExtra("ActualPrice",postViewHolder.setNewPrice(model.getPercentage(),model.getPrice()));

@@ -6,7 +6,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ViewProductActivity"
+    tools:context=".ViewSingleProductActivity"
     android:background="@color/white"
     tools:ignore="GradleDependency">
     <androidx.constraintlayout.widget.ConstraintLayout

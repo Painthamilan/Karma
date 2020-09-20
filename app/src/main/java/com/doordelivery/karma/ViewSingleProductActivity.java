@@ -38,7 +38,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.TimeZone;
 
-public class ViewProductActivity extends AppCompatActivity {
+public class ViewSingleProductActivity extends AppCompatActivity {
     ImageView ivProductImage;
     TextView tvProductName,tvPrice,tvAddCart,tvNewPrice;
     TextView tvOrder,tvSpecs,tvPercentage,tvAvailability;
@@ -229,8 +229,8 @@ public class ViewProductActivity extends AppCompatActivity {
 
     private void showDialogForConfirmInstant() {
 
-        AlertDialog.Builder dialogBuilder=new AlertDialog.Builder(ViewProductActivity.this, R.style.AlertDialogTheme).setCancelable(false);
-        View rowView= LayoutInflater.from(ViewProductActivity.this).inflate(R.layout.instant_layout,null);
+        AlertDialog.Builder dialogBuilder=new AlertDialog.Builder(ViewSingleProductActivity.this, R.style.AlertDialogTheme).setCancelable(false);
+        View rowView= LayoutInflater.from(ViewSingleProductActivity.this).inflate(R.layout.instant_layout,null);
         dialogBuilder.setView(rowView);
         AlertDialog dialog = dialogBuilder.create();
         if (dialog.getWindow() != null) {
@@ -246,7 +246,7 @@ public class ViewProductActivity extends AppCompatActivity {
         cartPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ViewProductActivity.this, "Cart payment is not available", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ViewSingleProductActivity.this, "Cart payment is not available", Toast.LENGTH_SHORT).show();
             }
         });
         cashOnDelivery.setOnClickListener(new View.OnClickListener() {
@@ -254,7 +254,7 @@ public class ViewProductActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String nic=etNic.getText().toString();
                 if (TextUtils.isEmpty(nic)){
-                    Toast.makeText(ViewProductActivity.this, "Please enter NIC number", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewSingleProductActivity.this, "Please enter NIC number", Toast.LENGTH_SHORT).show();
                 }else {
                     if (isCart){
                         addtoCart();
@@ -279,7 +279,7 @@ public class ViewProductActivity extends AppCompatActivity {
         phoneNum = etPhoneNumber.getText().toString();
         adress = etAdress.getText().toString();
         if (TextUtils.isEmpty(phoneNum) || TextUtils.isEmpty(adress)) {
-            Toast.makeText(ViewProductActivity.this, "please give phone number and address!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ViewSingleProductActivity.this, "please give phone number and address!", Toast.LENGTH_SHORT).show();
         } else {
             HashMap postMap = new HashMap();
             postMap.put("CartId", curUserId + randomid);
@@ -301,7 +301,7 @@ public class ViewProductActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task task) {
                     if (task.isSuccessful()) {
-                        Toast.makeText(ViewProductActivity.this, "Added", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ViewSingleProductActivity.this, "Added", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -310,8 +310,8 @@ public class ViewProductActivity extends AppCompatActivity {
     }
 
     private void showDialogForConfirmorder() {
-        AlertDialog.Builder dialogBuilder=new AlertDialog.Builder(ViewProductActivity.this, R.style.AlertDialogTheme).setCancelable(false);
-        View rowView= LayoutInflater.from(ViewProductActivity.this).inflate(R.layout.buy_all_dialog,null);
+        AlertDialog.Builder dialogBuilder=new AlertDialog.Builder(ViewSingleProductActivity.this, R.style.AlertDialogTheme).setCancelable(false);
+        View rowView= LayoutInflater.from(ViewSingleProductActivity.this).inflate(R.layout.buy_all_dialog,null);
         dialogBuilder.setView(rowView);
         AlertDialog dialog = dialogBuilder.create();
         if (dialog.getWindow() != null) {
@@ -326,7 +326,7 @@ public class ViewProductActivity extends AppCompatActivity {
         cartPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ViewProductActivity.this, "Cart payment is not available", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ViewSingleProductActivity.this, "Cart payment is not available", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -357,7 +357,7 @@ public class ViewProductActivity extends AppCompatActivity {
         adress = etAdress.getText().toString();
         quantity=etQuantity.getText().toString();
         if (TextUtils.isEmpty(phoneNum) || TextUtils.isEmpty(adress)) {
-            Toast.makeText(ViewProductActivity.this, "please give phone number and address!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ViewSingleProductActivity.this, "please give phone number and address!", Toast.LENGTH_SHORT).show();
         } else {
 
             HashMap postMap = new HashMap();
@@ -384,7 +384,7 @@ public class ViewProductActivity extends AppCompatActivity {
             ordersref.child(curUserId + randomid).updateChildren(postMap).addOnCompleteListener(new OnCompleteListener() {
                 @Override
                 public void onComplete(@NonNull Task task) {
-                    Toast.makeText(ViewProductActivity.this, "Ordered successfully, We will verify soon..", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewSingleProductActivity.this, "Ordered successfully, We will verify soon..", Toast.LENGTH_SHORT).show();
                     intentToUpdateDetails();
                 }
             });
@@ -392,8 +392,8 @@ public class ViewProductActivity extends AppCompatActivity {
     }
 
     private void showDialogForNotLoggedId() {
-        AlertDialog.Builder dialogBuilder=new AlertDialog.Builder(ViewProductActivity.this, R.style.AlertDialogTheme).setCancelable(false);
-        View rowView= LayoutInflater.from(ViewProductActivity.this).inflate(R.layout.general_alert_dialog,null);
+        AlertDialog.Builder dialogBuilder=new AlertDialog.Builder(ViewSingleProductActivity.this, R.style.AlertDialogTheme).setCancelable(false);
+        View rowView= LayoutInflater.from(ViewSingleProductActivity.this).inflate(R.layout.general_alert_dialog,null);
         dialogBuilder.setView(rowView);
         AlertDialog dialog = dialogBuilder.create();
         if (dialog.getWindow() != null) {
@@ -410,7 +410,7 @@ public class ViewProductActivity extends AppCompatActivity {
         dialogConfirmTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               Intent intent=new Intent(ViewProductActivity.this,LoginActivity.class);
+               Intent intent=new Intent(ViewSingleProductActivity.this,LoginActivity.class);
                startActivity(intent);
             }
         });
@@ -425,7 +425,7 @@ public class ViewProductActivity extends AppCompatActivity {
     }
 
     private void intentToUpdateDetails() {
-        Intent intent=new Intent(ViewProductActivity.this,BottomBarActivity.class);
+        Intent intent=new Intent(ViewSingleProductActivity.this,BottomBarActivity.class);
 
         startActivity(intent);
 
@@ -448,7 +448,7 @@ public class ViewProductActivity extends AppCompatActivity {
                         postViewHolder.cfView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                postViewHolder.showDialog(model.getImageUrl(),ViewProductActivity.this);
+                                postViewHolder.showDialog(model.getImageUrl(), ViewSingleProductActivity.this);
                             }
                         });
 

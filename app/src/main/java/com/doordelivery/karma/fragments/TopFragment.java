@@ -10,13 +10,11 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,7 +25,6 @@ import com.denzcoskun.imageslider.interfaces.ItemClickListener;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.doordelivery.karma.AllCatActivity;
 import com.doordelivery.karma.ContactUs;
-import com.doordelivery.karma.Products;
 import com.doordelivery.karma.R;
 import com.doordelivery.karma.RecentItemsActivity;
 import com.doordelivery.karma.RoundedCorners;
@@ -35,8 +32,7 @@ import com.doordelivery.karma.SearchActivity;
 import com.doordelivery.karma.Top;
 import com.doordelivery.karma.Utils;
 import com.doordelivery.karma.ViewAllOffersActivity;
-import com.doordelivery.karma.ViewProductActivity;
-import com.doordelivery.karma.ViewSubCatsActivity;
+import com.doordelivery.karma.ViewSingleProductActivity;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -49,7 +45,6 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class TopFragment extends Fragment {
     private FirebaseAuth cfAuth;
@@ -211,7 +206,7 @@ public class TopFragment extends Fragment {
                         postViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent=new Intent(getActivity(), ViewProductActivity.class);
+                                Intent intent=new Intent(getActivity(), ViewSingleProductActivity.class);
                                 intent.putExtra("REF_KEY",model.getItemId());
                                 intent.putExtra("isOffer",false);
                                 startActivity(intent);

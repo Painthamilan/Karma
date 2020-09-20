@@ -75,7 +75,7 @@ public class SearchActivity extends AppCompatActivity {
                         findFriendsViewHolder.cfView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent=new Intent(SearchActivity.this, ViewProductActivity.class);
+                                Intent intent=new Intent(SearchActivity.this, ViewSingleProductActivity.class);
                                 intent.putExtra("REF_KEY",searchedUserId);
                                 intent.putExtra("isOffer",false);
                                 startActivity(intent);

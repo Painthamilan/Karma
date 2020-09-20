@@ -24,7 +24,7 @@ import com.doordelivery.karma.Products;
 import com.doordelivery.karma.R;
 import com.doordelivery.karma.SelectPaymentMethodActivity;
 import com.doordelivery.karma.Utils;
-import com.doordelivery.karma.ViewProductActivity;
+import com.doordelivery.karma.ViewSingleProductActivity;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -236,7 +236,7 @@ dialog.dismiss();
                         findFriendsViewHolder.cfView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent=new Intent(getContext(), ViewProductActivity.class);
+                                Intent intent=new Intent(getContext(), ViewSingleProductActivity.class);
                                 intent.putExtra("REF_KEY",searchedUserId);
                                 intent.putExtra("isOffer",false);
                                 startActivity(intent);

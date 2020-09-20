@@ -27,7 +27,7 @@
         <activity android:name=".ViewItemsActivity" />
         <activity android:name=".ViewSubCatsActivity" />
         <activity android:name=".CatsDetailActivity" />
-        <activity android:name=".ViewProductActivity" />
+        <activity android:name=".ViewSingleProductActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".SignupActivity" />
         <activity

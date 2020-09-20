@@ -14,12 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.doordelivery.karma.Products;
 import com.doordelivery.karma.R;
-import com.doordelivery.karma.ViewProductActivity;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.doordelivery.karma.ViewSingleProductActivity;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -70,7 +66,7 @@ public class RecentAdapters extends RecyclerView.Adapter<RecentAdapters.ProductV
         holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, ViewProductActivity.class);
+                Intent intent = new Intent(context, ViewSingleProductActivity.class);
                 intent.putExtra("REF_KEY", mProductsList.get(position).getProductId());
                 intent.putExtra("isOffer", false);
                 intent.putExtra("IsInstant", false);

@@ -145,7 +145,7 @@ public class ManageOrdersActivity extends AppCompatActivity {
                 try {
                     startActivity(Intent.createChooser(i, "Send mail..."));
                 } catch (android.content.ActivityNotFoundException ex) {
-                    Toast.makeText(ViewProductActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewSingleProductActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
                 }*/
 
     }
