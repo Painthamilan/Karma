@@ -3,25 +3,26 @@ package com.doordelivery.karma;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.doordelivery.karma.adapters.CatagoryAdapter;
 import com.doordelivery.karma.adapters.ProductAdapter;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,15 +30,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ViewItemsActivity extends AppCompatActivity {
-    String catName, catImage, mainCatName, userId;
+    String catName, catImage, mainCatName, userId,defaultDistrict;
     DatabaseReference subCatRef, instantsRef;
     Query mainRef;
+    TextView tvDefaultRegion,tvChangeRegion;
     boolean hasSub;
     RecyclerView rvCats;
     FirebaseAuth cfAuth;
@@ -62,6 +63,22 @@ public class ViewItemsActivity extends AppCompatActivity {
         }else {
             userId="bkblkhlkhlhjg";
         }
+
+        tvChangeRegion=findViewById(R.id.tv_change_region);
+        tvDefaultRegion=findViewById(R.id.tv_current_region);
+
+        SharedPreferences preferences=getSharedPreferences("REGION_SELECTOR",MODE_PRIVATE);
+        defaultDistrict=preferences.getString("REGION","Kandy");
+
+        tvDefaultRegion.setText("Currently displaying items from "+defaultDistrict.toUpperCase());
+
+        tvChangeRegion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openPopupForChangeRegion();
+            }
+        });
+
 
         rvCats=findViewById(R.id.rv_list_items);
 
@@ -112,6 +129,49 @@ public class ViewItemsActivity extends AppCompatActivity {
 
         productAdapter.notifyDataSetChanged();
 
+    }
+
+    private void openPopupForChangeRegion() {
+        AlertDialog.Builder dialogBuilder=new AlertDialog.Builder(ViewItemsActivity.this, R.style.AlertDialogTheme).setCancelable(false);
+        View rowView= LayoutInflater.from(ViewItemsActivity.this).inflate(R.layout.region_popup,null);
+        dialogBuilder.setView(rowView);
+        AlertDialog dialog = dialogBuilder.create();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        }
+
+        ListView rvRegion;
+        ArrayAdapter aAdapter;
+
+        rvRegion = rowView.findViewById(R.id.rv_regions);
+        String[] regs = getResources().getStringArray(R.array.regions);
+
+        aAdapter = new ArrayAdapter(ViewItemsActivity.this, R.layout.region_selector_layout, R.id.tv_region_name, regs);
+        rvRegion.setAdapter(aAdapter);
+
+        rvRegion.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView textView = view.findViewById(R.id.tv_region_name);
+                String string = textView.getText().toString();
+                Toast.makeText(ViewItemsActivity.this, "Selected "+string, Toast.LENGTH_SHORT).show();
+                SharedPreferences.Editor editor=getSharedPreferences("REGION_SELECTOR",MODE_PRIVATE).edit();
+                editor.putString("REGION",string);
+                editor.apply();
+                Intent intent=new Intent(ViewItemsActivity.this,ViewItemsActivity.class);
+                intent.putExtra("CAT_NAME",catName);
+                intent.putExtra("MAIN_CAT_NAME",mainCatName);
+                intent.putExtra("hasSub",hasSub);
+                intent.putExtra("IsInstant",isInstant);
+                startActivity(intent);
+
+
+                dialog.dismiss();
+
+            }
+        });
+
+        dialog.show();
     }
 
     private void showAllItems() {
