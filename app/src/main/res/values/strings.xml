@@ -8,4 +8,32 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="regions">
+        <item>Colombo</item>
+        <item>Kandy</item>
+        <item>Matale</item>
+        <item>Jaffna</item>
+        <item>Kilinochi</item>
+        <item>Mullaitivu</item>
+        <item>Mannar</item>
+        <item>NuwaraEliya</item>
+        <item>Ampara</item>
+        <item>Anuradhapura</item>
+        <item>Badulla</item>
+        <item>Batticaloa</item>
+        <item>Galle</item>
+        <item>Gampaha</item>
+        <item>Hambantota</item>
+        <item>Kalutara</item>
+        <item>Kegalle</item>
+        <item>Kurunegala</item>
+        <item>Matara</item>
+        <item>Monaragala</item>
+        <item>Polonnaruwa</item>
+        <item>Puttalam</item>
+        <item>Ratnapura</item>
+        <item>Trincomalee</item>
+        <item>Vavuniya</item>
+    </string-array>
 </resources>

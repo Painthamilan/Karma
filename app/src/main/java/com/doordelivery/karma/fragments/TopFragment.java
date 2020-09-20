@@ -10,8 +10,10 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
@@ -19,6 +21,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.denzcoskun.imageslider.ImageSlider;
+import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.denzcoskun.imageslider.interfaces.ItemClickListener;
+import com.denzcoskun.imageslider.models.SlideModel;
 import com.doordelivery.karma.AllCatActivity;
 import com.doordelivery.karma.ContactUs;
 import com.doordelivery.karma.Products;
@@ -33,10 +39,17 @@ import com.doordelivery.karma.ViewProductActivity;
 import com.doordelivery.karma.ViewSubCatsActivity;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class TopFragment extends Fragment {
     private FirebaseAuth cfAuth;
@@ -47,6 +60,8 @@ public class TopFragment extends Fragment {
     private TextView ivInstant,tvMobile;
     ImageView ivOffers,tvCats,tvRecent;
 
+    ImageSlider imageSlider;
+
     AlertDialog.Builder dialogBuilder;
     AlertDialog dialog;
 
@@ -54,6 +69,11 @@ public class TopFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_top_items, container, false);
         final TextView textView = root.findViewById(R.id.text_home);
+
+
+        imageSlider=root.findViewById(R.id.is_slider);
+
+        showImageSlider(imageSlider);
 
         tvCats=root.findViewById(R.id.tv_cats);
         rvTopFragments=root.findViewById(R.id.rv_topItems);
@@ -136,6 +156,35 @@ public class TopFragment extends Fragment {
         return root;
     }
 
+    private void showImageSlider(ImageSlider imageSlider) {
+        List<SlideModel> remoteImages=new ArrayList<>();
+        FirebaseDatabase.getInstance().getReference().child("Test").child("Products")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot data:snapshot.getChildren()){
+                    remoteImages.add(new SlideModel(data.child("ProductImage").getValue().toString(),
+                            data.child("ProductName").getValue().toString(), ScaleTypes.FIT));
+
+                    imageSlider.setImageList(remoteImages,ScaleTypes.FIT);
+
+                    imageSlider.setItemClickListener(new ItemClickListener() {
+                        @Override
+                        public void onItemSelected(int i) {
+                            Toast.makeText(TopFragment.this.getContext(), remoteImages.get(i).getTitle().toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
     private void showrecentItems(Context context) {
         Intent intent=new Intent(context, RecentItemsActivity.class);
         startActivity(intent);
@@ -211,7 +260,7 @@ public class TopFragment extends Fragment {
         }
 
         public void setProductImage(String productImage) {
-            Picasso.get().load(productImage).transform(new RoundedCorners(80, 0)).into(ivproductImage);
+            Picasso.get().load(productImage).transform(new RoundedCorners(10, 0)).resize(100,100).into(ivproductImage);
         }
 
 

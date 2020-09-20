@@ -3,20 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-android:background="@color/white"
+android:background="@color/black"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.NotificationFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:id="@+id/tv_home"
+        android:id="@+id/text_dashboard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:background="@drawable/main_theme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/white"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_notification"
@@ -25,7 +28,7 @@ android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_home" />
+        app:layout_constraintTop_toBottomOf="@id/text_dashboard" />
 
     <TextView
         android:id="@+id/tv_nothing"
@@ -34,9 +37,10 @@ android:background="@color/white"
         android:text="You have to login first\nClick on profile and login"
         android:visibility="invisible"
         android:textStyle="bold"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/rv_notification"
         app:layout_constraintEnd_toEndOf="@+id/rv_notification"
         app:layout_constraintStart_toStartOf="@+id/rv_notification"
-        app:layout_constraintTop_toBottomOf="@+id/tv_home" />
+        app:layout_constraintTop_toBottomOf="@+id/text_dashboard" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
