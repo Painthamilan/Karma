@@ -3,6 +3,7 @@ package com.doordelivery.karma;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -13,6 +14,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class MainActivity extends AppCompatActivity {
 FirebaseAuth cfAuth;
 DatabaseReference cfUserRef;
+boolean isSelected;
 String curUserId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,26 +23,9 @@ String curUserId;
         cfAuth=FirebaseAuth.getInstance();
         cfUserRef= FirebaseDatabase.getInstance().getReference();
 
-
         if (cfAuth.getCurrentUser() != null) {
             curUserId = cfAuth.getCurrentUser().getUid().toString();
         }
-       /* if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-
-            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    == PackageManager.PERMISSION_DENIED) {
-
-                // Log.d("permission", "permission denied to SEND_SMS - requesting it");
-                String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
-
-                requestPermissions(permissions, 1);
-
-            }
-        }
-
-        */
-
-
     }
 
     @Override
@@ -50,19 +35,13 @@ String curUserId;
             @Override
             public void run() {
                 /* Create an Intent that will start the Menu-Activity. */
-                if(curUserId==null){
-                    Intent intent=new Intent(MainActivity.this,BottomBarActivity.class);
-                    startActivity(intent);
 
-                }
-                else {
-                    if (curUserId.equals(Constants.ADMIN_ID)){
-                        sendUserToAdminBottomBarActivity();
-                    }else {
-                        sendUserToBottomBarActivity();
-                    }
-                    // CheckUserExistence();
-
+                SharedPreferences preferences=getSharedPreferences("REGION_SELECTOR",MODE_PRIVATE);
+                isSelected=preferences.getBoolean("IS_SELECTED",false);
+                if (!isSelected){
+                    sendUserToSelectRegionActivity();
+                }else {
+                    sendUserToBottomBarActivity();
                 }
 
             }
@@ -72,17 +51,13 @@ String curUserId;
 
     }
 
-    private void SendUserToLoginActivity() {
-        Intent intent=new Intent(MainActivity.this, LoginActivity.class);
-        startActivity(intent);
-    }
 
     private void sendUserToBottomBarActivity() {
         Intent intent=new Intent(MainActivity.this,BottomBarActivity.class);
         startActivity(intent);
     }
-    private void sendUserToAdminBottomBarActivity() {
-        Intent intent=new Intent(MainActivity.this,AdminBottomBarActivity.class);
+    private void sendUserToSelectRegionActivity() {
+        Intent intent=new Intent(MainActivity.this,SelectRegionActivity.class);
         startActivity(intent);
     }
 
