@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.doordelivery.karma.Products;
 import com.doordelivery.karma.R;
+import com.doordelivery.karma.Utils;
 import com.doordelivery.karma.ViewSingleProductActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -105,8 +106,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                         tvName.setText(name);
                         String image=dataSnapshot.child("ProductImage").getValue().toString();
                         Picasso.get().load(image).into(tvImage);
+
                         String price=dataSnapshot.child("Price").getValue().toString();
-                        tvPrice.setText(price+".00");
+                        String percentage=dataSnapshot.child("Percentage").getValue().toString();
+                        tvPrice.setText(Utils.getActualPrice(price,percentage) +".00");
                     }
                 }
 

@@ -36,4 +36,5 @@
         <item>Trincomalee</item>
         <item>Vavuniya</item>
     </string-array>
+    <string name="d2d">D<font color='#E51616'>2</font>D</string>
 </resources>

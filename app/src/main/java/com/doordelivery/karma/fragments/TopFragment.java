@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +50,7 @@ import java.util.List;
 public class TopFragment extends Fragment {
     private FirebaseAuth cfAuth;
     private String curUserId;
-    TextView etSearch,tvContact;
+    TextView etSearch,tvContact,tvD2d;
     private RecyclerView rvProducts,rvTopFragments,rvInstants;
     private DatabaseReference cfPostRef,topRef,instantsRef;
     private TextView ivInstant,tvMobile;
@@ -64,6 +65,9 @@ public class TopFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_top_items, container, false);
         final TextView textView = root.findViewById(R.id.text_home);
+
+        tvD2d=root.findViewById(R.id.tv_d2d2);
+        tvD2d.setText(Html.fromHtml("D" + "<font color=\"#E51616\">" + 2 + "</font>"+"D"));
 
 
         imageSlider=root.findViewById(R.id.is_slider);
@@ -91,7 +95,7 @@ public class TopFragment extends Fragment {
             }
         });
 
-        tvContact.setSelected(true);
+
         etSearch=root.findViewById(R.id.et_search_bar);
         etSearch.setOnClickListener(new View.OnClickListener() {
             @Override

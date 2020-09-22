@@ -65,8 +65,8 @@ public class CatagoryAdapter extends RecyclerView.Adapter<CatagoryAdapter.CatVie
                 if(catList.get(position).isHasSub()) {
                     Intent intent = new Intent(context, ViewSubCatsActivity.class);
                     intent.putExtra("REF_KEY", catList.get(position).getCatagoryName());
-                    intent.putExtra("CAT_NAME", catList.get(position).getCatagoryName());
-                    intent.putExtra("hasSub", false);
+                    intent.putExtra("CAT_NAME", catList.get(position).getCatagoryName());;
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     context.startActivity(intent);
                 }else {
                     Intent intent = new Intent(context, ViewItemsActivity.class);
@@ -74,7 +74,7 @@ public class CatagoryAdapter extends RecyclerView.Adapter<CatagoryAdapter.CatVie
                     intent.putExtra("CAT_NAME", catList.get(position).getCatagoryName());
                     intent.putExtra("MAIN_CAT_NAME", catList.get(position).getCatagoryName());
                     intent.putExtra("hasSub", false);
-
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     context.startActivity(intent);
                 }
             }

@@ -19,50 +19,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/iv_d2d"
-        android:layout_width="50dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="4dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/launcher_transparant"
-        android:text="Door To Delivery"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/et_search_bar"
-        app:layout_constraintEnd_toStartOf="@+id/tv_d2d"
-        app:layout_constraintTop_toTopOf="@+id/tv_home" />
-
-    <TextView
-        android:id="@+id/tv_d2d"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
-        android:text="Door To Delivery"
-        android:textAllCaps="true"
-        android:textColor="@color/white"
-        android:fontFamily="@font/d2d_font"
-        android:textSize="16dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/tv_home"
-        app:layout_constraintStart_toStartOf="@+id/tv_home"
-        app:layout_constraintTop_toTopOf="@+id/iv_d2d" />
-
     <EditText
         android:id="@+id/et_search_bar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginBottom="4dp"
+        android:background="@drawable/layout_background"
         android:hint="Search"
+        android:inputType="textCapSentences"
         android:paddingHorizontal="20dp"
         android:paddingVertical="2dp"
-        android:inputType="textCapSentences"
-        android:background="@drawable/layout_background"
+        android:imeOptions="actionSearch"
         android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="@id/tv_home"
         app:layout_constraintEnd_toStartOf="@+id/iv_search"
-        app:layout_constraintStart_toStartOf="@+id/tv_home" />
+        app:layout_constraintStart_toStartOf="@+id/tv_home"
+        app:layout_constraintTop_toTopOf="@+id/tv_home" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_search"
