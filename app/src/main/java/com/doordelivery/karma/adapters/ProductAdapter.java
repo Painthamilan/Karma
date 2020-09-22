@@ -96,7 +96,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         }
         public void getItemDetails(String productId) {
-            itemRef= FirebaseDatabase.getInstance().getReference().child("Products").child(productId);
+            itemRef= FirebaseDatabase.getInstance().getReference().child("Test").child("Products").child(productId);
             itemRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
