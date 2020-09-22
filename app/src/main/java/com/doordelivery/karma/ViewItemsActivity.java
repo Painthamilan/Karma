@@ -96,8 +96,6 @@ public class ViewItemsActivity extends AppCompatActivity {
         getLastItem();
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
-        // Set the layout manager to your recyclerview
-        mLayoutManager.setStackFromEnd(true);
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvCats.setLayoutManager(mLayoutManager);
 

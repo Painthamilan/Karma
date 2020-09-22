@@ -35,9 +35,6 @@ boolean isInstant;
         rvCats.setHasFixedSize(true);
         // rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
-        mLayoutManager.setReverseLayout(true);
-        mLayoutManager.setStackFromEnd(true);
-        mLayoutManager=new GridLayoutManager(this,3);
         // Set the layout manager to your recyclerview
         rvCats.setLayoutManager(mLayoutManager);
 
