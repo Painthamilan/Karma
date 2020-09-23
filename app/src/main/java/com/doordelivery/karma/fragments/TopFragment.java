@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
@@ -26,6 +27,7 @@ import com.denzcoskun.imageslider.interfaces.ItemClickListener;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.doordelivery.karma.AllCatActivity;
 import com.doordelivery.karma.ContactUs;
+import com.doordelivery.karma.LoginActivity;
 import com.doordelivery.karma.R;
 import com.doordelivery.karma.RecentItemsActivity;
 import com.doordelivery.karma.RoundedCorners;
@@ -33,7 +35,9 @@ import com.doordelivery.karma.SearchActivity;
 import com.doordelivery.karma.Top;
 import com.doordelivery.karma.Utils;
 import com.doordelivery.karma.ViewAllOffersActivity;
+import com.doordelivery.karma.ViewItemsActivity;
 import com.doordelivery.karma.ViewSingleProductActivity;
+import com.doordelivery.karma.ViewSliderProductActivity;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -49,12 +53,13 @@ import java.util.List;
 
 public class TopFragment extends Fragment {
     private FirebaseAuth cfAuth;
-    private String curUserId;
+    private String curUserId,sliderType,message,name,key,catagory;
     TextView etSearch,tvContact,tvD2d;
     private RecyclerView rvProducts,rvTopFragments,rvInstants;
     private DatabaseReference cfPostRef,topRef,instantsRef;
     private TextView ivInstant,tvMobile;
     ImageView ivOffers,tvCats,tvRecent;
+    boolean hasSub;
 
     ImageSlider imageSlider;
 
@@ -157,20 +162,54 @@ public class TopFragment extends Fragment {
 
     private void showImageSlider(ImageSlider imageSlider) {
         List<SlideModel> remoteImages=new ArrayList<>();
-        FirebaseDatabase.getInstance().getReference().child("Test").child("Products")
+        FirebaseDatabase.getInstance().getReference().child("Slider")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot data:snapshot.getChildren()){
+                    name= data.child("ProductName").getValue().toString();
                     remoteImages.add(new SlideModel(data.child("ProductImage").getValue().toString(),
-                            data.child("ProductName").getValue().toString(), ScaleTypes.FIT));
+                            name, ScaleTypes.FIT));
+                    sliderType=data.child("SliderType").getValue().toString();
+                    key=data.child("ProductId").getValue().toString();
+                    catagory=data.child("ProductCatagory").getValue().toString();
+                    try {
+                        hasSub=Boolean.parseBoolean(data.child("HasSub").getValue().toString());
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+
 
                     imageSlider.setImageList(remoteImages,ScaleTypes.FIT);
 
                     imageSlider.setItemClickListener(new ItemClickListener() {
                         @Override
                         public void onItemSelected(int i) {
-                            Toast.makeText(TopFragment.this.getContext(), remoteImages.get(i).getTitle().toString(), Toast.LENGTH_SHORT).show();
+
+                            switch (sliderType){
+                                case "Product":
+                                    Intent intent=new Intent(getContext(), ViewSliderProductActivity.class);
+                                    intent.putExtra("TYPE",sliderType);
+                                    intent.putExtra("REF_KEY",key);
+                                    startActivity(intent);
+                                    break;
+                                case "Catagory":
+                                    Intent intent1=new Intent(getContext(),ViewItemsActivity.class);
+                                    intent1.putExtra("MAIN_CAT_NAME",catagory);
+                                    startActivity(intent1);
+                                    break;
+                                case "Offer":
+                                    Intent intent2=new Intent(getContext(), ViewSliderProductActivity.class);
+                                    intent2.putExtra("TYPE",sliderType);
+                                    intent2.putExtra("REF_KEY",key);
+                                    startActivity(intent2);
+                                    break;
+                                case "Message":
+                                    message=data.child("Specification").getValue().toString();
+                                    openPopupMessage(message,name);
+                                    break;
+
+                            }
                         }
                     });
                 }
@@ -182,6 +221,33 @@ public class TopFragment extends Fragment {
             }
         });
 
+    }
+
+    private void openPopupMessage(String message, String title) {
+        AlertDialog.Builder dialogBuilder=new AlertDialog.Builder(TopFragment.this.getContext(), R.style.AlertDialogTheme).setCancelable(false);
+        View rowView= LayoutInflater.from(TopFragment.this.getContext()).inflate(R.layout.message_display_layout,null);
+        dialogBuilder.setView(rowView);
+        AlertDialog dialog = dialogBuilder.create();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        }
+        TextView dialogTitleTextView=rowView.findViewById(R.id.dialogTitle);
+        TextView dialogMessageTextView=rowView.findViewById(R.id.dialogText);
+        TextView dialogCancelTextView=rowView.findViewById(R.id.dialogCancel);
+
+        dialogTitleTextView.setText(title);
+        dialogMessageTextView.setText(message);
+
+
+
+        dialogCancelTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 
     private void showrecentItems(Context context) {

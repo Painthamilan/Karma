@@ -87,9 +87,9 @@ public class ViewItemsActivity extends AppCompatActivity {
         hasSub=getIntent().getBooleanExtra("hasSub",false);
         isInstant=getIntent().getBooleanExtra("IsInstant",false);
         if(hasSub){
-            subCatRef= FirebaseDatabase.getInstance().getReference().child("Test").child("Regions").child(defaultDistrict).child("Catagories").child(mainCatName).child("SubCatagories").child(catName).child("Products");
+            subCatRef= FirebaseDatabase.getInstance().getReference().child("Regions").child(defaultDistrict).child("Catagories").child(mainCatName).child("SubCatagories").child(catName).child("Products");
         }else {
-            subCatRef= FirebaseDatabase.getInstance().getReference().child("Test").child("Regions").child(defaultDistrict).child("Catagories").child(mainCatName).child("Products");
+            subCatRef= FirebaseDatabase.getInstance().getReference().child("Regions").child(defaultDistrict).child("Catagories").child(mainCatName).child("Products");
         }
       instantsRef=FirebaseDatabase.getInstance().getReference().child("Instants");
 

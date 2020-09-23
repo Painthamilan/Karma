@@ -122,7 +122,6 @@ public class AllCatActivity extends AppCompatActivity {
                     } else {
                         isLoading = false;
                         isMaxData = true;
-                        Toast.makeText(AllCatActivity.this, "No more", Toast.LENGTH_SHORT).show();
                     }
 
                 }

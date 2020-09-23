@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_new_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.Light.NoActionBar">
-        <activity android:name=".SelectRegionActivity"></activity>
+        <activity android:name=".ViewSliderProductActivity"></activity>
+        <activity android:name=".SelectRegionActivity" />
         <activity android:name=".ContactUs" />
         <activity android:name=".RecentItemsActivity" />
         <activity android:name=".AllCatActivity" />
