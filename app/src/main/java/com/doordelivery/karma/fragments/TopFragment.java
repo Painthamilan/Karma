@@ -205,7 +205,7 @@ public class TopFragment extends Fragment {
                                     startActivity(intent2);
                                     break;
                                 case "Message":
-                                    message=data.child("Specification").getValue().toString();
+                                    message=data.child("Specifications").getValue().toString();
                                     openPopupMessage(message,name);
                                     break;
 
