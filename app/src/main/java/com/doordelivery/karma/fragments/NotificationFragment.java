@@ -82,6 +82,11 @@ public class NotificationFragment extends Fragment {
                     }
                 };
         rvNotification.setAdapter(firebaseRecyclerAdapter);
+        int i= firebaseRecyclerAdapter.getItemCount();
+        if (i==0){
+            tvNothing.setVisibility(View.VISIBLE);
+            tvNothing.setText("Notification is empty");
+        }
     }
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
         View cfView;

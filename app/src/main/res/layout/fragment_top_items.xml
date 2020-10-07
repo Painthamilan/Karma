@@ -94,7 +94,7 @@
             android:ellipsize="marquee"
             android:gravity="center"
             android:singleLine="true"
-            android:text="📞 CLICK HERE 📞📞📞 24X7 HOTLINE 📞"
+            android:text="@string/click_here_24x7_hotline"
             android:textAllCaps="true"
             android:textColor="@color/mint_cream"
             android:textSize="18dp"

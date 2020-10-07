@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -19,6 +20,7 @@ import com.doordelivery.karma.SignupActivity;
 import com.doordelivery.karma.UpdateProfileActivity;
 import com.doordelivery.karma.ViewMyOrdersActivity;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,6 +35,7 @@ public class UserProfileFragment extends Fragment {
     ConstraintLayout layoutProfile,layoutLogin;
     String userId;
     DatabaseReference cfUserRef;
+    private FirebaseUser mCurrentUser;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -40,10 +43,9 @@ public class UserProfileFragment extends Fragment {
         cfAuth=FirebaseAuth.getInstance();
         if (cfAuth.getCurrentUser() != null) {
             userId=cfAuth.getCurrentUser().getUid();
-            ivImage=root.findViewById(R.id.iv_profile);
-            ivImage.setImageURI(cfAuth.getCurrentUser().getPhotoUrl());
-        }
 
+        }
+        ivImage=root.findViewById(R.id.iv_profile);
         final TextView textView = root.findViewById(R.id.text_notifications);
         tvMyOrders=root.findViewById(R.id.tv_my_orders);
         layoutProfile=root.findViewById(R.id.constraint_layout_ptofile);

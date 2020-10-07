@@ -53,12 +53,12 @@ import java.util.List;
 
 public class TopFragment extends Fragment {
     private FirebaseAuth cfAuth;
-    private String curUserId,sliderType,message,name,key,catagory;
-    TextView etSearch,tvContact,tvD2d;
-    private RecyclerView rvProducts,rvTopFragments,rvInstants;
-    private DatabaseReference cfPostRef,topRef,instantsRef;
-    private TextView ivInstant,tvMobile;
-    ImageView ivOffers,tvCats,tvRecent;
+    private String curUserId, sliderType, message, name, key, catagory;
+    TextView etSearch, tvContact, tvD2d;
+    private RecyclerView rvProducts, rvTopFragments, rvInstants;
+    private DatabaseReference cfPostRef, topRef, instantsRef;
+    private TextView ivInstant, tvMobile;
+    ImageView ivOffers, tvCats, tvRecent;
     boolean hasSub;
 
     ImageSlider imageSlider;
@@ -71,24 +71,24 @@ public class TopFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_top_items, container, false);
         final TextView textView = root.findViewById(R.id.text_home);
 
-        tvD2d=root.findViewById(R.id.tv_d2d2);
-        tvD2d.setText(Html.fromHtml("D" + "<font color=\"#E51616\">" + 2 + "</font>"+"D"));
+        tvD2d = root.findViewById(R.id.tv_d2d2);
+        tvD2d.setText(Html.fromHtml("D" + "<font color=\"#E51616\">" + 2 + "</font>" + "D"));
 
 
-        imageSlider=root.findViewById(R.id.is_slider);
+        imageSlider = root.findViewById(R.id.is_slider);
 
         showImageSlider(imageSlider);
 
-        tvCats=root.findViewById(R.id.tv_cats);
-        rvTopFragments=root.findViewById(R.id.rv_topItems);
-        ivOffers=root.findViewById(R.id.iv_offer_of_day);
-        tvRecent=root.findViewById(R.id.recent);
-        tvContact=root.findViewById(R.id.tv_mobile);
+        tvCats = root.findViewById(R.id.tv_cats);
+        rvTopFragments = root.findViewById(R.id.rv_topItems);
+        ivOffers = root.findViewById(R.id.iv_offer_of_day);
+        tvRecent = root.findViewById(R.id.recent);
+        tvContact = root.findViewById(R.id.tv_mobile);
         tvContact.setSelected(true);
         tvContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getContext(), ContactUs.class);
+                Intent intent = new Intent(getContext(), ContactUs.class);
                 startActivity(intent);
             }
         });
@@ -101,11 +101,11 @@ public class TopFragment extends Fragment {
         });
 
 
-        etSearch=root.findViewById(R.id.et_search_bar);
+        etSearch = root.findViewById(R.id.et_search_bar);
         etSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getActivity(), SearchActivity.class);
+                Intent intent = new Intent(getActivity(), SearchActivity.class);
                 startActivity(intent);
             }
         });
@@ -113,23 +113,21 @@ public class TopFragment extends Fragment {
         ivOffers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getActivity(), ViewAllOffersActivity.class);
+                Intent intent = new Intent(getActivity(), ViewAllOffersActivity.class);
                 startActivity(intent);
             }
         });
         tvCats.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getActivity(), AllCatActivity.class);
+                Intent intent = new Intent(getActivity(), AllCatActivity.class);
                 startActivity(intent);
             }
         });
 
 
-
-
         rvTopFragments.setHasFixedSize(true);
-        LinearLayoutManager horizontalYalayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
+        LinearLayoutManager horizontalYalayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         horizontalYalayoutManager.setStackFromEnd(true);
         rvTopFragments.setLayoutManager(horizontalYalayoutManager);
         showTop();
@@ -138,7 +136,7 @@ public class TopFragment extends Fragment {
         pd.setMessage("loading");
         pd.show();
 // Hide after some seconds
-        final Handler handler  = new Handler();
+        final Handler handler = new Handler();
         final Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -161,83 +159,146 @@ public class TopFragment extends Fragment {
     }
 
     private void showImageSlider(ImageSlider imageSlider) {
-        List<SlideModel> remoteImages=new ArrayList<>();
+        List<SlideModel> remoteImages = new ArrayList<>();
         FirebaseDatabase.getInstance().getReference().child("Slider")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot data:snapshot.getChildren()){
-                    name= data.child("ProductName").getValue().toString();
-                    remoteImages.add(new SlideModel(data.child("ProductImage").getValue().toString(),
-                            name, ScaleTypes.FIT));
-                    sliderType=data.child("SliderType").getValue().toString();
-                    key=data.child("ProductId").getValue().toString();
-                    catagory=data.child("ProductCatagory").getValue().toString();
-                    try {
-                        hasSub=Boolean.parseBoolean(data.child("HasSub").getValue().toString());
-                    }catch (Exception e){
-                        e.printStackTrace();
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot data : snapshot.getChildren()) {
+                            sliderType = data.child("SliderType").getValue().toString();
+                            name = data.child("ProductName").getValue().toString();
+                            remoteImages.add(new SlideModel(data.child("ProductImage").getValue().toString(),
+                                    name, ScaleTypes.FIT));
+
+
+                            imageSlider.setImageList(remoteImages, ScaleTypes.FIT);
+
+                            imageSlider.setItemClickListener(new ItemClickListener() {
+                                @Override
+                                public void onItemSelected(int i) {
+
+                                    switch (i) {
+                                        case 0:
+
+                                            FirebaseDatabase.getInstance().getReference().child("Slider").child("Catagory")
+                                                    .addValueEventListener(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                            if (snapshot.exists()) {
+                                                                catagory = snapshot.child("ProductCatagory").getValue().toString();
+                                                                try {
+                                                                    hasSub = Boolean.parseBoolean(snapshot.child("HasSub").getValue().toString());
+                                                                } catch (Exception e) {
+                                                                    e.printStackTrace();
+                                                                }
+                                                                Intent intent1 = new Intent(getContext(), ViewItemsActivity.class);
+                                                                intent1.putExtra("MAIN_CAT_NAME", catagory);
+                                                                startActivity(intent1);
+                                                            }
+                                                        }
+
+                                                        @Override
+                                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                                        }
+                                                    });
+
+                                            break;
+
+                                        case 1:
+
+                                            FirebaseDatabase.getInstance().getReference().child("Slider").child("Message")
+                                                    .addValueEventListener(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                            if (snapshot.exists()) {
+                                                                name = snapshot.child("ProductName").getValue().toString();
+                                                                message = snapshot.child("Specifications").getValue().toString();
+                                                                openPopupMessage(message, name);
+                                                            }
+                                                        }
+
+                                                        @Override
+                                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                                        }
+                                                    });
+                                            break;
+                                        case 2:
+
+                                            FirebaseDatabase.getInstance().getReference().child("Slider").child("Offer")
+                                                    .addValueEventListener(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                            if (snapshot.exists()) {
+                                                                sliderType = snapshot.child("SliderType").getValue().toString();
+                                                                key = snapshot.child("ProductId").getValue().toString();
+                                                                Intent intent = new Intent(getContext(), ViewSliderProductActivity.class);
+                                                                intent.putExtra("TYPE", sliderType);
+                                                                intent.putExtra("REF_KEY", key);
+                                                                startActivity(intent);
+                                                            }
+                                                        }
+
+                                                        @Override
+                                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                                        }
+                                                    });
+
+                                            break;
+                                        case 3:
+                                            FirebaseDatabase.getInstance().getReference().child("Slider").child("Product")
+                                                    .addValueEventListener(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                            if (snapshot.exists()) {
+
+                                                                sliderType = snapshot.child("SliderType").getValue().toString();
+                                                                key = snapshot.child("ProductId").getValue().toString();
+                                                                Intent intent2 = new Intent(getContext(), ViewSliderProductActivity.class);
+                                                                intent2.putExtra("TYPE", sliderType);
+                                                                intent2.putExtra("REF_KEY", key);
+                                                                startActivity(intent2);
+                                                            }
+                                                        }
+
+                                                        @Override
+                                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                                        }
+                                                    });
+                                            break;
+
+
+                                    }
+                                }
+                            });
+                        }
                     }
 
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-                    imageSlider.setImageList(remoteImages,ScaleTypes.FIT);
-
-                    imageSlider.setItemClickListener(new ItemClickListener() {
-                        @Override
-                        public void onItemSelected(int i) {
-
-                            switch (sliderType){
-                                case "Product":
-                                    Intent intent=new Intent(getContext(), ViewSliderProductActivity.class);
-                                    intent.putExtra("TYPE",sliderType);
-                                    intent.putExtra("REF_KEY",key);
-                                    startActivity(intent);
-                                    break;
-                                case "Catagory":
-                                    Intent intent1=new Intent(getContext(),ViewItemsActivity.class);
-                                    intent1.putExtra("MAIN_CAT_NAME",catagory);
-                                    startActivity(intent1);
-                                    break;
-                                case "Offer":
-                                    Intent intent2=new Intent(getContext(), ViewSliderProductActivity.class);
-                                    intent2.putExtra("TYPE",sliderType);
-                                    intent2.putExtra("REF_KEY",key);
-                                    startActivity(intent2);
-                                    break;
-                                case "Message":
-                                    message=data.child("Specifications").getValue().toString();
-                                    openPopupMessage(message,name);
-                                    break;
-
-                            }
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+                    }
+                });
 
     }
 
     private void openPopupMessage(String message, String title) {
-        AlertDialog.Builder dialogBuilder=new AlertDialog.Builder(TopFragment.this.getContext(), R.style.AlertDialogTheme).setCancelable(false);
-        View rowView= LayoutInflater.from(TopFragment.this.getContext()).inflate(R.layout.message_display_layout,null);
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(TopFragment.this.getContext(), R.style.AlertDialogTheme).setCancelable(false);
+        View rowView = LayoutInflater.from(TopFragment.this.getContext()).inflate(R.layout.message_display_layout, null);
         dialogBuilder.setView(rowView);
         AlertDialog dialog = dialogBuilder.create();
         if (dialog.getWindow() != null) {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
         }
-        TextView dialogTitleTextView=rowView.findViewById(R.id.dialogTitle);
-        TextView dialogMessageTextView=rowView.findViewById(R.id.dialogText);
-        TextView dialogCancelTextView=rowView.findViewById(R.id.dialogCancel);
+        TextView dialogTitleTextView = rowView.findViewById(R.id.dialogTitle);
+        TextView dialogMessageTextView = rowView.findViewById(R.id.dialogText);
+        TextView dialogCancelTextView = rowView.findViewById(R.id.dialogCancel);
 
         dialogTitleTextView.setText(title);
         dialogMessageTextView.setText(message);
-
 
 
         dialogCancelTextView.setOnClickListener(new View.OnClickListener() {
@@ -251,7 +312,7 @@ public class TopFragment extends Fragment {
     }
 
     private void showrecentItems(Context context) {
-        Intent intent=new Intent(context, RecentItemsActivity.class);
+        Intent intent = new Intent(context, RecentItemsActivity.class);
         startActivity(intent);
     }
 
@@ -270,15 +331,15 @@ public class TopFragment extends Fragment {
                     @Override
                     protected void populateViewHolder(TopViewHolder postViewHolder, Top model, int position) {
                         String postKey = getRef(position).getKey();
-                        postViewHolder.setPrice(model.getItemPrice(),model.getPercentage());
+                        postViewHolder.setPrice(model.getItemPrice(), model.getPercentage());
                         postViewHolder.setProductImage(model.getItemImage());
                         postViewHolder.setProductName(model.getItemName());
                         postViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent=new Intent(getActivity(), ViewSingleProductActivity.class);
-                                intent.putExtra("REF_KEY",model.getItemId());
-                                intent.putExtra("isOffer",false);
+                                Intent intent = new Intent(getActivity(), ViewSingleProductActivity.class);
+                                intent.putExtra("REF_KEY", model.getItemId());
+                                intent.putExtra("isOffer", false);
                                 startActivity(intent);
                             }
                         });
@@ -292,31 +353,31 @@ public class TopFragment extends Fragment {
 
     public static class TopViewHolder extends RecyclerView.ViewHolder {
         View cfView;
-        FirebaseAuth cfAuth=FirebaseAuth.getInstance();
+        FirebaseAuth cfAuth = FirebaseAuth.getInstance();
         String userId;
-        TextView tvProductName,tvPrice;
-        ImageView ivproductImage,ivDropArrow;
+        TextView tvProductName, tvPrice;
+        ImageView ivproductImage, ivDropArrow;
         DatabaseReference topRef;
+
         public TopViewHolder(@NonNull View itemView) {
             super(itemView);
             cfView = itemView;
-            tvPrice=cfView.findViewById(R.id.price);
-            tvProductName=cfView.findViewById(R.id.tv_product_name);
+            tvPrice = cfView.findViewById(R.id.price);
+            tvProductName = cfView.findViewById(R.id.tv_product_name);
             tvProductName.setSelected(true);
-            ivproductImage=cfView.findViewById(R.id.iv_product_image);
+            ivproductImage = cfView.findViewById(R.id.iv_product_image);
             if (cfAuth.getCurrentUser() != null) {
-                userId=cfAuth.getCurrentUser().getUid();
+                userId = cfAuth.getCurrentUser().getUid();
             }
 
 
-            topRef=FirebaseDatabase.getInstance().getReference().child("TopItems");
-
+            topRef = FirebaseDatabase.getInstance().getReference().child("TopItems");
 
 
         }
 
         public void setPrice(String price, String percentage) {
-            tvPrice.setText(Utils.getActualPrice(price,percentage) +".00");
+            tvPrice.setText(Utils.getActualPrice(price, percentage) + ".00");
 
         }
 
@@ -325,7 +386,7 @@ public class TopFragment extends Fragment {
         }
 
         public void setProductImage(String productImage) {
-            Picasso.get().load(productImage).transform(new RoundedCorners(10, 0)).resize(100,100).into(ivproductImage);
+            Picasso.get().load(productImage).transform(new RoundedCorners(10, 0)).resize(100, 100).into(ivproductImage);
         }
 
 

@@ -89,6 +89,7 @@ public class SignupActivity extends AppCompatActivity {
     private void saveUserInfo(FirebaseAuth cfAuth, String name) {
         String currentUser=cfAuth.getCurrentUser().getUid();
         userRef.child(currentUser).child("DisplayName").setValue(name);
+        String img=cfAuth.getCurrentUser().getPhotoUrl().toString();
         if (cfAuth.getCurrentUser().getUid().equals(Constants.ADMIN_ID)){
             Intent intent=new Intent(SignupActivity.this,AdminBottomBarActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);

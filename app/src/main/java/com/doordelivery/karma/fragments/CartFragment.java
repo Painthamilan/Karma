@@ -3,6 +3,7 @@ package com.doordelivery.karma.fragments;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
@@ -41,21 +42,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import static android.content.Context.MODE_PRIVATE;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class CartFragment extends Fragment {
     RecyclerView rvCart;
-    DatabaseReference cartRef,orderRef;
+    DatabaseReference cartRef,orderRef,regionRef;
     FirebaseAuth cfAuth;
-    String curUserId,allname,allid;
-    ArrayList<String> totalName;
-    ArrayList<String> totalId;
-    TextView tvBuyAll;
-EditText etphone,etAddress;
-    TextView tvNothing;
-    int numOfItems;
-long countPosts;
+    String curUserId,allname,allid,customerName,region;
+    ArrayList<String> totalName,totalId;
+    EditText etphone,etAddress;
+    TextView tvNothing,tvBuyAll;
+    int numOfItems;long countPosts;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,9 +75,12 @@ long countPosts;
 
             rvCart.setHasFixedSize(true);
             rvCart.setLayoutManager(new LinearLayoutManager(getContext()));
+            SharedPreferences preferences=getContext().getSharedPreferences("REGION_SELECTOR",MODE_PRIVATE);
+            region=preferences.getString("REGION","");
 
             cartRef = FirebaseDatabase.getInstance().getReference().child("User").child(curUserId).child("MyCart");
             orderRef= FirebaseDatabase.getInstance().getReference().child("Orders");
+            regionRef=FirebaseDatabase.getInstance().getReference().child("Regions").child(region).child("Orders");
             cartRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -112,7 +115,7 @@ long countPosts;
                     TextView tvCashOnDelivery=rowView.findViewById(R.id.tv_cash_on_delivery);
                     TextView tvCartPay=rowView.findViewById(R.id.tv_cart_payment);
                     etphone=rowView.findViewById(R.id.et_phone_number);
-                    etAddress=rowView.findViewById(R.id.et_adress);;
+                    etAddress=rowView.findViewById(R.id.et_adress);
                     tvCashOnDelivery.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -128,7 +131,8 @@ long countPosts;
                     tvCartPay.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-dialog.dismiss();
+
+                            dialog.dismiss();
                         }
                     });
 
@@ -171,6 +175,18 @@ dialog.dismiss();
 
             }
         });
+        FirebaseDatabase.getInstance().getReference().child("User").child(curUserId)
+                .child("DisplayName").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                customerName=snapshot.getValue().toString();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         allname="";
         for (int i=0;i<totalName.size();i++){
@@ -190,6 +206,7 @@ dialog.dismiss();
                     postMap.put("ProductName", allname.substring(0,allname.length()-1));
                     postMap.put("UserId", curUserId);
                     postMap.put("Counter", countPosts);
+                    postMap.put("CustomerName",customerName);
                     postMap.put("PhoneNumber", etphone.getText().toString());
                     postMap.put("Address", etAddress.getText().toString());
                     postMap.put("Price",numOfItems);
@@ -199,6 +216,8 @@ dialog.dismiss();
                     orderRef.child(curUserId + Utils.createRandomId()).updateChildren(postMap).addOnCompleteListener(new OnCompleteListener() {
                         @Override
                         public void onComplete(@NonNull Task task) {
+                            regionRef.child(curUserId + Utils.createRandomId()).child("orderId").setValue(curUserId + Utils.createRandomId());
+
                             Toast.makeText(getContext(), "Ordered successfully, We will verify soon..", Toast.LENGTH_SHORT).show();
                             //intentToUpdateDetails();
                         }
@@ -264,6 +283,10 @@ dialog.dismiss();
                     }
                 };
         rvCart.setAdapter(firebaseRecyclerAdapter);
+        int i= firebaseRecyclerAdapter.getItemCount();
+        if (i==0){
+            tvBuyAll.setText("Cart is empty");
+        }
     }
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
         View cfView;

@@ -2,6 +2,7 @@ package com.doordelivery.karma;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
@@ -42,12 +43,12 @@ public class ViewSingleProductActivity extends AppCompatActivity {
     ImageView ivProductImage;
     TextView tvProductName,tvPrice,tvAddCart,tvNewPrice;
     TextView tvOrder,tvSpecs,tvPercentage,tvAvailability;
-    DatabaseReference productRef,ordersref,cardRef,imageRef;
+    DatabaseReference productRef,ordersref,cardRef,imageRef,regionRef;
     FirebaseAuth cfAuth;
     RecyclerView rvImage;
-    String curUserId,key,curDate,curTime,randomid;
+    String curUserId,key,curDate,curTime,randomid,customerName;
     String productUrl,quantity,availability;
-    String productName,productSpecs;
+    String productName,productSpecs,region;
     String price,phoneNum,adress,actualPrice,percentage;
     long countPosts;
     boolean isOffer,isInstant;
@@ -67,6 +68,10 @@ public class ViewSingleProductActivity extends AppCompatActivity {
         tvPercentage=findViewById(R.id.tv_percentage);
         tvAvailability=findViewById(R.id.tv_availability);
         cfAuth=FirebaseAuth.getInstance();
+
+        SharedPreferences preferences=getSharedPreferences("REGION_SELECTOR",MODE_PRIVATE);
+        region=preferences.getString("REGION","");
+
         if (cfAuth.getCurrentUser() != null) {
             curUserId = cfAuth.getCurrentUser().getUid().toString();
             if (curUserId.equals(Constants.ADMIN_ID)){
@@ -88,6 +93,7 @@ public class ViewSingleProductActivity extends AppCompatActivity {
         isInstant=getIntent().getBooleanExtra("IsInstant",false);
         showAllImages();
 
+        regionRef=FirebaseDatabase.getInstance().getReference().child("Regions").child(region).child("Orders");
         ordersref= FirebaseDatabase.getInstance().getReference().child("Orders");
         if (isOffer){
             actualPrice=getIntent().getStringExtra("ActualPrice");
@@ -196,6 +202,18 @@ public class ViewSingleProductActivity extends AppCompatActivity {
                     showDialogForNotLoggedId();
                 }else {
 
+                    FirebaseDatabase.getInstance().getReference().child("User").child(curUserId)
+                            .child("DisplayName").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                          customerName=snapshot.getValue().toString();
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
                     if (isInstant) {
                         showDialogForConfirmInstant();
                     }
@@ -286,6 +304,7 @@ public class ViewSingleProductActivity extends AppCompatActivity {
             postMap.put("ProductId", key);
             postMap.put("ProductName", productName);
             postMap.put("ProductImage", productUrl);
+            postMap.put("CustomerName",customerName);
             postMap.put("UserId", curUserId);
             postMap.put("Counter", countPosts);
             postMap.put("PhoneNumber", phoneNum);
@@ -373,6 +392,7 @@ public class ViewSingleProductActivity extends AppCompatActivity {
             int q = Integer.parseInt(quantity);
             int pr = Integer.parseInt(price);
             price=String.valueOf(pr*q);
+            postMap.put("CustomerName",customerName);
             postMap.put("Price",price);
             postMap.put("Status","Not Verified");
             postMap.put("Email",cfAuth.getCurrentUser().getEmail().toString());
@@ -384,6 +404,9 @@ public class ViewSingleProductActivity extends AppCompatActivity {
             ordersref.child(curUserId + randomid).updateChildren(postMap).addOnCompleteListener(new OnCompleteListener() {
                 @Override
                 public void onComplete(@NonNull Task task) {
+
+                    regionRef.child(curUserId + randomid).child("orderId").setValue(curUserId + randomid);
+
                     Toast.makeText(ViewSingleProductActivity.this, "Ordered successfully, We will verify soon..", Toast.LENGTH_SHORT).show();
                     intentToUpdateDetails();
                 }
