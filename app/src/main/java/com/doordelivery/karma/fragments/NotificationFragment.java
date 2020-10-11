@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.doordelivery.karma.Notifications;
 import com.doordelivery.karma.R;
@@ -81,12 +82,9 @@ public class NotificationFragment extends Fragment {
 
                     }
                 };
+      
         rvNotification.setAdapter(firebaseRecyclerAdapter);
-        int i= firebaseRecyclerAdapter.getItemCount();
-        if (i==0){
-            tvNothing.setVisibility(View.VISIBLE);
-            tvNothing.setText("Notification is empty");
-        }
+
     }
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
         View cfView;
