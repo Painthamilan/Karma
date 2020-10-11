@@ -13,6 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.doordelivery.karma.Catagories;
+import com.doordelivery.karma.OnlineCourseActivity;
 import com.doordelivery.karma.R;
 import com.doordelivery.karma.ViewItemsActivity;
 import com.doordelivery.karma.ViewSubCatsActivity;
@@ -69,13 +70,20 @@ public class CatagoryAdapter extends RecyclerView.Adapter<CatagoryAdapter.CatVie
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     context.startActivity(intent);
                 }else {
-                    Intent intent = new Intent(context, ViewItemsActivity.class);
-                    intent.putExtra("REF_KEY", catList.get(position).getCatagoryName());
-                    intent.putExtra("CAT_NAME", catList.get(position).getCatagoryName());
-                    intent.putExtra("MAIN_CAT_NAME", catList.get(position).getCatagoryName());
-                    intent.putExtra("hasSub", false);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    context.startActivity(intent);
+                    if (catList.get(position).getCatagoryName().equals("Online Courses")){
+                        Intent intent = new Intent(context, OnlineCourseActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        context.startActivity(intent);
+                    }else {
+                        Intent intent = new Intent(context, ViewItemsActivity.class);
+                        intent.putExtra("REF_KEY", catList.get(position).getCatagoryName());
+                        intent.putExtra("CAT_NAME", catList.get(position).getCatagoryName());
+                        intent.putExtra("MAIN_CAT_NAME", catList.get(position).getCatagoryName());
+                        intent.putExtra("hasSub", false);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        context.startActivity(intent);
+                    }
+
                 }
             }
         });

@@ -28,6 +28,7 @@ import com.denzcoskun.imageslider.models.SlideModel;
 import com.doordelivery.karma.AllCatActivity;
 import com.doordelivery.karma.ContactUs;
 import com.doordelivery.karma.LoginActivity;
+import com.doordelivery.karma.OnlineCourseActivity;
 import com.doordelivery.karma.R;
 import com.doordelivery.karma.RecentItemsActivity;
 import com.doordelivery.karma.RoundedCorners;
@@ -58,7 +59,7 @@ public class TopFragment extends Fragment {
     private RecyclerView rvProducts, rvTopFragments, rvInstants;
     private DatabaseReference cfPostRef, topRef, instantsRef;
     private TextView ivInstant, tvMobile;
-    ImageView ivOffers, tvCats, tvRecent;
+    ImageView ivOffers, tvCats, tvRecent,ivOnlineCourses;
     boolean hasSub;
 
     ImageSlider imageSlider;
@@ -85,6 +86,15 @@ public class TopFragment extends Fragment {
         tvRecent = root.findViewById(R.id.recent);
         tvContact = root.findViewById(R.id.tv_mobile);
         tvContact.setSelected(true);
+        ivOnlineCourses=root.findViewById(R.id.iv_courses);
+
+        ivOnlineCourses.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getContext(), OnlineCourseActivity.class);
+                startActivity(intent);
+            }
+        });
         tvContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
