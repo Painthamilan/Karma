@@ -396,7 +396,7 @@ public class TopFragment extends Fragment {
         }
 
         public void setProductImage(String productImage) {
-            Picasso.get().load(productImage).transform(new RoundedCorners(10, 0)).resize(100, 100).into(ivproductImage);
+            Picasso.get().load(productImage).fit().into(ivproductImage);
         }
 
 

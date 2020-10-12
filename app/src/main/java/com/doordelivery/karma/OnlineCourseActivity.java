@@ -56,7 +56,7 @@ public class OnlineCourseActivity extends AppCompatActivity {
 
 
         rvCourses=findViewById(R.id.rv_list_items);
-        subCatRef= FirebaseDatabase.getInstance().getReference().child("Test").child("Online Courses");
+        subCatRef= FirebaseDatabase.getInstance().getReference().child("Online Courses");
 
 
         getLastItem();

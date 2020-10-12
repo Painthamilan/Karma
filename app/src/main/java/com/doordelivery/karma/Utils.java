@@ -45,8 +45,7 @@ public class Utils {
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH-mm-ss");
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         String curTime = timeFormat.format(new Date());
-        String randomId = curDate + curTime;
-        return randomId;
+        return curDate.replace("-", "")+curTime.replace("-", "");
 
     }
     public static String getActualPrice(String price,String percentage){

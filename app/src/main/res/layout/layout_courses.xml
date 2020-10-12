@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:textAlignment="center"
+        android:textColor="@color/white"
         android:paddingVertical="8dp"
         android:paddingHorizontal="20dp"
         android:textSize="20sp"

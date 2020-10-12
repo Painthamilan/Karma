@@ -1,8 +1,11 @@
 package com.doordelivery.karma;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -23,11 +26,13 @@ public class CourseDetailsActivity extends AppCompatActivity {
     DatabaseReference courseRef;
     String courseId,courseName,requirements,duration,fee,teacher,details,courseImage;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_details);
 
+        Utils.setTopBar(getWindow(),getResources());
         tvCourseName = findViewById(R.id.tv_course_name);
         tvRequirements = findViewById(R.id.tv_requirements);
         tvDuration = findViewById(R.id.tv_duration);
@@ -38,15 +43,10 @@ public class CourseDetailsActivity extends AppCompatActivity {
         ivCourseImage = findViewById(R.id.iv_course_image);
 
         courseId=getIntent().getStringExtra("REF_KEY");
-        courseRef= FirebaseDatabase.getInstance().getReference().child("Test").child("Online Courses").child(courseId);
+        courseRef= FirebaseDatabase.getInstance().getReference().child("Online Courses").child(courseId);
 
 
-        tvApply.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
 
         courseRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -73,6 +73,15 @@ public class CourseDetailsActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+
+        tvApply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(CourseDetailsActivity.this,ApplyActivity.class);
+                intent.putExtra("CourseName",courseName);
+                startActivity(intent);
             }
         });
 
