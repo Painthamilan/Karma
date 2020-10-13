@@ -69,7 +69,7 @@ public class TopFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_top_items, container, false);
+            View root = inflater.inflate(R.layout.fragment_top_items, container, false);
         final TextView textView = root.findViewById(R.id.text_home);
 
         tvD2d = root.findViewById(R.id.tv_d2d2);
@@ -166,6 +166,12 @@ public class TopFragment extends Fragment {
         handler.postDelayed(runnable, 2000);
 
         return root;
+    }
+
+    @Override
+    public void onStop() {
+        imageSlider.stopSliding();
+        super.onStop();
     }
 
     private void showImageSlider(ImageSlider imageSlider) {
@@ -396,7 +402,7 @@ public class TopFragment extends Fragment {
         }
 
         public void setProductImage(String productImage) {
-            Picasso.get().load(productImage).fit().into(ivproductImage);
+            Picasso.get().load(productImage).transform(new RoundedCorners(10,1)).resize(100,100).into(ivproductImage);
         }
 
 

@@ -127,7 +127,7 @@
             app:layout_constraintEnd_toEndOf="@+id/tv_home"
             app:layout_constraintStart_toStartOf="@+id/tv_home" />
 
-        <com.denzcoskun.imageslider.ImageSlider
+            <com.denzcoskun.imageslider.ImageSlider
             android:id="@+id/is_slider"
             android:layout_width="match_parent"
             android:layout_height="200dp"
