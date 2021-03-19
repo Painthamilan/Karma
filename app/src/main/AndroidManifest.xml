@@ -14,84 +14,84 @@
         android:roundIcon="@mipmap/ic_launcher_new_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.Light.NoActionBar">
-        <activity android:name=".ApplyActivity"></activity>
-        <activity android:name=".CourseDetailsActivity" />
-        <activity android:name=".OnlineCourseActivity" />
+        <activity android:name=".activities.ApplyActivity"></activity>
+        <activity android:name=".activities.CourseDetailsActivity" />
+        <activity android:name=".activities.OnlineCourseActivity" />
         <activity
-            android:name=".ViewSliderProductActivity"
+            android:name=".activities.ViewSliderProductActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".SelectRegionActivity"
+            android:name=".activities.SelectRegionActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ContactUs"
+            android:name=".activities.ContactUs"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".RecentItemsActivity"
+            android:name=".activities.RecentItemsActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
-        <activity android:name=".AllCatActivity" />
+        <activity android:name=".activities.AllCatActivity" />
         <activity android:name=".admin_fragments.AdminViewProductActivity" />
         <activity
-            android:name=".SelectPaymentMethodActivity"
+            android:name=".activities.SelectPaymentMethodActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".SearchActivity"
+            android:name=".activities.SearchActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".UpdateProfileActivity"
+            android:name=".activities.UpdateProfileActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity android:name=".admin_fragments.ManageOrdersActivity" />
         <activity android:name=".admin_fragments.ViewAllOrdersActivity" />
         <activity
-            android:name=".ViewAllOffersActivity"
+            android:name=".activities.ViewAllOffersActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity android:name=".admin_fragments.AddOffersActivity" />
         <activity
-            android:name=".ViewMyOrdersActivity"
+            android:name=".activities.ViewMyOrdersActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ViewItemsActivity"
+            android:name=".activities.ViewItemsActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ViewSubCatsActivity"
+            android:name=".activities.ViewSubCatsActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".CatsDetailActivity"
+            android:name=".activities.CatsDetailActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ViewSingleProductActivity"
+            android:name=".activities.ViewSingleProductActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".activities.LoginActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".SignupActivity"
+            android:name=".activities.SignupActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".AdminBottomBarActivity"
+            android:name=".activities.AdminBottomBarActivity"
             android:label="@string/title_activity_admin_bottom_bar" />
         <activity
-            android:name=".BottomBarActivity"
+            android:name=".activities.BottomBarActivity"
             android:label="@string/title_activity_bottom_bar"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>

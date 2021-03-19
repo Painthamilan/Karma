@@ -12,17 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.doordelivery.karma.CourseDetailsActivity;
-import com.doordelivery.karma.Courses;
-import com.doordelivery.karma.Products;
+import com.doordelivery.karma.activities.CourseDetailsActivity;
+import com.doordelivery.karma.activities.Courses;
 import com.doordelivery.karma.R;
-import com.doordelivery.karma.Utils;
-import com.doordelivery.karma.ViewSingleProductActivity;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

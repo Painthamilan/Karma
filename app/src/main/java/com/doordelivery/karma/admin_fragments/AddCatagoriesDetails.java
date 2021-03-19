@@ -16,8 +16,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.doordelivery.karma.Catagories;
-import com.doordelivery.karma.CatsDetailActivity;
+import com.doordelivery.karma.activities.Catagories;
+import com.doordelivery.karma.activities.CatsDetailActivity;
 import com.doordelivery.karma.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;

@@ -10,9 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.doordelivery.karma.LoginActivity;
+import com.doordelivery.karma.activities.LoginActivity;
 import com.doordelivery.karma.R;
-import com.doordelivery.karma.ViewSubCatsActivity;
+import com.doordelivery.karma.activities.ViewSubCatsActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class OrdersFragment extends Fragment {

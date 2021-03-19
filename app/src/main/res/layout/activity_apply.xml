@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="horizontal"
-    tools:context=".ApplyActivity"
+    tools:context=".activities.ApplyActivity"
     tools:ignore="GradleDependency">
 
     <androidx.constraintlayout.widget.ConstraintLayout

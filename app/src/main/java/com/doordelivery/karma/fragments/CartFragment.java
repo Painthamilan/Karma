@@ -21,11 +21,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.doordelivery.karma.Products;
+import com.doordelivery.karma.activities.Products;
 import com.doordelivery.karma.R;
-import com.doordelivery.karma.SelectPaymentMethodActivity;
-import com.doordelivery.karma.Utils;
-import com.doordelivery.karma.ViewSingleProductActivity;
+import com.doordelivery.karma.activities.SelectPaymentMethodActivity;
+import com.doordelivery.karma.activities.Utils;
+import com.doordelivery.karma.activities.ViewSingleProductActivity;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;

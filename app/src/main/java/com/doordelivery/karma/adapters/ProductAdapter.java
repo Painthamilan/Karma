@@ -12,10 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.doordelivery.karma.Products;
+import com.doordelivery.karma.activities.Products;
 import com.doordelivery.karma.R;
-import com.doordelivery.karma.Utils;
-import com.doordelivery.karma.ViewSingleProductActivity;
+import com.doordelivery.karma.activities.Utils;
+import com.doordelivery.karma.activities.ViewSingleProductActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

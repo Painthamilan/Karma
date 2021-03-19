@@ -20,9 +20,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.doordelivery.karma.Img;
+import com.doordelivery.karma.activities.Img;
 import com.doordelivery.karma.R;
-import com.doordelivery.karma.Utils;
+import com.doordelivery.karma.activities.Utils;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;

@@ -8,17 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
-import com.doordelivery.karma.LoginActivity;
+import com.doordelivery.karma.activities.LoginActivity;
 import com.doordelivery.karma.R;
-import com.doordelivery.karma.SignupActivity;
-import com.doordelivery.karma.UpdateProfileActivity;
-import com.doordelivery.karma.ViewMyOrdersActivity;
+import com.doordelivery.karma.activities.SignupActivity;
+import com.doordelivery.karma.activities.UpdateProfileActivity;
+import com.doordelivery.karma.activities.ViewMyOrdersActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;

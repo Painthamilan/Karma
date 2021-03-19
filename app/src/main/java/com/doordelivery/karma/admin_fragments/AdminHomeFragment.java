@@ -16,9 +16,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.doordelivery.karma.Products;
+import com.doordelivery.karma.activities.Products;
 import com.doordelivery.karma.R;
-import com.doordelivery.karma.RoundedCorners;
+import com.doordelivery.karma.activities.RoundedCorners;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
