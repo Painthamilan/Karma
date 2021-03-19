@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#ffff99</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#ccffcc</color>
+    <color name="colorPrimary">@color/medium_aquamarine</color>
+    <color name="colorPrimaryDark">@color/dark_cyan</color>
+    <color name="colorAccent">@color/dark_cyan</color>
+
     <color name="editTextColor">#e6ffff</color>
     <color name="whitecolor">#FFFFFF</color>
     <color name="descriptionTextColor">#A6FFFFFF</color>

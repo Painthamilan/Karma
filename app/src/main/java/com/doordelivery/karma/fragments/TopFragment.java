@@ -29,6 +29,7 @@ import com.doordelivery.karma.AllCatActivity;
 import com.doordelivery.karma.ContactUs;
 import com.doordelivery.karma.LoginActivity;
 import com.doordelivery.karma.OnlineCourseActivity;
+import com.doordelivery.karma.Products;
 import com.doordelivery.karma.R;
 import com.doordelivery.karma.RecentItemsActivity;
 import com.doordelivery.karma.RoundedCorners;
@@ -59,7 +60,7 @@ public class TopFragment extends Fragment {
     private RecyclerView rvProducts, rvTopFragments, rvInstants;
     private DatabaseReference cfPostRef, topRef, instantsRef;
     private TextView ivInstant, tvMobile;
-    ImageView ivOffers, tvCats, tvRecent,ivOnlineCourses;
+    TextView ivOffers, tvCats, tvRecent,ivOnlineCourses;
     boolean hasSub;
 
     ImageSlider imageSlider;
@@ -83,7 +84,7 @@ public class TopFragment extends Fragment {
         tvCats = root.findViewById(R.id.tv_cats);
         rvTopFragments = root.findViewById(R.id.rv_topItems);
         ivOffers = root.findViewById(R.id.iv_offer_of_day);
-        tvRecent = root.findViewById(R.id.recent);
+       // tvRecent = root.findViewById(R.id.recent);
         tvContact = root.findViewById(R.id.tv_mobile);
         tvContact.setSelected(true);
         ivOnlineCourses=root.findViewById(R.id.iv_courses);
@@ -103,12 +104,6 @@ public class TopFragment extends Fragment {
             }
         });
 
-        tvRecent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showrecentItems(getContext());
-            }
-        });
 
 
         etSearch = root.findViewById(R.id.et_search_bar);
@@ -176,7 +171,7 @@ public class TopFragment extends Fragment {
 
     private void showImageSlider(ImageSlider imageSlider) {
         List<SlideModel> remoteImages = new ArrayList<>();
-        FirebaseDatabase.getInstance().getReference().child("Slider")
+        FirebaseDatabase.getInstance().getReference().child("Test").child("Slider")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -196,7 +191,7 @@ public class TopFragment extends Fragment {
                                     switch (i) {
                                         case 0:
 
-                                            FirebaseDatabase.getInstance().getReference().child("Slider").child("Catagory")
+                                            FirebaseDatabase.getInstance().getReference().child("Test").child("Slider").child("Catagory")
                                                     .addValueEventListener(new ValueEventListener() {
                                                         @Override
                                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -223,7 +218,7 @@ public class TopFragment extends Fragment {
 
                                         case 1:
 
-                                            FirebaseDatabase.getInstance().getReference().child("Slider").child("Message")
+                                            FirebaseDatabase.getInstance().getReference().child("Test").child("Slider").child("Message")
                                                     .addValueEventListener(new ValueEventListener() {
                                                         @Override
                                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -242,7 +237,7 @@ public class TopFragment extends Fragment {
                                             break;
                                         case 2:
 
-                                            FirebaseDatabase.getInstance().getReference().child("Slider").child("Offer")
+                                            FirebaseDatabase.getInstance().getReference().child("Test").child("Slider").child("Offer")
                                                     .addValueEventListener(new ValueEventListener() {
                                                         @Override
                                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -264,7 +259,7 @@ public class TopFragment extends Fragment {
 
                                             break;
                                         case 3:
-                                            FirebaseDatabase.getInstance().getReference().child("Slider").child("Product")
+                                            FirebaseDatabase.getInstance().getReference().child("Test").child("Slider").child("Product")
                                                     .addValueEventListener(new ValueEventListener() {
                                                         @Override
                                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -334,27 +329,27 @@ public class TopFragment extends Fragment {
 
 
     private void showTop() {
-        topRef = FirebaseDatabase.getInstance().getReference().child("TopItems");
-        Query searchPeopleAndFriendsQuery = topRef.orderByChild("Rank");
-        FirebaseRecyclerAdapter<Top, TopViewHolder> firebaseRecyclerAdapter =
-                new FirebaseRecyclerAdapter<Top, TopViewHolder>(
-                        Top.class,
+        topRef = FirebaseDatabase.getInstance().getReference().child("Test").child("Products");
+        Query searchPeopleAndFriendsQuery = topRef.orderByChild("Counter").limitToLast(4);
+        FirebaseRecyclerAdapter<Products, TopViewHolder> firebaseRecyclerAdapter =
+                new FirebaseRecyclerAdapter<Products, TopViewHolder>(
+                        Products.class,
                         R.layout.item_layout,
                         TopViewHolder.class,
                         searchPeopleAndFriendsQuery
 
                 ) {
                     @Override
-                    protected void populateViewHolder(TopViewHolder postViewHolder, Top model, int position) {
+                    protected void populateViewHolder(TopViewHolder postViewHolder, Products model, int position) {
                         String postKey = getRef(position).getKey();
-                        postViewHolder.setPrice(model.getItemPrice(), model.getPercentage());
-                        postViewHolder.setProductImage(model.getItemImage());
-                        postViewHolder.setProductName(model.getItemName());
+                        postViewHolder.setPrice(model.getPrice(), model.getPercentage());
+                        postViewHolder.setProductImage(model.getProductImage());
+                        postViewHolder.setProductName(model.getProductName());
                         postViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 Intent intent = new Intent(getActivity(), ViewSingleProductActivity.class);
-                                intent.putExtra("REF_KEY", model.getItemId());
+                                intent.putExtra("REF_KEY", model.getProductId());
                                 intent.putExtra("isOffer", false);
                                 startActivity(intent);
                             }

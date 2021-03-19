@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <androidx.core.widget.NestedScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-    android:background="@color/black">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <TextView
             android:id="@+id/text_dashboard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            android:textColor="@color/white"
-            android:textStyle="bold"
             android:background="@drawable/main_theme"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -27,7 +27,7 @@
             android:id="@+id/tv_home"
             android:layout_width="match_parent"
             android:layout_height="130dp"
-            android:layout_marginTop="4dp"
+            android:layout_margin="8dp"
             android:background="@drawable/main_theme_radius"
             android:clickable="true"
             android:focusable="true"
@@ -65,27 +65,30 @@
             android:id="@+id/tv_d2d2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
+            android:focusableInTouchMode="true"
             android:fontFamily="@font/oberon"
             android:text="@string/d2d"
             android:textAllCaps="true"
             android:textColor="@color/white"
-            android:layout_marginTop="4dp"
-            android:focusableInTouchMode="true"
             android:textSize="25dp"
             android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="@+id/iv_d2d"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/iv_d2d"/>
-        <View android:id="@+id/separator2"
-            android:background="@color/white"
-            android:layout_width = "fill_parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_d2d"
+            app:layout_constraintTop_toTopOf="@+id/iv_d2d" />
+
+        <View
+            android:id="@+id/separator2"
+            android:layout_width="fill_parent"
             android:layout_height="4dp"
-            android:layout_marginTop="4dp"
-            android:layout_centerVertical ="true"
             android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="4dp"
+            android:background="@color/black"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_home"/>
+            app:layout_constraintTop_toBottomOf="@id/tv_home" />
+
         <TextView
             android:id="@+id/tv_mobile"
             android:layout_width="0dp"
@@ -95,21 +98,24 @@
             android:singleLine="true"
             android:text="@string/click_here_24x7_hotline"
             android:textAllCaps="true"
-            android:textColor="@color/mint_cream"
+            android:textColor="@color/black"
             android:textSize="18dp"
             android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@id/separator2"
             app:layout_constraintEnd_toEndOf="@+id/tv_home"
-            app:layout_constraintStart_toStartOf="@+id/tv_home" />
-        <View android:id="@+id/separator"
-            android:background="@color/white"
-            android:layout_width = "fill_parent"
+            app:layout_constraintStart_toStartOf="@+id/tv_home"
+            app:layout_constraintTop_toBottomOf="@id/separator2" />
+
+        <View
+            android:id="@+id/separator"
+            android:layout_width="fill_parent"
             android:layout_height="4dp"
-            android:layout_marginTop="2dp"
-            android:layout_centerVertical ="true"
             android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="2dp"
+            android:background="@color/black"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_mobile"/>
+            app:layout_constraintTop_toBottomOf="@id/tv_mobile" />
+
         <TextView
             android:id="@+id/et_search_bar"
             android:layout_width="0dp"
@@ -118,16 +124,16 @@
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="4dp"
             android:background="@color/lightGray"
+            android:hint="Search"
             android:paddingHorizontal="20dp"
             android:paddingVertical="4dp"
-            android:textSize="18sp"
             android:textColorHint="@color/white"
-            android:hint="Search"
-            app:layout_constraintTop_toBottomOf="@id/iv_d2d"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="@+id/tv_home"
-            app:layout_constraintStart_toStartOf="@+id/tv_home" />
+            app:layout_constraintStart_toStartOf="@+id/tv_home"
+            app:layout_constraintTop_toBottomOf="@id/iv_d2d" />
 
-            <com.denzcoskun.imageslider.ImageSlider
+        <com.denzcoskun.imageslider.ImageSlider
             android:id="@+id/is_slider"
             android:layout_width="match_parent"
             android:layout_height="200dp"
@@ -135,9 +141,9 @@
             android:layout_marginEnd="4dp"
             app:iss_auto_cycle="true"
             app:iss_delay="2000"
-            app:iss_title_background="@drawable/background"
-            app:iss_text_align="CENTER"
             app:iss_period="5000"
+            app:iss_text_align="CENTER"
+            app:iss_title_background="@drawable/background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/separator" />
@@ -146,61 +152,31 @@
             android:id="@+id/text_home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/main_theme"
             android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="4dp"
-            android:text="Top Products"
+            android:background="@drawable/main_theme"
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="@id/recent"
-            app:layout_constraintStart_toStartOf="@id/recent"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/is_slider" />
-
-        <ImageView
-            android:id="@+id/recent"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginBottom="8dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/new_items"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_offer_of_day"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-
-
-        <ImageView
-            android:id="@+id/iv_offer_of_day"
-            android:layout_width="0dp"
-            android:layout_height="180dp"
-            android:layout_marginTop="8dp"
-            android:src="@drawable/hot_offers"
-            android:layout_marginStart="4dp"
-            android:scaleType="fitXY"
-            android:layout_marginEnd="4dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_cats" />
-
 
         <TextView
             android:id="@+id/jhik"
             android:layout_width="match_parent"
-            android:padding="10dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginStart="4dp"
             android:layout_height="0dp"
-            android:background="@drawable/main_theme"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="@id/rv_topItems"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_home"
-            app:layout_constraintBottom_toBottomOf="@id/rv_topItems"/>
+            app:layout_constraintTop_toBottomOf="@+id/text_home" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_topItems"
@@ -211,38 +187,114 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_home" />
 
-        <ImageView
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <TextView
+            android:id="@+id/tv_view_more_top"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shade_black"
+            android:gravity="end"
+            android:paddingHorizontal="2dp"
+            android:paddingVertical="0dp"
+            android:text="View More"
+            android:textAlignment="textEnd"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/jhik"
+            app:layout_constraintEnd_toEndOf="@+id/jhik"
+            app:layout_constraintStart_toStartOf="@+id/guideline3" />
+
+        <TextView
             android:id="@+id/iv_courses"
             android:layout_width="0dp"
             android:layout_height="180dp"
             android:layout_marginStart="4dp"
-            android:scaleType="fitXY"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="4dp"
+
             android:textSize="16sp"
             android:textStyle="bold"
-            android:src="@drawable/courses"
             app:layout_constraintEnd_toEndOf="parent"
-
+            android:background="@drawable/main_theme_stroke"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rv_topItems" />
 
-
         <ImageView
+            android:id="@+id/iv_course"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/online_course_new"
+            app:layout_constraintBottom_toBottomOf="@id/iv_courses"
+            app:layout_constraintEnd_toEndOf="@id/guideline3"
+            app:layout_constraintStart_toStartOf="@+id/iv_courses"
+            app:layout_constraintTop_toTopOf="@id/iv_courses" />
+        <TextView
+            android:id="@+id/tv_course"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="24dp"
+            android:text="EDUCATION \n ZONE"
+            app:layout_constraintBottom_toBottomOf="@id/iv_courses"
+            app:layout_constraintEnd_toEndOf="@id/iv_courses"
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            app:layout_constraintTop_toTopOf="@id/iv_courses" />
+
+
+        <TextView
             android:id="@+id/tv_cats"
             android:layout_width="0dp"
             android:layout_height="180dp"
             android:layout_marginStart="4dp"
-            android:scaleType="fitXY"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="4dp"
+            android:scaleType="fitXY"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:src="@drawable/catagories"
+            android:background="@drawable/main_theme"
             app:layout_constraintEnd_toEndOf="parent"
-
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_courses" />
+
+
+        <TextView
+            android:id="@+id/jkn"
+            android:layout_width="0dp"
+            android:layout_height="180dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:scaleType="fitXY"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:background="@drawable/main_theme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_cats" />
+
+        <TextView
+            android:id="@+id/iv_offer_of_day"
+            android:layout_width="0dp"
+            android:layout_height="180dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="4dp"
+            android:scaleType="fitXY"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/jkn" />
+
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"
@@ -250,6 +302,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="175dp" />
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline2"
             android:layout_width="wrap_content"
@@ -258,4 +311,4 @@
             app:layout_constraintGuide_begin="160dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.core.widget.NestedScrollView>
+</ScrollView>
