@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.doordelivery.karma.R;
+import com.doordelivery.karma.activities.Utils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -30,6 +31,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.TimeZone;
+
+import static com.doordelivery.karma.activities.Utils.RELEASE_TYPE;
 
 public class AddOffersActivity extends AppCompatActivity {
     private EditText etProductName,etPrice,etPercentage,etSpecifications;
@@ -55,8 +58,8 @@ public class AddOffersActivity extends AppCompatActivity {
         tvUpload=findViewById(R.id.tv_upload);
         tvSelect=findViewById(R.id.tv_select_image);
 
-        itemStorageRef= FirebaseStorage.getInstance().getReference().child("OfferImages");
-        itemsRef= FirebaseDatabase.getInstance().getReference().child("Offers");
+        itemStorageRef= FirebaseStorage.getInstance().getReference().child(RELEASE_TYPE).child("OfferImages");
+        itemsRef= FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Offers");
         tvSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,13 +76,7 @@ public class AddOffersActivity extends AppCompatActivity {
     }
     private void storeImage() {
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        curDate = dateFormat.format(new Date());
-        SimpleDateFormat timeFormat = new SimpleDateFormat("HH-mm-ss");
-        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        curTime = timeFormat.format(new Date());
-        randomid=curDate.replace("-", "")+curTime.replace("-", "");
+        randomid= Utils.getRandomId();
 
         if (imageUri != null&&!etPrice.getText().toString().isEmpty()&&!etProductName.getText().toString().isEmpty()) {
             final StorageReference filepath = itemStorageRef.child(imageUri.getLastPathSegment() + randomid + "jpg");
@@ -116,7 +113,7 @@ public class AddOffersActivity extends AppCompatActivity {
     }
 
     private void savePostInformation() {
-        itemsRef= FirebaseDatabase.getInstance().getReference().child("Offers");
+        itemsRef= FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Offers");
         itemsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

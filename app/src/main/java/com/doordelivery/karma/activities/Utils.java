@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import androidx.annotation.RequiresApi;
 
 import com.doordelivery.karma.R;
+import com.doordelivery.karma.domains.Constants;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.SimpleDateFormat;
@@ -20,6 +21,7 @@ public class Utils {
 
 
     public static int CURRENT_NAVIGATION_BAR = R.id.navigation_home ;
+    public static String RELEASE_TYPE="Live";
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     public static void setTopBar(Window window, Resources resources) {
@@ -39,14 +41,14 @@ public class Utils {
         FirebaseAuth cfAuth=FirebaseAuth.getInstance();
         return cfAuth.getCurrentUser().getUid();
     }
-    public static String createRandomId(){
+    public static String getRandomId(){
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         String curDate = dateFormat.format(new Date());
-        SimpleDateFormat timeFormat = new SimpleDateFormat("HH-mm-ss");
+        SimpleDateFormat timeFormat = new SimpleDateFormat("ss-mm-HH");
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         String curTime = timeFormat.format(new Date());
-        return curDate.replace("-", "")+curTime.replace("-", "");
+        return curTime.replace("-", "")+curTime.replace("-", "");
 
     }
     public static String getActualPrice(String price,String percentage){

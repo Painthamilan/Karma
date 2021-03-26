@@ -27,6 +27,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import static com.doordelivery.karma.activities.Utils.RELEASE_TYPE;
+
 public class UserProfileFragment extends Fragment {
     FirebaseAuth cfAuth;
     TextView tvMyOrders,tvName,tvUpdateProfile,tvLogin,tvSignup;
@@ -113,7 +115,7 @@ public class UserProfileFragment extends Fragment {
     }
 
     private void showProfile(String userId) {
-        cfUserRef= FirebaseDatabase.getInstance().getReference().child("User").child(userId);
+        cfUserRef= FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(userId);
         cfUserRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

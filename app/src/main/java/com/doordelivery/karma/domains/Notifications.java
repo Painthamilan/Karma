@@ -1,4 +1,4 @@
-package com.doordelivery.karma.activities;
+package com.doordelivery.karma.domains;
 
 public class Notifications {
     String Message,Title,NotificationImage;

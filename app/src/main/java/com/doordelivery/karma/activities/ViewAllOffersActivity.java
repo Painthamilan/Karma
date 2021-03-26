@@ -14,12 +14,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.doordelivery.karma.R;
+import com.doordelivery.karma.domains.Constants;
+import com.doordelivery.karma.domains.Products;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.squareup.picasso.Picasso;
+
+import static com.doordelivery.karma.activities.Utils.RELEASE_TYPE;
 
 public class ViewAllOffersActivity extends AppCompatActivity {
     private FirebaseAuth cfAuth;
@@ -43,7 +47,7 @@ public class ViewAllOffersActivity extends AppCompatActivity {
     }
 
     private void showAllProducts() {
-        cfPostRef = FirebaseDatabase.getInstance().getReference().child("Offers");
+        cfPostRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Offers");
         Query searchPeopleAndFriendsQuery = cfPostRef.orderByChild("Counter");
         FirebaseRecyclerAdapter<Products, PostViewHolder> firebaseRecyclerAdapter =
                 new FirebaseRecyclerAdapter<Products, PostViewHolder>(

@@ -20,6 +20,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
+import static com.doordelivery.karma.activities.Utils.RELEASE_TYPE;
+
 public class SelectPaymentMethodActivity extends AppCompatActivity {
     TextView tvCashOnDelivery,tvCartPayment;
     DatabaseReference ordersref,cartRef;
@@ -43,9 +45,9 @@ public class SelectPaymentMethodActivity extends AppCompatActivity {
         if (cfAuth.getCurrentUser() != null) {
             curUserId = cfAuth.getCurrentUser().getUid().toString();
 
-            cartRef= FirebaseDatabase.getInstance().getReference().child("User").child(curUserId).child("MyCart").child(key);
+            cartRef= FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(curUserId).child("MyCart").child(key);
         }
-        ordersref=FirebaseDatabase.getInstance().getReference().child("Orders");
+        ordersref=FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Orders");
 
         tvCartPayment=findViewById(R.id.tv_cart_payment);
         tvCashOnDelivery=findViewById(R.id.tv_cash_on_delivery);

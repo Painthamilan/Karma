@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.doordelivery.karma.R;
+import com.doordelivery.karma.domains.SubCats;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -30,6 +31,8 @@ import com.squareup.picasso.Picasso;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
+
+import static com.doordelivery.karma.activities.Utils.RELEASE_TYPE;
 
 public class CatsDetailActivity extends AppCompatActivity {
 
@@ -63,7 +66,7 @@ public class CatsDetailActivity extends AppCompatActivity {
             Picasso.get().load(catImage).into(ivCatImage);
         }
 
-        cf_displaySubCatsRef =FirebaseDatabase.getInstance().getReference().child("Catagories").child(catName).child("SubCatagories");
+        cf_displaySubCatsRef =FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Catagories").child(catName).child("SubCatagories");
         rvSubCats=findViewById(R.id.rv_list_sub_cats);
         if (!isSub) {
             rvSubCats.setHasFixedSize(true);
@@ -74,15 +77,15 @@ public class CatsDetailActivity extends AppCompatActivity {
             // Set the layout manager to your recyclerview
             rvSubCats.setLayoutManager(mLayoutManager);
 
-            storeCatImageRef= FirebaseStorage.getInstance().getReference().child("Catagories").child(catName);
-            updateDetailsRef=FirebaseDatabase.getInstance().getReference().child("Catagories").child(catName);
+            storeCatImageRef= FirebaseStorage.getInstance().getReference().child(RELEASE_TYPE).child("Catagories").child(catName);
+            updateDetailsRef=FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Catagories").child(catName);
             imageLabel="CatagoryImage";
             showAllSubCats();
         }else {
             rvSubCats.setVisibility(View.INVISIBLE);
             imageLabel="SubCatagoryImage";
-            storeCatImageRef= FirebaseStorage.getInstance().getReference().child("Catagories").child(catName).child("SubCatagories");
-            updateDetailsRef=FirebaseDatabase.getInstance().getReference().child("Catagories").child(mainCatName).child("SubCatagories").child(catName);
+            storeCatImageRef= FirebaseStorage.getInstance().getReference().child(RELEASE_TYPE).child("Catagories").child(catName).child("SubCatagories");
+            updateDetailsRef=FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Catagories").child(mainCatName).child("SubCatagories").child(catName);
         }
 
         tvSelectImage.setOnClickListener(new View.OnClickListener() {
@@ -102,13 +105,8 @@ public class CatsDetailActivity extends AppCompatActivity {
     }
 
     private void storeImage() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        curDate = dateFormat.format(new Date());
-        SimpleDateFormat timeFormat = new SimpleDateFormat("HH-mm-ss");
-        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        curTime = timeFormat.format(new Date());
-        randomid=curDate.replace("-", "")+curTime.replace("-", "");
+
+        randomid=Utils.getRandomId();
 
         if (imageUri != null) {
             final StorageReference filepath = storeCatImageRef.child(imageUri.getLastPathSegment() + randomid + "jpg");

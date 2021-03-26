@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.TimeZone;
 
 import static android.app.Activity.RESULT_OK;
+import static com.doordelivery.karma.activities.Utils.RELEASE_TYPE;
 
 public class AddItemFragment extends Fragment {
     private EditText etProductName,etPrice,etSpecifications,etPercentage;
@@ -63,9 +64,9 @@ public class AddItemFragment extends Fragment {
          tvUpload=root.findViewById(R.id.tv_upload);
          tvSelectSubCatagory=root.findViewById(R.id.tv_select_sub_catogary);
 
-         itemStorageRef= FirebaseStorage.getInstance().getReference().child("ProductImages");
-         itemsRef= FirebaseDatabase.getInstance().getReference().child("Products");
-         catRef=FirebaseDatabase.getInstance().getReference().child("Catagories");
+         itemStorageRef= FirebaseStorage.getInstance().getReference().child(RELEASE_TYPE).child("ProductImages");
+         itemsRef= FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Products");
+         catRef=FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Catagories");
          hasSubCat=false;
         PopupMenu popup = new PopupMenu(AddItemFragment.this.getContext(),tvSelectcatagory);
 
@@ -304,7 +305,7 @@ public class AddItemFragment extends Fragment {
 
     private void savePostInformation() {
         if (isinstant){
-            instantRef= FirebaseDatabase.getInstance().getReference().child("Instants");
+            instantRef= FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Instants");
             instantRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -337,7 +338,7 @@ public class AddItemFragment extends Fragment {
             });
         }
         saveCats(hasSubCat,seletedCatagory);
-        itemsRef= FirebaseDatabase.getInstance().getReference().child("Products");
+        itemsRef= FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Products");
         itemsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

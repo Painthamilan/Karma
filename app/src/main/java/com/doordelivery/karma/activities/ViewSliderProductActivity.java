@@ -23,6 +23,8 @@ import android.widget.Toast;
 
 import com.doordelivery.karma.R;
 import com.doordelivery.karma.admin_fragments.AdminViewProductActivity;
+import com.doordelivery.karma.domains.Constants;
+import com.doordelivery.karma.domains.Img;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -38,6 +40,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.TimeZone;
+
+import static com.doordelivery.karma.activities.Utils.RELEASE_TYPE;
 
 public class ViewSliderProductActivity extends AppCompatActivity {
     ImageView ivProductImage;
@@ -74,7 +78,7 @@ public class ViewSliderProductActivity extends AppCompatActivity {
                 tvOrder.setVisibility(View.INVISIBLE);
             }
 
-            cardRef= FirebaseDatabase.getInstance().getReference().child("User").child(curUserId).child("MyCart");
+            cardRef= FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(curUserId).child("MyCart");
         }
         rvImage=findViewById(R.id.rv_images);
         rvImage.setHasFixedSize(true);
@@ -88,9 +92,9 @@ public class ViewSliderProductActivity extends AppCompatActivity {
         type=getIntent().getStringExtra("TYPE");
 
 
-        ordersref= FirebaseDatabase.getInstance().getReference().child("Orders");
+        ordersref= FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Orders");
 
-            productRef= FirebaseDatabase.getInstance().getReference().child("Slider").child(type);
+            productRef= FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Slider").child(type);
             productRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -139,13 +143,7 @@ public class ViewSliderProductActivity extends AppCompatActivity {
 
 
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        curDate = dateFormat.format(new Date());
-        SimpleDateFormat timeFormat = new SimpleDateFormat("HH-mm-ss");
-        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        curTime = timeFormat.format(new Date());
-        randomid=curDate.replace("-", "")+curTime.replace("-", "");
+        randomid=Utils.getRandomId();
         ordersref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -404,7 +402,7 @@ public class ViewSliderProductActivity extends AppCompatActivity {
 
     }
     private void showAllImages() {
-        imageRef = FirebaseDatabase.getInstance().getReference().child("Products").child(key).child("DetailImages");
+        imageRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Products").child(key).child("DetailImages");
 
         FirebaseRecyclerAdapter<Img, AdminViewProductActivity.TopViewHolder> firebaseRecyclerAdapter =
                 new FirebaseRecyclerAdapter<Img, AdminViewProductActivity.TopViewHolder>(

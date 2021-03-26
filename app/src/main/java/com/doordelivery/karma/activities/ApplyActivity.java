@@ -25,6 +25,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 
+import static com.doordelivery.karma.activities.Utils.RELEASE_TYPE;
+
 public class ApplyActivity extends AppCompatActivity {
 
     EditText etName, etAddress, etEmail, etPhone, etQualification, etLanguage, etComments;
@@ -46,7 +48,7 @@ public class ApplyActivity extends AppCompatActivity {
         progressdialog.setMessage("Please Wait....");
         progressdialog.setCancelable(false);
 
-        applicationsRef = FirebaseDatabase.getInstance().getReference().child("Applications");
+        applicationsRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Applications");
         etName = findViewById(R.id.et_full_name);
         etAddress = findViewById(R.id.et_address);
         etEmail = findViewById(R.id.et_email);
@@ -111,7 +113,7 @@ public class ApplyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 progressdialog.show();
-                randomId = Utils.createRandomId();
+                randomId = Utils.getRandomId();
                 if (TextUtils.isEmpty(etComments.getText().toString())) {
                     comments = "None";
                 } else {

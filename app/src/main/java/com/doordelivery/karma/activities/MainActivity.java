@@ -14,6 +14,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import static com.doordelivery.karma.activities.Utils.RELEASE_TYPE;
+
 public class MainActivity extends AppCompatActivity {
 FirebaseAuth cfAuth;
 DatabaseReference cfUserRef;
@@ -26,7 +28,7 @@ String curUserId;
         setContentView(R.layout.activity_main);
         Utils.setTopBar(getWindow(),getResources());
         cfAuth=FirebaseAuth.getInstance();
-        cfUserRef= FirebaseDatabase.getInstance().getReference();
+        cfUserRef= FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE);
 
         if (cfAuth.getCurrentUser() != null) {
             curUserId = cfAuth.getCurrentUser().getUid().toString();

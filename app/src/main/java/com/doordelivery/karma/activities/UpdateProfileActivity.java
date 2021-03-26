@@ -16,6 +16,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import static com.doordelivery.karma.activities.Utils.RELEASE_TYPE;
+
 public class UpdateProfileActivity extends AppCompatActivity {
     DatabaseReference cfUserRef;
     EditText etAddress,etNumber;
@@ -28,7 +30,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
         etAddress=findViewById(R.id.et_adress);
         etNumber=findViewById(R.id.et_mobile);
         userId=Utils.getUserid();
-        cfUserRef=FirebaseDatabase.getInstance().getReference().child("User").child(userId);
+        cfUserRef=FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(userId);
         tvSave=findViewById(R.id.tv_save);
 
         cfUserRef.addValueEventListener(new ValueEventListener() {

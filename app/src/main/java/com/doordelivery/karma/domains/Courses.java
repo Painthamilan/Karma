@@ -1,4 +1,4 @@
-package com.doordelivery.karma.activities;
+package com.doordelivery.karma.domains;
 
 public class Courses {
     String CourseFee,CourseId,CourseName,Details,Duration,ProductCatagory,ProductId,ProductImage,ProductName,Requirement,CourseImage,Teacher;

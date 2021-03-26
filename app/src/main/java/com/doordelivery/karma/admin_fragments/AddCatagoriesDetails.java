@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.doordelivery.karma.activities.Catagories;
+import com.doordelivery.karma.domains.Catagories;
 import com.doordelivery.karma.activities.CatsDetailActivity;
 import com.doordelivery.karma.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -24,6 +24,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
+
+import static com.doordelivery.karma.activities.Utils.RELEASE_TYPE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,7 +55,7 @@ public class AddCatagoriesDetails extends Fragment {
     }
 
     private void showAllCats() {
-        cfPostRef = FirebaseDatabase.getInstance().getReference().child("Catagories");
+        cfPostRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Catagories");
         FirebaseRecyclerAdapter<Catagories, CatsViewHolder> firebaseRecyclerAdapter =
                 new FirebaseRecyclerAdapter<Catagories, CatsViewHolder>(
                         Catagories.class,

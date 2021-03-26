@@ -14,9 +14,10 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.doordelivery.karma.activities.Catagories;
 import com.doordelivery.karma.R;
+import com.doordelivery.karma.activities.Utils;
 import com.doordelivery.karma.adapters.CatagoryAdapter;
+import com.doordelivery.karma.domains.Brands;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -89,13 +90,13 @@ DatabaseReference listCatsRef;
             Query query;
             if (TextUtils.isEmpty(last_node))
 
-                query = FirebaseDatabase.getInstance().getReference().child("Catagories")
+                query = FirebaseDatabase.getInstance().getReference().child(Utils.RELEASE_TYPE).child("Brands")
                         .orderByKey()
                         .limitToFirst(ITEM_LOAD_COUNT);
 
             else
 
-                query = FirebaseDatabase.getInstance().getReference().child("Catagories")
+                query = FirebaseDatabase.getInstance().getReference().child(Utils.RELEASE_TYPE).child("Brands")
                         .orderByKey()
                         .startAt(last_node)
                         .limitToFirst(ITEM_LOAD_COUNT);
@@ -104,11 +105,11 @@ DatabaseReference listCatsRef;
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.hasChildren()) {
-                        List<Catagories> newCats = new ArrayList<>();
+                        List<Brands> newCats = new ArrayList<>();
                         for (DataSnapshot catSnapShot : snapshot.getChildren()) {
-                            newCats.add(catSnapShot.getValue(Catagories.class));
+                            newCats.add(catSnapShot.getValue(Brands.class));
                         }
-                        last_node = newCats.get(newCats.size() - 1).getCatagoryName();
+                        last_node = newCats.get(newCats.size() - 1).getBrandName();
 
                         if (!last_node.equals(last_key))
                             newCats.remove(newCats.size() - 1);
@@ -137,7 +138,7 @@ DatabaseReference listCatsRef;
     private void getLastItem() {
 
         Query getLastKey = FirebaseDatabase.getInstance().getReference()
-                .child("Catagories")
+                .child(Utils.RELEASE_TYPE).child("Brands")
                 .orderByKey()
                 .limitToLast(1);
         getLastKey.addListenerForSingleValueEvent(new ValueEventListener() {

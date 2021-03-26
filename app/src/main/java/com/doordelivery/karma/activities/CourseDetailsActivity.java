@@ -19,6 +19,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import static com.doordelivery.karma.activities.Utils.RELEASE_TYPE;
+
 public class CourseDetailsActivity extends AppCompatActivity {
 
     TextView tvCourseName, tvRequirements, tvDuration, tvFee, tvTeacher, tvDetails, tvApply;
@@ -43,7 +45,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
         ivCourseImage = findViewById(R.id.iv_course_image);
 
         courseId=getIntent().getStringExtra("REF_KEY");
-        courseRef= FirebaseDatabase.getInstance().getReference().child("Online Courses").child(courseId);
+        courseRef= FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Online Courses").child(courseId);
 
 
 

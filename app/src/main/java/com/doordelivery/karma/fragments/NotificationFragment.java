@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.doordelivery.karma.activities.Notifications;
+import com.doordelivery.karma.domains.Notifications;
 import com.doordelivery.karma.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;

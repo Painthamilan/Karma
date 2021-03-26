@@ -21,7 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.doordelivery.karma.activities.Products;
+import com.doordelivery.karma.domains.Products;
 import com.doordelivery.karma.R;
 import com.doordelivery.karma.activities.SelectPaymentMethodActivity;
 import com.doordelivery.karma.activities.Utils;
@@ -43,6 +43,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.doordelivery.karma.activities.Utils.RELEASE_TYPE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -78,9 +79,9 @@ public class CartFragment extends Fragment {
             SharedPreferences preferences=getContext().getSharedPreferences("REGION_SELECTOR",MODE_PRIVATE);
             region=preferences.getString("REGION","");
 
-            cartRef = FirebaseDatabase.getInstance().getReference().child("User").child(curUserId).child("MyCart");
-            orderRef= FirebaseDatabase.getInstance().getReference().child("Orders");
-            regionRef=FirebaseDatabase.getInstance().getReference().child("Regions").child(region).child("Orders");
+            cartRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(curUserId).child("MyCart");
+            orderRef= FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Orders");
+            regionRef=FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Regions").child(region).child("Orders");
             cartRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -175,7 +176,7 @@ public class CartFragment extends Fragment {
 
             }
         });
-        FirebaseDatabase.getInstance().getReference().child("User").child(curUserId)
+        FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(curUserId)
                 .child("DisplayName").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -201,7 +202,7 @@ public class CartFragment extends Fragment {
 
                 if (dataSnapshot.exists()){
                     HashMap postMap = new HashMap();
-                    postMap.put("OrderId", Utils.createRandomId());
+                    postMap.put("OrderId", Utils.getRandomId());
                     postMap.put("ProductId", allid);
                     postMap.put("ProductName", allname.substring(0,allname.length()-1));
                     postMap.put("UserId", curUserId);
@@ -213,10 +214,10 @@ public class CartFragment extends Fragment {
                     postMap.put("Status","NOT VERIFIED");
                     postMap.put("Email",cfAuth.getCurrentUser().getEmail().toString());
 
-                    orderRef.child(curUserId + Utils.createRandomId()).updateChildren(postMap).addOnCompleteListener(new OnCompleteListener() {
+                    orderRef.child(curUserId + Utils.getRandomId()).updateChildren(postMap).addOnCompleteListener(new OnCompleteListener() {
                         @Override
                         public void onComplete(@NonNull Task task) {
-                            regionRef.child(curUserId + Utils.createRandomId()).child("orderId").setValue(curUserId + Utils.createRandomId());
+                            regionRef.child(curUserId + Utils.getRandomId()).child("orderId").setValue(curUserId + Utils.getRandomId());
 
                             Toast.makeText(getContext(), "Ordered successfully, We will verify soon..", Toast.LENGTH_SHORT).show();
                             //intentToUpdateDetails();

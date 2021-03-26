@@ -20,7 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.doordelivery.karma.activities.Img;
+import com.doordelivery.karma.domains.Img;
 import com.doordelivery.karma.R;
 import com.doordelivery.karma.activities.Utils;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -40,6 +40,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 
+import static com.doordelivery.karma.activities.Utils.RELEASE_TYPE;
+
 public class AdminViewProductActivity extends AppCompatActivity {
 
     String key,downloadUrl;
@@ -58,8 +60,8 @@ public class AdminViewProductActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_view_product);
         key=getIntent().getStringExtra("REF_KEY");
-        productRef= FirebaseDatabase.getInstance().getReference().child("Products").child(key);
-        itemStorageRef= FirebaseStorage.getInstance().getReference().child("ProductImages").child(key);
+        productRef= FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Products").child(key);
+        itemStorageRef= FirebaseStorage.getInstance().getReference().child(RELEASE_TYPE).child("ProductImages").child(key);
         etPrice=findViewById(R.id.et_price);
         etSpecification=findViewById(R.id.et_specifications);
         etName=findViewById(R.id.et_product_name);
@@ -98,7 +100,7 @@ public class AdminViewProductActivity extends AppCompatActivity {
             }
         });
 
-        catRef=FirebaseDatabase.getInstance().getReference().child("Catagories");
+        catRef=FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Catagories");
         ivDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -209,7 +211,7 @@ public class AdminViewProductActivity extends AppCompatActivity {
     }
 
     private void showAllImages() {
-        imageRef = FirebaseDatabase.getInstance().getReference().child("Products").child(key).child("DetailImages");
+        imageRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Products").child(key).child("DetailImages");
 
         FirebaseRecyclerAdapter<Img,TopViewHolder> firebaseRecyclerAdapter =
                 new FirebaseRecyclerAdapter<Img, TopViewHolder>(
@@ -279,7 +281,7 @@ public class AdminViewProductActivity extends AppCompatActivity {
     }
     private void storeImage() {
         if (imageUri != null) {
-            final StorageReference filepath = itemStorageRef.child(imageUri.getLastPathSegment() + Utils.createRandomId() + "jpg");
+            final StorageReference filepath = itemStorageRef.child(imageUri.getLastPathSegment() + Utils.getRandomId() + "jpg");
             filepath.putFile(imageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
@@ -311,7 +313,7 @@ public class AdminViewProductActivity extends AppCompatActivity {
     }
 
     private void savePostInformation(String downloadUrl) {
-        productRef.child("DetailImages").child(Utils.createRandomId()).child("ImageUrl").setValue(downloadUrl);
+        productRef.child("DetailImages").child(Utils.getRandomId()).child("ImageUrl").setValue(downloadUrl);
         Toast.makeText(this, "done", Toast.LENGTH_SHORT).show();
     }
 

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/brand_samsung"
+        android:title="Samsung"/>
+
+    <item
+        android:id="@+id/brand_xiaomi"
+        android:title="Xiaomi"/>
+    <item
+        android:id="@+id/brand_apple"
+        android:title="Apple "/>
+    <item
+        android:id="@+id/brand_oppo"
+        android:title="Oppo"/>
+    <item
+        android:id="@+id/brand_vivo"
+        android:title="vivo"/>
+    <item
+        android:id="@+id/brand_nokia"
+        android:title="Nokia"/>
+
+    <item
+        android:id="@+id/brand_asus"
+        android:title="Asus "/>
+    <item
+        android:id="@+id/brand_google"
+        android:title="Google Pixel "/>
+
+    <item
+        android:id="@+id/brand_htc"
+        android:title="HTC"/>
+    <item
+        android:id="@+id/brand_huawei"
+        android:title="Huawei"/>
+    <item
+        android:id="@+id/brand_lg"
+        android:title="LG"/>
+    <item
+        android:id="@+id/brand_lenovo"
+        android:title="Lenovo"/>
+    <item
+        android:id="@+id/brand_motorola"
+        android:title="Motorola"/>
+
+    <item
+        android:id="@+id/brand_onleplus"
+        android:title="OnePlus"/>
+
+    <item
+        android:id="@+id/brand_panasonic"
+        android:title="Panasonic"/>
+
+    <item
+        android:id="@+id/brand_sony"
+        android:title="Sony"/>
+
+
+    <item
+        android:id="@+id/brand_zte"
+        android:title="ZTE"/>
+
+</menu>

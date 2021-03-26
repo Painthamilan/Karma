@@ -13,23 +13,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.doordelivery.karma.R;
+import com.doordelivery.karma.domains.SubCats;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
+import static com.doordelivery.karma.activities.Utils.RELEASE_TYPE;
+
 public class ViewSubCatsActivity extends AppCompatActivity {
 String catName,catImage,mainCatName;
 DatabaseReference subCatRef;
 RecyclerView rvCats;
-boolean isInstant;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_sub_cats);
         catName=getIntent().getStringExtra("CAT_NAME");
-        isInstant=getIntent().getBooleanExtra("IsInstant",false);
-        subCatRef= FirebaseDatabase.getInstance().getReference().child("Catagories").child(catName).child("SubCatagories");
+        subCatRef= FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Catagories").child(catName).child("SubCatagories");
 
         rvCats=findViewById(R.id.rv_list_sub_cats);
         rvCats.setHasFixedSize(true);
@@ -64,7 +65,6 @@ boolean isInstant;
                                 intent.putExtra("CAT_NAME",model.getSubCatagoryName());
                                 intent.putExtra("MAIN_CAT_NAME",catName);
                                 intent.putExtra("hasSub",true);
-                                intent.putExtra("IsInstant",isInstant);
                                 startActivity(intent);
                             }
                         });

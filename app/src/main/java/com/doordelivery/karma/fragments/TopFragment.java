@@ -27,12 +27,13 @@ import com.denzcoskun.imageslider.models.SlideModel;
 import com.doordelivery.karma.activities.AllCatActivity;
 import com.doordelivery.karma.activities.ContactUs;
 import com.doordelivery.karma.activities.OnlineCourseActivity;
-import com.doordelivery.karma.activities.Products;
+import com.doordelivery.karma.domains.Products;
 import com.doordelivery.karma.R;
 import com.doordelivery.karma.activities.RecentItemsActivity;
 import com.doordelivery.karma.activities.RoundedCorners;
 import com.doordelivery.karma.activities.SearchActivity;
 import com.doordelivery.karma.activities.Utils;
+import com.doordelivery.karma.activities.ViewAllItemsActivity;
 import com.doordelivery.karma.activities.ViewAllOffersActivity;
 import com.doordelivery.karma.activities.ViewItemsActivity;
 import com.doordelivery.karma.activities.ViewSingleProductActivity;
@@ -50,15 +51,18 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.doordelivery.karma.activities.Utils.RELEASE_TYPE;
+
 public class TopFragment extends Fragment {
     private FirebaseAuth cfAuth;
     private String curUserId, sliderType, message, name, key, catagory;
-    TextView etSearch, tvContact, tvD2d;
+    TextView etSearch, tvContact, tvD2d,tvViewAll;
     private RecyclerView rvProducts, rvTopFragments, rvInstants;
     private DatabaseReference cfPostRef, topRef, instantsRef;
     private TextView ivInstant, tvMobile;
-    TextView ivOffers, tvCats, tvRecent,ivOnlineCourses;
+    TextView ivOffers, tvCats, tvCourses,ivOnlineCourses;
     boolean hasSub;
+    ImageView ivSamsung,ivXiaomi,ivOppo,ivVivo;
 
     ImageSlider imageSlider;
 
@@ -74,13 +78,78 @@ public class TopFragment extends Fragment {
         tvD2d.setText(Html.fromHtml("D" + "<font color=\"#E51616\">" + 2 + "</font>" + "D"));
 
 
+        ivSamsung=root.findViewById(R.id.iv_samsung);
+        ivXiaomi=root.findViewById(R.id.iv_xiaomi);
+        ivOppo=root.findViewById(R.id.iv_oppo);
+        ivVivo=root.findViewById(R.id.iv_vivo);
+
+        ivSamsung.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), ViewItemsActivity.class);
+                intent.putExtra("REF_KEY", "Samsung");
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
+
+
+        ivXiaomi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), ViewItemsActivity.class);
+                intent.putExtra("REF_KEY", "Xiaomi");
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
+        ivOppo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), ViewItemsActivity.class);
+                intent.putExtra("REF_KEY", "Oppo");
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
+        ivVivo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), ViewItemsActivity.class);
+                intent.putExtra("REF_KEY", "Vivo");
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
+
+
+
+        tvViewAll=root.findViewById(R.id.tv_view_more_top);
+        tvViewAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getContext(), ViewAllItemsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        tvCourses=root.findViewById(R.id.iv_courses);
+        tvCourses.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), OnlineCourseActivity.class);
+               // intent.putExtra("REF_KEY", "Online Courses");
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
+
         imageSlider = root.findViewById(R.id.is_slider);
 
         showImageSlider(imageSlider);
 
-        tvCats = root.findViewById(R.id.tv_cats);
+        tvCats = root.findViewById(R.id.tv_more_brands);
         rvTopFragments = root.findViewById(R.id.rv_topItems);
-        ivOffers = root.findViewById(R.id.iv_offer_of_day);
        // tvRecent = root.findViewById(R.id.recent);
         tvContact = root.findViewById(R.id.tv_mobile);
         tvContact.setSelected(true);
@@ -112,13 +181,6 @@ public class TopFragment extends Fragment {
             }
         });
 
-        ivOffers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ViewAllOffersActivity.class);
-                startActivity(intent);
-            }
-        });
         tvCats.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -168,7 +230,7 @@ public class TopFragment extends Fragment {
 
     private void showImageSlider(ImageSlider imageSlider) {
         List<SlideModel> remoteImages = new ArrayList<>();
-        FirebaseDatabase.getInstance().getReference().child("Test").child("Slider")
+        FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Slider")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -188,7 +250,7 @@ public class TopFragment extends Fragment {
                                     switch (i) {
                                         case 0:
 
-                                            FirebaseDatabase.getInstance().getReference().child("Test").child("Slider").child("Catagory")
+                                            FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Slider").child("Catagory")
                                                     .addValueEventListener(new ValueEventListener() {
                                                         @Override
                                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -215,7 +277,7 @@ public class TopFragment extends Fragment {
 
                                         case 1:
 
-                                            FirebaseDatabase.getInstance().getReference().child("Test").child("Slider").child("Message")
+                                            FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Slider").child("Message")
                                                     .addValueEventListener(new ValueEventListener() {
                                                         @Override
                                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -234,7 +296,7 @@ public class TopFragment extends Fragment {
                                             break;
                                         case 2:
 
-                                            FirebaseDatabase.getInstance().getReference().child("Test").child("Slider").child("Offer")
+                                            FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Slider").child("Offer")
                                                     .addValueEventListener(new ValueEventListener() {
                                                         @Override
                                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -256,7 +318,7 @@ public class TopFragment extends Fragment {
 
                                             break;
                                         case 3:
-                                            FirebaseDatabase.getInstance().getReference().child("Test").child("Slider").child("Product")
+                                            FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Slider").child("Product")
                                                     .addValueEventListener(new ValueEventListener() {
                                                         @Override
                                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -326,7 +388,7 @@ public class TopFragment extends Fragment {
 
 
     private void showTop() {
-        topRef = FirebaseDatabase.getInstance().getReference().child("Test").child("Products");
+        topRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Products");
         Query searchPeopleAndFriendsQuery = topRef.orderByChild("Counter").limitToLast(4);
         FirebaseRecyclerAdapter<Products, TopViewHolder> firebaseRecyclerAdapter =
                 new FirebaseRecyclerAdapter<Products, TopViewHolder>(
@@ -379,7 +441,7 @@ public class TopFragment extends Fragment {
             }
 
 
-            topRef = FirebaseDatabase.getInstance().getReference().child("TopItems");
+            topRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("TopItems");
 
 
         }
@@ -394,7 +456,7 @@ public class TopFragment extends Fragment {
         }
 
         public void setProductImage(String productImage) {
-            Picasso.get().load(productImage).transform(new RoundedCorners(10,1)).resize(100,100).into(ivproductImage);
+            Picasso.get().load(productImage).transform(new RoundedCorners(10,1)).into(ivproductImage);
         }
 
 

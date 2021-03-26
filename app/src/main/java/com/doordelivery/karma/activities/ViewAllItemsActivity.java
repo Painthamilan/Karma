@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -28,7 +27,7 @@ import com.squareup.picasso.Picasso;
 
 import static com.doordelivery.karma.activities.Utils.RELEASE_TYPE;
 
-public class ViewItemsActivity extends AppCompatActivity {
+public class ViewAllItemsActivity extends AppCompatActivity {
     String catName, catImage, mainCatName, userId, defaultDistrict;
     DatabaseReference subCatRef, instantsRef;
     Query mainRef;
@@ -49,7 +48,7 @@ public class ViewItemsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_items);
+        setContentView(R.layout.activity_view_all_items);
         Utils.setTopBar(getWindow(), getResources());
         cfAuth = FirebaseAuth.getInstance();
         if (cfAuth.getCurrentUser() != null) {
@@ -58,18 +57,11 @@ public class ViewItemsActivity extends AppCompatActivity {
             userId = "bkblkhlkhlhjg";
         }
 
-        tvChangeRegion = findViewById(R.id.tv_change_region);
-        tvDefaultRegion = findViewById(R.id.tv_current_region);
-
-        SharedPreferences preferences = getSharedPreferences("REGION_SELECTOR", MODE_PRIVATE);
-        defaultDistrict = preferences.getString("REGION", "Kandy");
-
-
 
 
         rvCats = findViewById(R.id.rv_list_items);
 
-        catName=getIntent().getStringExtra("REF_KEY");
+
 
 
 
@@ -92,7 +84,7 @@ public class ViewItemsActivity extends AppCompatActivity {
 
     private void showAllItems() {
         subCatRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Products");
-        Query searchPeopleAndFriendsQuery = subCatRef.orderByChild("Brand").equalTo(catName).limitToLast(30);
+        Query searchPeopleAndFriendsQuery = subCatRef.orderByKey().limitToLast(50);
         FirebaseRecyclerAdapter<Products, TopFragment.TopViewHolder> firebaseRecyclerAdapter =
                 new FirebaseRecyclerAdapter<Products, TopFragment.TopViewHolder>(
                         Products.class,
@@ -110,7 +102,7 @@ public class ViewItemsActivity extends AppCompatActivity {
                         postViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent = new Intent(ViewItemsActivity.this, ViewSingleProductActivity.class);
+                                Intent intent = new Intent(ViewAllItemsActivity.this, ViewSingleProductActivity.class);
                                 intent.putExtra("REF_KEY", model.getProductId());
                                 intent.putExtra("isOffer", false);
                                 startActivity(intent);

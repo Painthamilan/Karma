@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.doordelivery.karma.R;
 import com.doordelivery.karma.adapters.RecentAdapters;
+import com.doordelivery.karma.domains.Products;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.PendingIntent.getActivity;
+import static com.doordelivery.karma.activities.Utils.RELEASE_TYPE;
 
 public class RecentItemsActivity extends AppCompatActivity {
 
@@ -87,7 +89,7 @@ public class RecentItemsActivity extends AppCompatActivity {
 
         }
         private void showAllProducts() {
-            cfPostRef=FirebaseDatabase.getInstance().getReference().child("Products");
+            cfPostRef=FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Products");
             if (!isMaxData) {
                 Query query;
                 if (TextUtils.isEmpty(last_node))
@@ -138,7 +140,7 @@ public class RecentItemsActivity extends AppCompatActivity {
         }
 
         private void getLastItem() {
-            cfPostRef=FirebaseDatabase.getInstance().getReference().child("Products");
+            cfPostRef=FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Products");
             Query getLastKey = cfPostRef
                     .orderByChild("Counter")
                     .limitToLast(1);

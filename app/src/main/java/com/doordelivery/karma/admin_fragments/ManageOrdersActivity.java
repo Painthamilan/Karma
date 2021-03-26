@@ -20,6 +20,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import static com.doordelivery.karma.activities.Utils.RELEASE_TYPE;
+
 public class ManageOrdersActivity extends AppCompatActivity {
 
     ImageView ivProductImage;
@@ -41,8 +43,8 @@ public class ManageOrdersActivity extends AppCompatActivity {
          tvQuantity=findViewById(R.id.tv_quantity);
          orderId=getIntent().getStringExtra("OrderId");
 
-         orderRef= FirebaseDatabase.getInstance().getReference().child("Orders").child(orderId);
-         userRef=FirebaseDatabase.getInstance().getReference().child("User");
+         orderRef= FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Orders").child(orderId);
+         userRef=FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User");
 
          orderRef.addValueEventListener(new ValueEventListener() {
              @Override
@@ -151,11 +153,11 @@ public class ManageOrdersActivity extends AppCompatActivity {
     }
 
     private void updateState(String state, String orderId) {
-        orderRef=FirebaseDatabase.getInstance().getReference().child("Orders").child(orderId);
+        orderRef=FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Orders").child(orderId);
         orderRef.child("Status").setValue(state);
     }
     private void sendMessage(String title, String message) {
-        String id=Utils.createRandomId();
+        String id=Utils.getRandomId();
         userRef.child(userId).child("Notifications").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

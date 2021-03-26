@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.doordelivery.karma.R;
 import com.doordelivery.karma.adapters.CatagoryAdapter;
+import com.doordelivery.karma.domains.Brands;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,6 +25,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.doordelivery.karma.activities.Utils.RELEASE_TYPE;
 
 public class AllCatActivity extends AppCompatActivity {
     RecyclerView rvCats;
@@ -90,13 +93,13 @@ public class AllCatActivity extends AppCompatActivity {
             Query query;
             if (TextUtils.isEmpty(last_node))
 
-                query = FirebaseDatabase.getInstance().getReference().child("Catagories")
+                query = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Brands")
                         .orderByKey()
                         .limitToFirst(ITEM_LOAD_COUNT);
 
             else
 
-                query = FirebaseDatabase.getInstance().getReference().child("Catagories")
+                query = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Brands")
                         .orderByKey()
                         .startAt(last_node)
                         .limitToFirst(ITEM_LOAD_COUNT);
@@ -105,11 +108,11 @@ public class AllCatActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.hasChildren()) {
-                        List<Catagories> newCats = new ArrayList<>();
+                        List<Brands> newCats = new ArrayList<>();
                         for (DataSnapshot catSnapShot : snapshot.getChildren()) {
-                            newCats.add(catSnapShot.getValue(Catagories.class));
+                            newCats.add(catSnapShot.getValue(Brands.class));
                         }
-                        last_node = newCats.get(newCats.size() - 1).getCatagoryName();
+                        last_node = newCats.get(newCats.size() - 1).getBrandName();
 
                         if (!last_node.equals(last_key))
                             newCats.remove(newCats.size() - 1);
@@ -138,7 +141,7 @@ public class AllCatActivity extends AppCompatActivity {
     private void getLastItem() {
 
         Query getLastKey = FirebaseDatabase.getInstance().getReference()
-                .child("Catagories")
+                .child(RELEASE_TYPE).child("Brands")
                 .orderByKey()
                 .limitToLast(1);
         getLastKey.addListenerForSingleValueEvent(new ValueEventListener() {

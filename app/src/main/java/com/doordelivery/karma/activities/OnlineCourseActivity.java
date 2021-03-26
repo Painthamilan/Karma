@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.doordelivery.karma.R;
 import com.doordelivery.karma.adapters.CourseAdapter;
+import com.doordelivery.karma.domains.Courses;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,6 +26,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.doordelivery.karma.activities.Utils.RELEASE_TYPE;
 
 public class OnlineCourseActivity extends AppCompatActivity {
     String catName, catImage, mainCatName, userId,defaultDistrict;
@@ -56,7 +59,7 @@ public class OnlineCourseActivity extends AppCompatActivity {
 
 
         rvCourses=findViewById(R.id.rv_list_items);
-        subCatRef= FirebaseDatabase.getInstance().getReference().child("Online Courses");
+        subCatRef= FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Online Courses");
 
 
         getLastItem();

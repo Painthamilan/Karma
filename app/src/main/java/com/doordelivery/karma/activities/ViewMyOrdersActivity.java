@@ -14,12 +14,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.doordelivery.karma.R;
+import com.doordelivery.karma.domains.Constants;
+import com.doordelivery.karma.domains.Orders;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.squareup.picasso.Picasso;
+
+import static com.doordelivery.karma.activities.Utils.RELEASE_TYPE;
 
 public class ViewMyOrdersActivity extends AppCompatActivity {
 
@@ -35,7 +39,7 @@ public class ViewMyOrdersActivity extends AppCompatActivity {
         cfAuth=FirebaseAuth.getInstance();
         curUserId=cfAuth.getCurrentUser().getUid();
         rvOrders=findViewById(R.id.rv_list_orders);
-        orderRef= FirebaseDatabase.getInstance().getReference().child("Orders");
+        orderRef= FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Orders");
         rvOrders.setHasFixedSize(true);
         // rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -157,7 +161,7 @@ public class ViewMyOrdersActivity extends AppCompatActivity {
         }
 
         private void updateState(String state, String orderId) {
-            stateRef=FirebaseDatabase.getInstance().getReference().child("Orders").child(orderId);
+            stateRef=FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Orders").child(orderId);
             stateRef.child("Status").setValue(state);
         }
     }

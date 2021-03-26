@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.doordelivery.karma.activities.Products;
+import com.doordelivery.karma.domains.Products;
 import com.doordelivery.karma.R;
 import com.doordelivery.karma.activities.Utils;
 import com.doordelivery.karma.activities.ViewSingleProductActivity;
@@ -25,6 +25,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.doordelivery.karma.activities.Utils.RELEASE_TYPE;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
     List<Products> mProductsList;
@@ -97,7 +99,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         }
         public void getItemDetails(String productId) {
-            itemRef= FirebaseDatabase.getInstance().getReference().child("Products").child(productId);
+            itemRef= FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Products").child(productId);
             itemRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

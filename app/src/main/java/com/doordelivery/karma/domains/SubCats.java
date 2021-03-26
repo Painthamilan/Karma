@@ -1,4 +1,4 @@
-package com.doordelivery.karma.activities;
+package com.doordelivery.karma.domains;
 
 public class SubCats {
     private String SubCatagoryName,SubCatagoryImage;

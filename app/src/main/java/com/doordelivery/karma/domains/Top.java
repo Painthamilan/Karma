@@ -1,4 +1,4 @@
-package com.doordelivery.karma.activities;
+package com.doordelivery.karma.domains;
 
 public class Top {
     String ItemName,ItemImage,ItemPrice,ItemId,Percentage;

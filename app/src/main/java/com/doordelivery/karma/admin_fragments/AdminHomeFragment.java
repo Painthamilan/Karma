@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.doordelivery.karma.activities.Products;
+import com.doordelivery.karma.domains.Products;
 import com.doordelivery.karma.R;
 import com.doordelivery.karma.activities.RoundedCorners;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -25,6 +25,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.squareup.picasso.Picasso;
+
+import static com.doordelivery.karma.activities.Utils.RELEASE_TYPE;
 
 public class AdminHomeFragment extends Fragment {
     private FirebaseAuth cfAuth;
@@ -50,7 +52,7 @@ public class AdminHomeFragment extends Fragment {
         return root;
     }
     private void showAllProducts() {
-        cfPostRef = FirebaseDatabase.getInstance().getReference().child("Products");
+        cfPostRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Products");
         Query searchPeopleAndFriendsQuery = cfPostRef.orderByChild("Counter");
         FirebaseRecyclerAdapter<Products, PostViewHolder> firebaseRecyclerAdapter =
                 new FirebaseRecyclerAdapter<Products, PostViewHolder>(
@@ -97,7 +99,7 @@ public class AdminHomeFragment extends Fragment {
             ivDropArrow=cfView.findViewById(R.id.iv_down_arrow);
             ivDropArrow.setVisibility(View.VISIBLE);
 
-            topRef=FirebaseDatabase.getInstance().getReference().child("TopItems");
+            topRef=FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("TopItems");
 
         }
 

@@ -24,6 +24,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.doordelivery.karma.R;
 import com.doordelivery.karma.admin_fragments.AdminViewProductActivity;
+import com.doordelivery.karma.domains.Constants;
+import com.doordelivery.karma.domains.Img;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -35,10 +37,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.TimeZone;
+
+import static com.doordelivery.karma.activities.Utils.RELEASE_TYPE;
 
 public class ViewSingleProductActivity extends AppCompatActivity {
     ImageView ivProductImage;
@@ -79,7 +80,7 @@ public class ViewSingleProductActivity extends AppCompatActivity {
                 tvOrder.setVisibility(View.INVISIBLE);
             }
 
-            cardRef=FirebaseDatabase.getInstance().getReference().child("User").child(curUserId).child("MyCart");
+            cardRef=FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(curUserId).child("MyCart");
         }
         rvImage=findViewById(R.id.rv_images);
         rvImage.setHasFixedSize(true);
@@ -94,11 +95,11 @@ public class ViewSingleProductActivity extends AppCompatActivity {
         isInstant=getIntent().getBooleanExtra("IsInstant",false);
         showAllImages();
 
-        regionRef=FirebaseDatabase.getInstance().getReference().child("Regions").child(region).child("Orders");
-        ordersref= FirebaseDatabase.getInstance().getReference().child("Orders");
+        //regionRef=FirebaseDatabase.getInstance().getReference().child("Regions").child(region).child("Orders");
+        ordersref= FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Orders");
         if (isOffer){
             actualPrice=getIntent().getStringExtra("ActualPrice");
-            productRef= FirebaseDatabase.getInstance().getReference().child("Offers").child(key);
+            productRef= FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Offers").child(key);
             productRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -124,7 +125,7 @@ public class ViewSingleProductActivity extends AppCompatActivity {
                 }
             });
         }{
-            productRef= FirebaseDatabase.getInstance().getReference().child("Products").child(key);
+            productRef= FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Products").child(key);
             productRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -172,14 +173,7 @@ public class ViewSingleProductActivity extends AppCompatActivity {
             });
         }
 
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        curDate = dateFormat.format(new Date());
-        SimpleDateFormat timeFormat = new SimpleDateFormat("HH-mm-ss");
-        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        curTime = timeFormat.format(new Date());
-        randomid=curDate.replace("-", "")+curTime.replace("-", "");
+        randomid=Utils.getRandomId();
         ordersref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -203,7 +197,7 @@ public class ViewSingleProductActivity extends AppCompatActivity {
                     showDialogForNotLoggedId();
                 }else {
 
-                    FirebaseDatabase.getInstance().getReference().child("User").child(curUserId)
+                    FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("User").child(curUserId)
                             .child("DisplayName").addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -406,7 +400,7 @@ public class ViewSingleProductActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task task) {
 
-                    regionRef.child(curUserId + randomid).child("orderId").setValue(curUserId + randomid);
+                   // regionRef.child(curUserId + randomid).child("orderId").setValue(curUserId + randomid);
 
                     Toast.makeText(ViewSingleProductActivity.this, "Ordered successfully, We will verify soon..", Toast.LENGTH_SHORT).show();
                     intentToUpdateDetails();
@@ -455,7 +449,7 @@ public class ViewSingleProductActivity extends AppCompatActivity {
 
     }
     private void showAllImages() {
-        imageRef = FirebaseDatabase.getInstance().getReference().child("Products").child(key).child("DetailImages");
+        imageRef = FirebaseDatabase.getInstance().getReference().child(RELEASE_TYPE).child("Products").child(key).child("DetailImages");
 
         FirebaseRecyclerAdapter<Img, AdminViewProductActivity.TopViewHolder> firebaseRecyclerAdapter =
                 new FirebaseRecyclerAdapter<Img, AdminViewProductActivity.TopViewHolder>(
